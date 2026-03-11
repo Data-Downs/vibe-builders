@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Workshop 2 — Put It on the Internet</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
+  :root {
+    --bg: #f6f5f2;
+    --fg: #2a2a2a;
+    --card: #ffffff;
+    --card-fg: #171717;
+    --muted: #f5f5f5;
+    --muted-fg: #737373;
+    --border: #e5e5e5;
+    --ring: #a3a3a3;
+    --red: #c4651a;
+    --emerald: #009767;
+    --radius: 0.5rem;
+    --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-logo {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.025em;
+  }
+
+  .nav-logo span {
+    color: var(--muted-fg);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: 8px;
+    letter-spacing: 0;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+  }
+
+  nav ul a {
+    font-size: 13px;
+    color: var(--muted-fg);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  nav ul a:hover { color: var(--fg); }
+
+  /* ── CONTAINER ── */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .header-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    background: rgba(196,101,26,0.08);
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
+  }
+
+  .header-credit {
+    font-size: 13px;
+    color: var(--muted-fg);
+    margin-bottom: 16px;
+  }
+
+  .header-credit a {
+    color: var(--red);
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .header-credit a:hover {
+    opacity: 0.7;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 400;
+    line-height: 1.11;
+    letter-spacing: -0.025em;
+    max-width: 640px;
+    margin-bottom: 0;
+  }
+
+  .header h1 span {
+    color: var(--muted-fg);
+  }
+
+  .header p {
+    font-size: 15px;
+    line-height: 1.625;
+    color: var(--muted-fg);
+    max-width: 640px;
+  }
+
+  .header-links {
+    margin-top: 16px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .header-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg);
+    text-decoration: none;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.15s;
+  }
+
+  .header-links a:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 56px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  h2 {
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+
+  h2 span {
+    color: var(--muted-fg);
+  }
+
+  h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    letter-spacing: -0.01em;
+  }
+
+  /* ── CARDS ── */
+  .grid {
+    display: grid;
+    gap: 12px;
+  }
+
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .card p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.55;
+  }
+
+  .card ol {
+    margin: 8px 0 0 18px;
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.8;
+  }
+
+  /* ── PREREQ ── */
+  .prereq-letter {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--red);
+    background: rgba(196,101,26,0.08);
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    flex-shrink: 0;
+  }
+
+  .prereq-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .prereq-header h3 { font-size: 22px; font-weight: 500; margin-bottom: 0; letter-spacing: -0.025em; }
+
+  .prereq-url {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  a.prereq-url:hover { color: var(--red); }
+
+  .prereq-header-text { display: flex; flex-direction: column; gap: 2px; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 12px;
+    background: var(--muted);
+    max-width: 640px;
+  }
+
+  .callout-warn {
+    border-color: rgba(196,101,26,0.25);
+    background: rgba(196,101,26,0.04);
+  }
+
+  .callout strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .callout-warn strong { color: var(--red); }
+
+  .callout p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    margin: 0;
+    line-height: 1.5;
+  }
+
+  /* ── CHECKLIST ── */
+  .checklist {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-top: 20px;
+    background: var(--fg);
+    color: var(--bg);
+    max-width: 640px;
+  }
+
+  .checklist strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+  }
+
+  .checklist ul { list-style: none; }
+
+  .checklist li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    padding: 3px 0 3px 18px;
+    position: relative;
+  }
+
+  .checklist li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: -1px;
+    overflow: hidden;
+  }
+
+  .step-num {
+    padding: 24px 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted-fg);
+    text-align: center;
+    border-right: 1px solid var(--border);
+    background: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 28px;
+  }
+
+  .step-body {
+    padding: 24px;
+  }
+
+  .step-body p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .step-body p:last-child { margin-bottom: 0; }
+
+  /* ── COMMAND STEPS ── */
+  .cmd-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 12px 0;
+    max-width: 640px;
+  }
+
+  .cmd-step {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .cmd-label {
+    font-size: 12px;
+    color: var(--muted-fg);
+    line-height: 1.4;
+  }
+
+  .cmd-box {
+    background: var(--fg);
+    border-radius: var(--radius);
+    padding: 10px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cmd-box code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .cmd-copy {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    color: rgba(255,255,255,0.4);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
+  }
+
+  .cmd-copy:hover {
+    border-color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.8);
+  }
+
+  .cmd-note {
+    font-size: 11px;
+    color: var(--muted-fg);
+    font-style: italic;
+    margin-top: 2px;
+  }
+
+  /* ── ACCORDION ── */
+  .accordion {
+    margin: 12px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .accordion summary {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--fg);
+    background: var(--muted);
+    list-style: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: background 0.15s;
+  }
+
+  .accordion summary:hover {
+    background: var(--border);
+  }
+
+  .accordion summary::before {
+    content: '+';
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted-fg);
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+
+  .accordion[open] summary::before {
+    content: '\2212';
+  }
+
+  .accordion summary::-webkit-details-marker { display: none; }
+
+  .accordion-body {
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted-fg);
+    border-top: 1px solid var(--border);
+  }
+
+  .accordion-body p {
+    margin-bottom: 10px;
+  }
+
+  .accordion-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .accordion-body ul {
+    margin: 8px 0 0 0;
+    padding-left: 18px;
+  }
+
+  .accordion-body ul li {
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+
+  .accordion-body ul li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── ANALOGY BOX ── */
+  .analogy-box {
+    max-width: 640px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    margin: 20px 0;
+  }
+
+  .analogy-title {
+    background: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    padding: 8px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .analogy-body {
+    padding: 0;
+  }
+
+  .analogy-row {
+    display: grid;
+    grid-template-columns: 120px 1fr 1fr;
+    border-bottom: 1px solid var(--border);
+    font-size: 13px;
+  }
+
+  .analogy-row:last-child {
+    border-bottom: none;
+  }
+
+  .analogy-row.analogy-header {
+    font-weight: 600;
+    color: var(--fg);
+    background: var(--muted);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .analogy-row > span {
+    padding: 10px 16px;
+    color: var(--muted-fg);
+    line-height: 1.5;
+  }
+
+  .analogy-row > span:not(:last-child) {
+    border-right: 1px solid var(--border);
+  }
+
+  .analogy-cmd {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg) !important;
+    font-weight: 500;
+  }
+
+  /* ── PATTERN BOX ── */
+  .pattern-box {
+    margin-top: 20px;
+    max-width: 640px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .pattern-title {
+    background: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    padding: 8px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pattern-body {
+    padding: 16px 20px;
+  }
+
+  .pattern-body p {
+    font-size: 13px;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  /* ── WORKSHOP NAV ── */
+  .workshop-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    max-width: 640px;
+  }
+
+  .workshop-nav-item {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--fg);
+    transition: all 0.15s;
+  }
+
+  .workshop-nav-item strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .workshop-nav-item span {
+    font-size: 12px;
+    color: var(--muted-fg);
+    font-weight: 400;
+  }
+
+  .workshop-nav-active {
+    border-color: var(--fg);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .workshop-nav-active span {
+    color: rgba(255,255,255,0.5);
+  }
+
+  a.workshop-nav-item:hover {
+    border-color: var(--red);
+    background: var(--red);
+    color: #fff;
+  }
+
+  a.workshop-nav-item:hover span {
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── HELP BOX ── */
+  .help-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 640px;
+  }
+
+  .help-box h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .help-box p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .help-email {
+    display: inline-block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--red);
+    text-decoration: none;
+    border-bottom: 1px solid var(--red);
+    padding-bottom: 1px;
+    transition: opacity 0.15s;
+  }
+
+  .help-email:hover {
+    opacity: 0.7;
+  }
+
+  /* ── INLINE CODE ── */
+  code.inline {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--muted);
+    padding: 2px 6px;
+    border-radius: 4px;
+  }
+
+  /* ── FLOW STEPS ── */
+  .flow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 640px;
+    margin: 12px 0;
+  }
+
+  .flow-step {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    border: 1px solid var(--border);
+    margin-bottom: -1px;
+    overflow: hidden;
+  }
+
+  .flow-step:first-child {
+    border-radius: var(--radius) var(--radius) 0 0;
+  }
+
+  .flow-step:last-child {
+    border-radius: 0 0 var(--radius) var(--radius);
+  }
+
+  .flow-num {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+    border-right: 1px solid var(--border);
+    background: var(--muted);
+  }
+
+  .flow-body {
+    padding: 12px 16px;
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.5;
+  }
+
+  .flow-body strong {
+    color: var(--fg);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted-fg);
+  }
+
+  footer strong {
+    font-weight: 600;
+    color: var(--fg);
+    font-size: 13px;
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    .grid-2 { grid-template-columns: 1fr; }
+    .analogy-row { grid-template-columns: 100px 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .step { grid-template-columns: 36px 1fr; }
+    .flow-step { grid-template-columns: 32px 1fr; }
+    .analogy-row { grid-template-columns: 1fr; }
+    .analogy-row > span:not(:last-child) { border-right: none; border-bottom: 1px solid var(--border); }
+    .analogy-row.analogy-header { display: none; }
+    nav ul { display: none; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+    .header h1 { font-size: 28px; }
+    .workshop-nav { flex-direction: column; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-wrap">
+<nav class="container">
+  <a href="index.html" class="nav-logo">Vibe Builders<span>Workshop 2</span></a>
+  <ul>
+    <li><a href="#recap">Where you left off</a></li>
+    <li><a href="#prerequisites">What you need</a></li>
+    <li><a href="#git">Understanding git</a></li>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#help">Help</a></li>
+  </ul>
+</nav>
+</div>
+
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Workshop 2 of 2 &middot; Mac Only</div>
+  <p class="header-credit">Made by Chris Downs &middot; <a href="mailto:chris@datadowns.com">chris@datadowns.com</a></p>
+  <h1>Put your app on the internet. <span>Get a real URL that anyone can visit &mdash; no technical background needed.</span></h1>
+  <div class="workshop-nav">
+    <a href="index.html" class="workshop-nav-item">
+      <strong>Workshop 1</strong>
+      <span>Build it on your computer</span>
+    </a>
+    <div class="workshop-nav-item workshop-nav-active">
+      <strong>Workshop 2</strong>
+      <span>Put it on the internet</span>
+    </div>
+  </div>
+  <div class="header-links">
+    <a href="#recap">1. Where you left off</a>
+    <a href="#prerequisites">2. What you need</a>
+    <a href="#git">3. Understanding git</a>
+    <a href="#setup">4. Setup</a>
+    <a href="#help">5. Need help?</a>
+  </div>
+</div>
+
+<!-- WHERE YOU LEFT OFF -->
+<div class="section" id="recap">
+  <span class="section-label">01 &mdash; Where you left off</span>
+  <h2>You have a working app on your laptop. <span>In Workshop 1, you built something with Claude Code that runs on your machine. Now we'll put it online so that anyone with the link can use it.</span></h2>
+
+  <div class="card" style="max-width:640px;">
+    <h3>What you'll set up today</h3>
+    <p style="margin-bottom:8px;">Two new things, both free:</p>
+    <ol>
+      <li><strong>GitHub</strong> &mdash; saves your code online (like Google Drive, but for code)</li>
+      <li><strong>Cloudflare Pages</strong> &mdash; gives your app a real URL on the internet that anyone can visit</li>
+    </ol>
+  </div>
+</div>
+
+<!-- WHAT YOU NEED -->
+<div class="section" id="prerequisites">
+  <span class="section-label">02 &mdash; What you need</span>
+  <h2>Two free accounts. <span>Sign up for both before starting. They're free and take a couple of minutes each.</span></h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="prereq-header">
+        <span class="prereq-letter">A</span>
+        <div class="prereq-header-text">
+          <h3>GitHub Account</h3>
+          <a class="prereq-url" href="https://github.com" target="_blank">github.com &#8599;</a>
+        </div>
+      </div>
+      <p>Think of GitHub as Google Drive for code. It stores your project online so it's safe and accessible from anywhere. It's also how Cloudflare will know what to put on the internet.</p>
+      <ol>
+        <li>Go to <strong>github.com</strong> and click <strong>Sign up</strong></li>
+        <li>Pick a username, enter your email, set a password</li>
+        <li>That's it &mdash; you have an account</li>
+      </ol>
+    </div>
+
+    <div class="card">
+      <div class="prereq-header">
+        <span class="prereq-letter">B</span>
+        <div class="prereq-header-text">
+          <h3>Cloudflare Account</h3>
+          <a class="prereq-url" href="https://cloudflare.com" target="_blank">cloudflare.com &#8599;</a>
+        </div>
+      </div>
+      <p>Cloudflare is what actually puts your app on the internet. It takes your code from GitHub, builds it, and gives you a URL that anyone in the world can visit.</p>
+      <ol>
+        <li>Go to <strong>cloudflare.com</strong> and click <strong>Sign up</strong></li>
+        <li>Enter your email and set a password</li>
+        <li>You're done &mdash; the free plan is all you need</li>
+      </ol>
+    </div>
+  </div>
+
+  <div class="checklist">
+    <strong>Checklist</strong>
+    <ul>
+      <li>GitHub account created</li>
+      <li>Cloudflare account created</li>
+    </ul>
+  </div>
+</div>
+
+<!-- UNDERSTANDING GIT -->
+<div class="section" id="git">
+  <span class="section-label">03 &mdash; Understanding git</span>
+  <h2>Git tracks every change you make. <span>Think of it like version history in Google Docs &mdash; but for your entire project. It's already on your Mac from Workshop 1.</span></h2>
+
+  <div class="card" style="max-width:640px;margin-bottom:20px;">
+    <h3>What is git?</h3>
+    <p>Git is a tool that keeps a complete history of every change to your code. Every time you save a snapshot, git remembers exactly what changed. If something breaks, you can go back to a version that worked.</p>
+    <p style="margin-top:8px;">It's already installed on your Mac &mdash; it came with the Xcode tools you set up in Workshop 1.</p>
+  </div>
+
+  <h3 style="max-width:640px;margin-bottom:12px;">Three things to know</h3>
+  <p style="font-size:13px;color:var(--muted-fg);max-width:640px;line-height:1.6;margin-bottom:16px;">You only need three concepts to use git. Here's an analogy: imagine you're packing and shipping a box.</p>
+
+  <div class="analogy-box">
+    <div class="analogy-title">The packing analogy</div>
+    <div class="analogy-body">
+      <div class="analogy-row analogy-header">
+        <span>Command</span>
+        <span>What it does</span>
+        <span>Like...</span>
+      </div>
+      <div class="analogy-row">
+        <span class="analogy-cmd">git add .</span>
+        <span>Stage your changes</span>
+        <span>Putting items into a box</span>
+      </div>
+      <div class="analogy-row">
+        <span class="analogy-cmd">git commit</span>
+        <span>Save a snapshot</span>
+        <span>Sealing the box and writing what's inside on the label</span>
+      </div>
+      <div class="analogy-row">
+        <span class="analogy-cmd">git push</span>
+        <span>Send to GitHub</span>
+        <span>Shipping the box to GitHub</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="cmd-steps" style="margin-top:20px;">
+    <div class="cmd-step">
+      <span class="cmd-label">Stage all your changes (put items in the box)</span>
+      <div class="cmd-box">
+        <code>git add .</code>
+        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+      </div>
+    </div>
+    <div class="cmd-step">
+      <span class="cmd-label">Save a snapshot with a description (seal and label the box)</span>
+      <div class="cmd-box">
+        <code>git commit -m "description of what changed"</code>
+        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+      </div>
+    </div>
+    <div class="cmd-step">
+      <span class="cmd-label">Send it to GitHub (ship the box)</span>
+      <div class="cmd-box">
+        <code>git push</code>
+        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <details class="accordion" style="max-width:640px;">
+    <summary>Why do developers use git?</summary>
+    <div class="accordion-body">
+      <p><strong>Undo mistakes.</strong> Every snapshot you save is permanent. If you break something, you can go back to any previous version. It's like having infinite undo.</p>
+      <p><strong>Work with other people.</strong> Git lets multiple people work on the same code without overwriting each other's work. Everyone has their own copy, and git handles merging the changes together.</p>
+      <p><strong>Try things safely.</strong> You can create a "branch" &mdash; like a parallel universe for your code &mdash; to experiment with something new. If it works, merge it in. If it doesn't, delete the branch and nothing is lost.</p>
+      <p>You don't need to understand all of this right now. For today, you just need: add, commit, push.</p>
+    </div>
+  </details>
+</div>
+
+<!-- SETUP -->
+<div class="section" id="setup">
+  <span class="section-label">04 &mdash; Setup</span>
+  <h2>Step by step. <span>Follow these in order. Each step builds on the last.</span></h2>
+
+  <div class="steps">
+
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Send your project to GitHub</h3>
+        <p>First, create a place for your code to live on GitHub. Then send your code there.</p>
+
+        <p><strong style="color:var(--fg);">On GitHub:</strong></p>
+        <ol style="margin:4px 0 16px 18px;font-size:13px;color:var(--muted-fg);line-height:1.8;">
+          <li>Go to <strong>github.com</strong> and sign in</li>
+          <li>Click the <strong>+</strong> in the top right, then <strong>New repository</strong></li>
+          <li>Name it the same thing as your project folder (e.g. <code class="inline">my-app</code>)</li>
+          <li>Leave everything else as default and click <strong>Create repository</strong></li>
+        </ol>
+
+        <p><strong style="color:var(--fg);">In Terminal, inside your project folder:</strong></p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <span class="cmd-label">Set up git in your project</span>
+            <div class="cmd-box">
+              <code>git init</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <span class="cmd-label">Stage all your files</span>
+            <div class="cmd-box">
+              <code>git add .</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <span class="cmd-label">Save your first snapshot</span>
+            <div class="cmd-box">
+              <code>git commit -m "first version"</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <span class="cmd-label">Connect your project to GitHub (replace YOUR-USERNAME and YOUR-PROJECT)</span>
+            <div class="cmd-box">
+              <code>git remote add origin https://github.com/YOUR-USERNAME/YOUR-PROJECT.git</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <span class="cmd-label">Send your code to GitHub</span>
+            <div class="cmd-box">
+              <code>git push -u origin main</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="callout">
+          <strong>Important</strong>
+          <p>In the <code class="inline">git remote add</code> command above, replace <strong>YOUR-USERNAME</strong> with your GitHub username and <strong>YOUR-PROJECT</strong> with whatever you named the repository. You can copy the exact URL from the GitHub page that appears after you create the repository.</p>
+        </div>
+
+        <div class="callout" style="margin-top:8px;">
+          <strong>What just happened</strong>
+          <p>Your code is now saved online at GitHub. If your laptop breaks tomorrow, your code is safe. You can also see it by going to github.com and clicking on your repository.</p>
+        </div>
+
+        <details class="accordion" style="max-width:640px;">
+          <summary>Getting an error about "main" vs "master"?</summary>
+          <div class="accordion-body">
+            <p>Some setups use "master" instead of "main" as the default name. If you see an error about this, try running:</p>
+            <div class="cmd-steps" style="margin-top:8px;">
+              <div class="cmd-step">
+                <div class="cmd-box">
+                  <code>git branch -M main</code>
+                  <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+                </div>
+              </div>
+            </div>
+            <p style="margin-top:8px;">Then try <code class="inline">git push -u origin main</code> again.</p>
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Connect Cloudflare to GitHub</h3>
+        <p>Now tell Cloudflare to take your code from GitHub and turn it into a live website.</p>
+
+        <ol style="margin:4px 0 16px 18px;font-size:13px;color:var(--muted-fg);line-height:1.8;">
+          <li>Go to your <strong>Cloudflare dashboard</strong></li>
+          <li>In the left menu, click <strong>Workers &amp; Pages</strong></li>
+          <li>Click <strong>Create</strong>, then choose <strong>Pages</strong>, then <strong>Connect to Git</strong></li>
+          <li>It will ask you to connect your GitHub account &mdash; follow the prompts</li>
+          <li>Select the repository you just created</li>
+          <li>For <strong>build settings</strong>:
+            <ul style="margin:4px 0 4px 18px;line-height:1.8;">
+              <li>Framework preset: pick what matches your project (e.g. <strong>Next.js</strong>)</li>
+              <li>Build command: <code class="inline">npm run build</code></li>
+              <li>Output directory: <code class="inline">.next</code> (or <code class="inline">out</code> depending on your setup)</li>
+            </ul>
+          </li>
+          <li>Click <strong>Save and Deploy</strong></li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <strong>If the build fails</strong>
+          <p>Build settings depend on what Claude Code built for you. If it doesn't work first time, copy the error message, go back to Claude Code in Terminal, and paste it in with: "I'm trying to put this on Cloudflare Pages. It gave me this error. What build settings should I use?"</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Your app is live</h3>
+        <p>Once Cloudflare finishes building, it gives you a URL like:</p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <div class="cmd-box">
+              <code>your-project.pages.dev</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+        <p>That's a real URL on the internet. Anyone with that link can use your app.</p>
+        <p>And here's the best part: every time you push changes to GitHub, Cloudflare automatically updates your live site. You never have to manually update it again.</p>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Add your API key (environment variables)</h3>
+        <p>Your app needs your Anthropic API key to work. But you should <strong style="color:var(--fg);">never</strong> put API keys directly in your code &mdash; especially code that's on GitHub where anyone could see it.</p>
+        <p>Instead, you add it as an "environment variable" in Cloudflare. This is a secure way to give your live app access to the key without putting it in the code.</p>
+
+        <ol style="margin:4px 0 16px 18px;font-size:13px;color:var(--muted-fg);line-height:1.8;">
+          <li>In your Cloudflare Pages project, go to <strong>Settings</strong></li>
+          <li>Find <strong>Environment Variables</strong></li>
+          <li>Click <strong>Add variable</strong></li>
+          <li>The variable name needs to match what Claude Code used in your code</li>
+          <li>Paste your Anthropic API key as the value</li>
+          <li>Save, then re-run the build (or push a new change to trigger it)</li>
+        </ol>
+
+        <div class="callout">
+          <strong>Not sure what variable name to use?</strong>
+          <p>Ask Claude Code: "What environment variable name did you use for the Anthropic API key?" It will tell you the exact name (often something like <code class="inline">ANTHROPIC_API_KEY</code>).</p>
+        </div>
+
+        <div class="callout callout-warn" style="margin-top:8px;">
+          <strong>Never put API keys in your code</strong>
+          <p>Anyone can see code on public GitHub pages. If Claude Code put your key directly in the code, ask it: "Can you move my API key to an environment variable so it's not in the code?" It will know what to do.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 5 -->
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Making updates</h3>
+        <p>From now on, whenever you make changes to your app, this is the pattern:</p>
+
+        <div class="flow-steps">
+          <div class="flow-step">
+            <div class="flow-num">1</div>
+            <div class="flow-body"><strong>Make changes</strong> to your app locally (with Claude Code or by editing files)</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">2</div>
+            <div class="flow-body">Run <strong>git add .</strong> to stage the changes</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">3</div>
+            <div class="flow-body">Run <strong>git commit -m "what changed"</strong> to save a snapshot</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">4</div>
+            <div class="flow-body">Run <strong>git push</strong> to send it to GitHub</div>
+          </div>
+          <div class="flow-step">
+            <div class="flow-num">5</div>
+            <div class="flow-body"><strong>Cloudflare updates automatically</strong> &mdash; your live site has the new version within minutes</div>
+          </div>
+        </div>
+
+        <div class="cmd-steps" style="margin-top:16px;">
+          <div class="cmd-step">
+            <span class="cmd-label">The full update cycle (all three commands)</span>
+            <div class="cmd-box" style="align-items:flex-start;">
+              <code style="white-space:pre-wrap;line-height:1.7;">git add .
+git commit -m "what changed"
+git push</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="pattern-box">
+          <div class="pattern-title">The pattern to remember</div>
+          <div class="pattern-body">
+            <p>Change &rarr; add &rarr; commit &rarr; push &rarr; live.</p>
+            <p style="color:var(--muted-fg);margin-top:6px;">That's it. You'll do this every time you update your app. It becomes muscle memory fast.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- end steps -->
+</div>
+
+<!-- NEED HELP -->
+<div class="section" id="help">
+  <span class="section-label">05 &mdash; Need help?</span>
+  <h2>Stuck on something? <span>It's normal to hit a wall. Get in touch.</span></h2>
+
+  <div class="help-box">
+    <h3>Stuck? Need help?</h3>
+    <p>If something doesn't work &mdash; a build fails, git gives you a confusing error, or you just don't know what to do next &mdash; get in touch. I'll respond.</p>
+    <a href="mailto:chris@datadowns.com" class="help-email">chris@datadowns.com</a>
+  </div>
+
+  <div class="workshop-nav" style="margin-top:28px;">
+    <a href="index.html" class="workshop-nav-item">
+      <strong>Workshop 1</strong>
+      <span>Build it on your computer</span>
+    </a>
+    <div class="workshop-nav-item workshop-nav-active">
+      <strong>Workshop 2</strong>
+      <span>Put it on the internet</span>
+    </div>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<div class="container">
+<footer>
+  <strong>Vibe Builders</strong>
+  <span>Mac only &middot; 2026</span>
+</footer>
+</div>
+
+<script>
+function copyCmd(btn) {
+  const code = btn.parentElement.querySelector('code');
+  navigator.clipboard.writeText(code.textContent.trim());
+  btn.textContent = 'Copied';
+  setTimeout(() => btn.textContent = 'Copy', 1500);
+}
+</script>
+
+</body>
+</html>

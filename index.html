@@ -3,1982 +3,2137 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Vibe Builders — Build AI Agents. No Experience Required.</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Workshop 1 — Idea to Working App</title>
 <style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2'); font-weight: 400; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2'); font-weight: 500; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-style: normal; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2'); font-weight: 700; font-style: normal; font-display: swap; }
+
   :root {
-    --cream: #F5F0E8;
-    --ink: #1A1612;
-    --rust: #C4501A;
-    --rust-light: #E8896A;
-    --stone: #8A8278;
-    --warm-white: #FDFBF7;
-    --highlight: #F0E4C8;
-    --code-bg: #1A1612;
-    --code-text: #E8C97A;
+    --bg: #f6f5f2;
+    --fg: #2a2a2a;
+    --card: #ffffff;
+    --card-fg: #171717;
+    --muted: #f5f5f5;
+    --muted-fg: #737373;
+    --border: #e5e5e5;
+    --ring: #a3a3a3;
+    --red: #c4651a;
+    --emerald: #009767;
+    --radius: 0.5rem;
+    --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
-
   html { scroll-behavior: smooth; }
 
   body {
-    background: var(--cream);
-    color: var(--ink);
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 300;
-    line-height: 1.7;
-    font-size: 17px;
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   /* ── NAV ── */
   nav {
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
     z-index: 100;
-    background: var(--cream);
-    border-bottom: 1px solid rgba(26,22,18,0.12);
-    padding: 14px 40px;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+    padding: 0 24px;
+    height: 48px;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 1080px;
+    margin: 0 auto;
+  }
+
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
   }
 
   .nav-logo {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 1.1rem;
-    letter-spacing: -0.02em;
-    color: var(--ink);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--fg);
     text-decoration: none;
+    letter-spacing: -0.025em;
   }
 
-  .nav-logo span { color: var(--rust); }
+  .nav-logo span {
+    color: var(--muted-fg);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: 8px;
+    letter-spacing: 0;
+  }
 
   nav ul {
     list-style: none;
     display: flex;
-    gap: 32px;
+    gap: 24px;
   }
 
   nav ul a {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--stone);
+    font-size: 13px;
+    color: var(--muted-fg);
     text-decoration: none;
-    transition: color 0.2s;
+    transition: color 0.15s;
   }
 
-  nav ul a:hover { color: var(--rust); }
+  nav ul a:hover { color: var(--fg); }
 
-  /* ── HERO ── */
-  .hero {
-    min-height: 100vh;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    padding-top: 70px;
+  /* ── CONTAINER ── */
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
   }
 
-  .hero-left {
-    padding: 80px 60px 80px 80px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    border-right: 1px solid rgba(26,22,18,0.1);
+  /* ── HEADER ── */
+  .header {
+    padding: 64px 0 48px;
+    border-bottom: 1px solid var(--border);
   }
 
-  .hero-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 28px;
-  }
-
-  h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.8rem, 5vw, 4.2rem);
-    line-height: 1.08;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-    margin-bottom: 28px;
-  }
-
-  h1 em {
-    font-style: italic;
-    color: var(--rust);
-  }
-
-  .hero-sub {
-    font-size: 1.15rem;
-    line-height: 1.65;
-    color: #4A4540;
-    max-width: 440px;
-    margin-bottom: 44px;
-  }
-
-  .cta-group { display: flex; gap: 16px; align-items: center; }
-
-  .btn-primary {
-    background: var(--ink);
-    color: var(--cream);
-    padding: 14px 28px;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: none;
-    cursor: pointer;
-    transition: background 0.2s;
-  }
-
-  .btn-primary:hover { background: var(--rust); }
-
-  .btn-ghost {
-    color: var(--stone);
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border-bottom: 1px solid var(--stone);
-    padding-bottom: 2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .btn-ghost:hover { color: var(--rust); border-color: var(--rust); }
-
-  .hero-right {
-    padding: 80px 80px 80px 60px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    position: relative;
-  }
-
-  .pullquote-block {
-    position: relative;
-    padding: 36px 40px;
-    background: var(--ink);
-    color: var(--cream);
-  }
-
-  .pullquote-block::before {
-    content: '"';
-    font-family: 'Playfair Display', serif;
-    font-size: 8rem;
-    line-height: 1;
-    color: var(--rust);
-    opacity: 0.4;
-    position: absolute;
-    top: -20px;
-    left: 28px;
-  }
-
-  .pullquote-block p {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.35rem;
-    line-height: 1.55;
-    font-style: italic;
-    font-weight: 400;
-    position: relative;
-    z-index: 1;
-  }
-
-  .pullquote-attr {
-    margin-top: 20px;
-    font-size: 0.78rem;
-    font-weight: 500;
+  .header-badge {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--rust-light);
-    position: relative;
-    z-index: 1;
+    color: var(--red);
+    background: rgba(196,101,26,0.08);
+    padding: 4px 10px;
+    border-radius: var(--radius);
+    margin-bottom: 20px;
   }
 
-  .hero-footnote {
-    margin-top: 40px;
-    font-size: 0.82rem;
-    color: var(--stone);
-    line-height: 1.6;
-    border-left: 2px solid var(--rust);
-    padding-left: 16px;
+  .header-credit {
+    font-size: 13px;
+    color: var(--muted-fg);
+    margin-bottom: 16px;
   }
 
-  /* ── SECTIONS COMMON ── */
-  section {
-    padding: 100px 80px;
+  .header-credit a {
+    color: var(--red);
+    text-decoration: none;
+  }
+
+  .header-credit a:hover {
+    text-decoration: underline;
+  }
+
+  .header h1 {
+    font-size: clamp(28px, 4vw, 36px);
+    font-weight: 400;
+    line-height: 1.11;
+    letter-spacing: -0.025em;
+    max-width: 640px;
+    margin-bottom: 0;
+  }
+
+  .header h1 span {
+    color: var(--muted-fg);
+  }
+
+  .header p {
+    font-size: 15px;
+    line-height: 1.625;
+    color: var(--muted-fg);
+    max-width: 640px;
+  }
+
+  .header-links {
+    margin-top: 16px;
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .header-links a {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--fg);
+    text-decoration: none;
+    padding: 7px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.15s;
+  }
+
+  .header-links a:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    padding: 56px 0;
+    border-bottom: 1px solid var(--border);
   }
 
   .section-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 16px;
+    color: var(--muted-fg);
+    margin-bottom: 8px;
     display: block;
   }
 
   h2 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2rem, 3.5vw, 3rem);
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 28px;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: -0.025em;
+    margin-bottom: 40px;
+    max-width: 640px;
+  }
+
+  h2 span {
+    color: var(--muted-fg);
+  }
+
+  .section-desc {
+    display: none;
   }
 
   h3 {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
     letter-spacing: -0.01em;
   }
 
-  p { margin-bottom: 18px; }
-
-  /* ── WHAT THIS IS ── */
-  .what-is {
-    background: var(--ink);
-    color: var(--cream);
+  /* ── CARDS ── */
+  .grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: start;
+    gap: 12px;
   }
 
-  .what-is .section-label { color: var(--rust-light); }
+  .grid-2 { grid-template-columns: 1fr 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .grid-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
 
-  .what-is h2 { color: var(--cream); }
-
-  .not-grid {
-    display: grid;
-    gap: 1px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.08);
-    margin-top: 40px;
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
   }
 
-  .not-item {
-    padding: 22px 24px;
-    background: var(--ink);
-    display: flex;
-    gap: 16px;
-    align-items: flex-start;
+  .card p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.55;
   }
 
-  .not-item:hover { background: rgba(255,255,255,0.04); }
-
-  .not-icon {
-    font-size: 1.2rem;
-    min-width: 28px;
-    margin-top: 2px;
-  }
-
-  .not-item strong {
-    display: block;
-    font-size: 0.88rem;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-    margin-bottom: 4px;
-    color: var(--cream);
-  }
-
-  .not-item p {
-    font-size: 0.84rem;
-    color: rgba(245,240,232,0.6);
-    margin: 0;
-    line-height: 1.5;
-  }
-
-  .what-right p {
-    color: rgba(245,240,232,0.75);
-    font-size: 1.05rem;
-  }
-
-  .what-right .big-stat {
-    font-family: 'Playfair Display', serif;
-    font-size: 5rem;
-    font-weight: 900;
-    line-height: 1;
-    color: var(--rust);
-    margin: 40px 0 8px;
-  }
-
-  .what-right .stat-label {
-    font-size: 0.88rem;
-    color: rgba(245,240,232,0.5);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    margin-bottom: 32px;
-  }
-
-  /* ── THE STACK ── */
-  .stack-section { background: var(--warm-white); }
-
-  .stack-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 2px;
-    margin-top: 60px;
-    background: rgba(26,22,18,0.08);
-  }
-
-  .stack-card {
-    background: var(--warm-white);
-    padding: 36px 28px;
-    position: relative;
-    cursor: default;
-    transition: background 0.2s;
-  }
-
-  .stack-card:hover { background: var(--highlight); }
-
-  .stack-number {
-    font-family: 'Playfair Display', serif;
-    font-size: 3.5rem;
-    font-weight: 900;
-    color: rgba(26,22,18,0.08);
+  .card-num {
+    font-family: var(--font-sans);
+    font-size: 64px;
+    font-weight: 400;
+    color: var(--border);
+    letter-spacing: -0.04em;
     line-height: 1;
     margin-bottom: 16px;
+    display: block;
   }
 
-  .stack-card h3 {
-    font-size: 1.1rem;
-    margin-bottom: 10px;
-  }
-
-  .stack-card p {
-    font-size: 0.84rem;
-    color: var(--stone);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  .stack-tag {
+  .card-tag {
     display: inline-block;
-    margin-top: 16px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--rust);
-    background: rgba(196,80,26,0.08);
-    padding: 4px 10px;
-    letter-spacing: 0.06em;
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+    background: var(--muted);
+    padding: 3px 8px;
+    border-radius: 4px;
+    text-decoration: none;
+    transition: color 0.15s;
   }
 
-  /* ── BEFORE YOU BEGIN ── */
-  .prereq-section { background: var(--warm-white); }
+  a.card-tag:hover { color: var(--red); }
 
-  .prereq-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: rgba(26,22,18,0.08);
-    margin-bottom: 40px;
+  /* ── PREREQ ── */
+  .prereq-letter {
+    font-family: var(--font-mono);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--red);
+    background: rgba(196,101,26,0.08);
+    width: 36px;
+    height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    flex-shrink: 0;
   }
-
-  .prereq-card {
-    background: var(--warm-white);
-    padding: 40px 36px;
-    transition: background 0.2s;
-  }
-
-  .prereq-card:hover { background: var(--highlight); }
 
   .prereq-header {
     display: flex;
-    align-items: flex-start;
-    gap: 20px;
-    margin-bottom: 20px;
+    gap: 12px;
+    align-items: center;
+    margin-bottom: 12px;
   }
 
-  .prereq-num {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.4rem;
-    font-weight: 900;
-    color: var(--rust);
-    line-height: 1;
-    min-width: 40px;
-  }
-
-  .prereq-header h3 { margin-bottom: 4px; font-size: 1.2rem; }
+  .prereq-header h3 { font-size: 22px; font-weight: 500; margin-bottom: 0; letter-spacing: -0.025em; }
 
   .prereq-url {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--stone);
-    letter-spacing: 0.04em;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+    text-decoration: none;
+    transition: color 0.15s;
   }
 
-  .prereq-card p { font-size: 0.92rem; color: #4A4540; margin-bottom: 16px; }
+  a.prereq-url:hover { color: var(--red); }
 
-  .prereq-steps {
-    margin-left: 18px;
-    color: #4A4540;
-    font-size: 0.88rem;
-    line-height: 1.9;
+  .prereq-header-text { display: flex; flex-direction: column; gap: 2px; }
+
+  .card ol {
+    margin: 8px 0 0 18px;
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.8;
   }
 
-  .prereq-steps li { padding-left: 4px; }
-
-  .prereq-checklist {
-    background: var(--ink);
-    color: var(--cream);
-    padding: 32px 36px;
-    max-width: 700px;
+  /* ── CALLOUT ── */
+  .callout {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 12px;
+    background: var(--muted);
+    max-width: 640px;
   }
 
-  .prereq-checklist strong {
+  .callout-warn {
+    border-color: rgba(196,101,26,0.25);
+    background: rgba(196,101,26,0.04);
+  }
+
+  .callout strong {
     display: block;
-    font-size: 0.82rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--rust-light);
-    margin-bottom: 16px;
+    margin-bottom: 4px;
   }
 
-  .prereq-checklist ul {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
+  .callout-warn strong { color: var(--red); }
 
-  .prereq-checklist li {
-    font-size: 0.9rem;
-    color: rgba(245,240,232,0.75);
-    padding-left: 24px;
-    position: relative;
+  .callout p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    margin: 0;
     line-height: 1.5;
   }
 
-  .prereq-checklist li::before {
-    content: '☐';
-    position: absolute;
-    left: 0;
-    color: var(--rust);
-  }
-
-  /* ── STEPS ── */
-  .steps-section { padding: 100px 0; }
-
-  .steps-header {
-    padding: 0 80px 60px;
-  }
-
-  .step {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    border-top: 1px solid rgba(26,22,18,0.1);
-  }
-
-  .step:last-child { border-bottom: 1px solid rgba(26,22,18,0.1); }
-
-  .step-num {
-    padding: 48px 40px;
-    font-family: 'Playfair Display', serif;
-    font-size: 4rem;
-    font-weight: 900;
-    color: rgba(26,22,18,0.1);
-    border-right: 1px solid rgba(26,22,18,0.1);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    line-height: 1;
-    padding-top: 52px;
-  }
-
-  .step-content {
-    padding: 48px 80px;
-  }
-
-  .step-content h3 {
-    font-size: 1.5rem;
-    margin-bottom: 16px;
-  }
-
-  .step-content p {
-    color: #4A4540;
-    max-width: 640px;
-  }
-
-  /* ── WARNING BOX ── */
-  .warning-box {
-    background: var(--highlight);
-    border-left: 3px solid var(--rust);
+  /* ── CHECKLIST ── */
+  .checklist {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     padding: 20px 24px;
-    margin: 24px 0;
+    margin-top: 20px;
+    background: var(--fg);
+    color: var(--bg);
     max-width: 640px;
   }
 
-  .warning-box strong {
+  .checklist strong {
     display: block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 8px;
+    color: var(--red);
+    margin-bottom: 10px;
   }
 
-  .warning-box p {
-    font-size: 0.9rem;
-    margin: 0;
-    color: var(--ink);
-  }
+  .checklist ul { list-style: none; }
 
-  /* ── CODE / TERMINAL ── */
-  .terminal {
-    background: var(--code-bg);
-    border-radius: 4px;
-    padding: 24px 28px;
-    margin: 20px 0;
-    max-width: 640px;
+  .checklist li {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    padding: 3px 0 3px 18px;
     position: relative;
   }
 
-  .terminal::before {
-    content: '● ● ●';
-    display: block;
-    font-size: 0.5rem;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: 0.3em;
-    margin-bottom: 16px;
+  .checklist li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: rgba(255,255,255,0.3);
+  }
+
+  /* ── STEPS ── */
+  .steps { display: flex; flex-direction: column; gap: 0; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 48px 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: -1px;
+    overflow: hidden;
+  }
+
+  .step-num {
+    padding: 24px 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--muted-fg);
+    text-align: center;
+    border-right: 1px solid var(--border);
+    background: var(--muted);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 28px;
+  }
+
+  .step-body {
+    padding: 24px;
+  }
+
+  .step-body p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
+
+  .step-body p:last-child { margin-bottom: 0; }
+
+  /* ── TERMINAL ── */
+  .terminal {
+    background: var(--fg);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin: 12px 0;
+    max-width: 640px;
+    overflow-x: auto;
   }
 
   .terminal code {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.85rem;
-    color: var(--code-text);
-    line-height: 1.8;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.75;
     display: block;
     white-space: pre;
   }
 
-  .terminal code .comment {
-    color: rgba(232,201,122,0.4);
-  }
+  .terminal code .c { color: rgba(255,255,255,0.3); }
 
-  /* ── CHEAT SHEET ── */
-  .cheat-sheet {
-    background: var(--ink);
-    color: var(--cream);
-    padding: 100px 80px;
-  }
-
-  .cheat-sheet .section-label { color: var(--rust-light); }
-  .cheat-sheet h2 { color: var(--cream); }
-
-  .cheat-intro {
-    color: rgba(245,240,232,0.7);
-    max-width: 560px;
-    margin-bottom: 50px;
-    font-size: 1.05rem;
-  }
-
-  .cheat-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2px;
-    background: rgba(255,255,255,0.06);
-    border: 1px solid rgba(255,255,255,0.06);
-    max-width: 900px;
-  }
-
-  .cheat-item {
-    background: var(--ink);
-    padding: 18px 24px;
-    display: grid;
-    grid-template-columns: 200px 1fr;
-    gap: 20px;
-    align-items: center;
-    transition: background 0.15s;
-  }
-
-  .cheat-item:hover { background: rgba(255,255,255,0.04); }
-
-  .cheat-cmd {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.8rem;
-    color: var(--code-text);
-    background: rgba(232,201,122,0.08);
-    padding: 6px 12px;
-    white-space: nowrap;
-  }
-
-  .cheat-desc {
-    font-size: 0.84rem;
-    color: rgba(245,240,232,0.65);
-    line-height: 1.5;
-  }
-
-  .cheat-section-header {
-    grid-column: 1 / -1;
-    background: rgba(196,80,26,0.15);
-    padding: 10px 24px;
-    font-size: 0.7rem;
-    font-weight: 500;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--rust-light);
-  }
-
-  .cheat-quirk {
-    max-width: 900px;
-    margin-top: 32px;
-    background: rgba(196,80,26,0.12);
-    border-left: 3px solid var(--rust);
-    padding: 20px 24px;
-  }
-
-  .cheat-quirk strong {
-    display: block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--rust-light);
-    margin-bottom: 10px;
-  }
-
-  .cheat-quirk p {
-    font-size: 0.88rem;
-    color: rgba(245,240,232,0.7);
-    margin: 0 0 8px;
-    line-height: 1.55;
-  }
-
-  .cheat-quirk p:last-child { margin: 0; }
-
-  /* ── IDEAS ── */
-  .ideas-section { background: var(--cream); }
-
-  .ideas-intro { max-width: 640px; margin-bottom: 60px; }
-
-  .duncan-card {
-    background: var(--ink);
-    color: var(--cream);
-    padding: 48px 52px;
-    max-width: 860px;
-    margin-bottom: 60px;
-    position: relative;
-  }
-
-  .duncan-card .section-label { color: var(--rust-light); margin-bottom: 20px; }
-
-  .duncan-card p {
-    color: rgba(245,240,232,0.8);
-    font-size: 1rem;
-    max-width: 620px;
-  }
-
-  .duncan-card h3 {
-    color: var(--cream);
-    font-size: 1.6rem;
-    margin-bottom: 16px;
-  }
-
-  .idea-cards {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2px;
-    background: rgba(26,22,18,0.08);
-  }
-
-  .idea-card {
-    background: var(--cream);
-    padding: 36px 32px;
-    transition: background 0.2s;
-    cursor: default;
-  }
-
-  .idea-card:hover { background: var(--highlight); }
-
-  .idea-emoji { font-size: 2rem; margin-bottom: 16px; display: block; }
-
-  .idea-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
-
-  .idea-card p {
-    font-size: 0.86rem;
-    color: var(--stone);
-    line-height: 1.6;
-    margin: 0;
-  }
-
-  .idea-prompt {
-    margin-top: 14px;
-    font-family: 'DM Mono', monospace;
-    font-size: 0.75rem;
-    color: var(--rust);
-    font-style: italic;
-    line-height: 1.5;
-  }
-
-  /* ── ABOUT ── */
-  .about-section {
-    background: var(--warm-white);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 80px;
-    align-items: center;
-  }
-
-  .about-section p { color: #4A4540; }
-
-  .about-badge {
-    background: var(--ink);
-    color: var(--cream);
-    padding: 48px;
+  /* ── COMMAND STEPS ── */
+  .cmd-steps {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 8px;
+    margin: 12px 0;
+    max-width: 640px;
   }
 
-  .about-badge-name {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    font-weight: 900;
-    line-height: 1.1;
+  .cmd-step {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
 
-  .about-badge-title {
-    font-size: 0.8rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--rust-light);
+  .cmd-label {
+    font-size: 12px;
+    color: var(--muted-fg);
+    line-height: 1.4;
   }
 
-  .about-badge-bio {
-    font-size: 0.9rem;
-    color: rgba(245,240,232,0.7);
-    line-height: 1.6;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 20px;
-  }
-
-  /* ── FOOTER ── */
-  footer {
-    background: var(--ink);
-    color: rgba(245,240,232,0.4);
-    padding: 40px 80px;
+  .cmd-box {
+    background: var(--fg);
+    border-radius: var(--radius);
+    padding: 10px 16px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    font-size: 0.8rem;
+    gap: 12px;
+  }
+
+  .cmd-box code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: rgba(255,255,255,0.85);
+    white-space: normal;
+    word-break: break-all;
+  }
+
+  .cmd-copy {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 4px;
+    color: rgba(255,255,255,0.4);
+    font-family: inherit;
+    font-size: 10px;
+    font-weight: 600;
     letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding: 4px 10px;
+    cursor: pointer;
+    transition: all 0.15s;
+    flex-shrink: 0;
   }
 
-  footer .footer-logo {
-    font-family: 'Playfair Display', serif;
-    font-weight: 900;
-    font-size: 1rem;
-    color: var(--cream);
-    text-decoration: none;
+  .cmd-copy:hover {
+    border-color: rgba(255,255,255,0.4);
+    color: rgba(255,255,255,0.8);
   }
 
-  footer .footer-logo span { color: var(--rust); }
+  .cmd-note {
+    font-size: 11px;
+    color: var(--muted-fg);
+    font-style: italic;
+    margin-top: 2px;
+  }
 
-  /* ── HOW TO BUILD ── */
-  .how-section { background: var(--cream); }
+  /* ── CLAUDE WELCOME SCREEN ── */
+  .cw-screen {
+    background: #1e1e2e;
+    border-radius: var(--radius);
+    padding: 24px;
+    margin: 12px 0;
+    max-width: 640px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: #8888aa;
+    line-height: 1.5;
+  }
 
-  .process-flow { display: flex; flex-direction: column; gap: 2px; background: rgba(26,22,18,0.08); }
+  .cw-prompt-lines {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-bottom: 16px;
+    color: #6a6a8a;
+    font-size: 12px;
+  }
+
+  .cw-main {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0;
+  }
+
+  .cw-left {
+    border: 1px solid #e8808060;
+    border-radius: 6px;
+    overflow: hidden;
+  }
+
+  .cw-header {
+    color: #e88080;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-bottom: 1px solid #e8808030;
+  }
+
+  .cw-header span { color: #6a6a8a; font-weight: 400; }
+
+  .cw-body {
+    padding: 16px;
+  }
+
+  .cw-welcome {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+    margin-bottom: 12px;
+  }
+
+  .cw-mascot-grid {
+    --p: 6px;
+    --pink: #d4a0a0;
+    --dark: #4a3040;
+    --blush: #a06868;
+    width: calc(7 * var(--p));
+    height: calc(4 * var(--p));
+    margin-bottom: 14px;
+    background:
+      /* row 1: ear - gap - head - gap - ear */
+      linear-gradient(var(--pink), var(--pink)) 0 0 / var(--p) var(--p),
+      linear-gradient(var(--pink), var(--pink)) calc(6 * var(--p)) 0 / var(--p) var(--p),
+      /* row 2: body across */
+      linear-gradient(var(--pink), var(--pink)) var(--p) var(--p) / calc(5 * var(--p)) var(--p),
+      /* row 2: eyes */
+      linear-gradient(var(--dark), var(--dark)) calc(2 * var(--p)) var(--p) / var(--p) var(--p),
+      linear-gradient(var(--dark), var(--dark)) calc(4 * var(--p)) var(--p) / var(--p) var(--p),
+      /* row 3: snout */
+      linear-gradient(var(--pink), var(--pink)) calc(2 * var(--p)) calc(2 * var(--p)) / calc(3 * var(--p)) var(--p),
+      /* row 4: feet */
+      linear-gradient(var(--blush), var(--blush)) var(--p) calc(3 * var(--p)) / var(--p) var(--p),
+      linear-gradient(var(--blush), var(--blush)) calc(2 * var(--p)) calc(3 * var(--p)) / var(--p) var(--p),
+      linear-gradient(var(--blush), var(--blush)) calc(4 * var(--p)) calc(3 * var(--p)) / var(--p) var(--p),
+      linear-gradient(var(--blush), var(--blush)) calc(5 * var(--p)) calc(3 * var(--p)) / var(--p) var(--p);
+    background-repeat: no-repeat;
+  }
+
+  .cw-info {
+    color: #6a6a8a;
+    font-size: 11px;
+  }
+
+  .cw-right {
+    margin-left: -1px;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .cw-tips, .cw-activity {
+    border: 1px solid #e8808060;
+    padding: 10px 14px;
+  }
+
+  .cw-tips {
+    border-radius: 0 6px 0 0;
+    border-bottom: none;
+  }
+
+  .cw-activity {
+    border-radius: 0 0 6px 0;
+    flex: 1;
+  }
+
+  .cw-tips-title, .cw-activity-title {
+    color: #e88080;
+    font-size: 11px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .cw-tips-body, .cw-activity-body {
+    color: #7a7a9a;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+
+  .cw-activity-body em {
+    font-style: italic;
+    color: #6a6a8a;
+  }
+
+  .cw-input {
+    margin-top: 20px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .cw-chevron {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 14px;
+  }
+
+  .cw-cursor {
+    color: #ffffff;
+    animation: blink 1s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { opacity: 0; }
+  }
+
+  .cw-hint {
+    margin-top: 10px;
+    color: #5a5a7a;
+    font-size: 11px;
+  }
+
+  /* ── PATTERN BOX ── */
+  .pattern-box {
+    margin-top: 20px;
+    max-width: 640px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .pattern-title {
+    background: var(--muted);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    padding: 8px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .pattern-body {
+    padding: 16px 20px;
+  }
+
+  .pattern-body p {
+    font-size: 13px;
+    color: var(--fg);
+    margin: 0;
+  }
+
+  /* ── CLAUDE TIPS ── */
+  .claude-tips-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .claude-tip-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+  }
+
+  .claude-tip-card h3 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .claude-tip-card p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.55;
+    margin-bottom: 4px;
+  }
+
+  .claude-tip-card .cmd-steps {
+    max-width: none;
+  }
+
+  .claude-tip-card .cmd-box code {
+    white-space: pre-wrap;
+    word-break: normal;
+    overflow-wrap: break-word;
+  }
+
+  /* ── CHEAT SHEET ── */
+  .cheat-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+    max-width: 640px;
+  }
+
+  .cheat-group-header {
+    grid-column: 1 / -1;
+    background: var(--muted);
+    padding: 6px 16px;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+  }
+
+  .cheat-item {
+    background: var(--card);
+    padding: 10px 16px;
+    display: grid;
+    grid-template-columns: 140px 1fr;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .cheat-cmd {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--fg);
+  }
+
+  .cheat-desc {
+    font-size: 12px;
+    color: var(--muted-fg);
+  }
+
+  .cheat-note {
+    max-width: 640px;
+    margin-top: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+  }
+
+  .cheat-note strong {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+  }
+
+  .cheat-note p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    margin: 0 0 4px;
+    line-height: 1.5;
+  }
+
+  .cheat-note p:last-child { margin: 0; }
+
+  /* ── PROCESS ── */
+  .process-steps { display: flex; flex-direction: column; gap: 0; }
 
   .process-step {
     display: grid;
-    grid-template-columns: 100px 1fr;
-    background: var(--cream);
-    transition: background 0.2s;
+    grid-template-columns: 48px 1fr;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: -1px;
+    overflow: hidden;
   }
-
-  .process-step:hover { background: var(--warm-white); }
 
   .process-icon {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    padding: 44px 20px;
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    font-weight: 900;
-    color: var(--rust);
-    border-right: 1px solid rgba(26,22,18,0.08);
-    line-height: 1;
-    padding-top: 46px;
+    padding: 28px 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--red);
+    border-right: 1px solid var(--border);
+    background: var(--muted);
   }
 
-  .process-body { padding: 44px 56px; }
+  .process-body { padding: 24px; }
 
-  .process-body h3 { font-size: 1.4rem; margin-bottom: 14px; }
+  .process-body p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    max-width: 640px;
+    line-height: 1.6;
+    margin-bottom: 8px;
+  }
 
-  .process-body p { color: #4A4540; max-width: 640px; }
-
-  .process-tip {
-    background: var(--highlight);
-    border-left: 3px solid var(--rust);
-    padding: 20px 24px;
-    margin-top: 24px;
+  .tip {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 16px;
+    margin-top: 12px;
+    background: var(--muted);
     max-width: 640px;
   }
 
-  .process-tip strong {
+  .tip strong {
     display: block;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 12px;
-  }
-
-  .tip-list {
-    margin-left: 16px;
-    font-size: 0.9rem;
-    color: var(--ink);
-    line-height: 2;
-  }
-
-  /* ── IDEAS (updated) ── */
-  .idea-cta {
-    margin-top: 16px;
-    font-size: 0.78rem;
-    font-weight: 500;
+    font-size: 11px;
+    font-weight: 600;
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    color: var(--rust);
-    border-top: 1px solid rgba(196,80,26,0.2);
-    padding-top: 14px;
+    color: var(--muted-fg);
+    margin-bottom: 6px;
   }
 
-  .idea-card { cursor: pointer; }
-  .idea-card:hover .idea-cta { color: var(--ink); }
+  .tip ul {
+    margin-left: 16px;
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.9;
+  }
 
-  /* ── PROJECT PANEL OVERLAY ── */
+  /* ── IDEAS ── */
+  .idea-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .idea-card:hover {
+    border-color: var(--fg);
+  }
+
+  .idea-card h3 { font-size: 15px; margin-bottom: 4px; }
+
+  .idea-card p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.5;
+  }
+
+  .idea-cta {
+    margin-top: 10px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+  }
+
+  .idea-tip {
+    margin-top: 20px;
+    background: var(--fg);
+    color: var(--bg);
+    padding: 24px;
+    border-radius: var(--radius);
+    max-width: 640px;
+  }
+
+  .idea-tip h3 { color: var(--bg); font-size: 14px; margin-bottom: 6px; }
+
+  .idea-tip p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.6;
+  }
+
+  /* ── PANEL ── */
   .project-overlay {
     position: fixed;
     inset: 0;
-    background: rgba(26,22,18,0.7);
     z-index: 200;
-    display: none;
-    align-items: flex-start;
-    justify-content: flex-end;
-    backdrop-filter: blur(3px);
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
   }
 
-  .project-overlay.open { display: flex; }
+  .project-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
 
   .project-panel {
-    width: min(760px, 95vw);
-    height: 100vh;
-    background: var(--warm-white);
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: min(540px, 90vw);
+    background: var(--bg);
+    border-left: 1px solid var(--border);
     overflow-y: auto;
-    padding: 60px 56px;
-    position: relative;
-    animation: slideIn 0.3s ease;
+    padding: 40px 32px;
+    transform: translateX(100%);
+    transition: transform 0.2s ease;
   }
 
-  @keyframes slideIn {
-    from { transform: translateX(40px); opacity: 0; }
-    to { transform: translateX(0); opacity: 1; }
+  .project-overlay.open .project-panel {
+    transform: translateX(0);
   }
 
   .panel-close {
-    position: sticky;
-    top: 0;
-    float: right;
-    background: var(--ink);
-    color: var(--cream);
-    border: none;
-    padding: 8px 16px;
-    font-size: 0.78rem;
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 12px;
     font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
+    padding: 5px 12px;
     cursor: pointer;
-    margin-bottom: 32px;
-    transition: background 0.2s;
-    z-index: 10;
+    font-family: inherit;
+    transition: all 0.15s;
   }
 
-  .panel-close:hover { background: var(--rust); }
-
-  .panel-emoji { font-size: 3rem; margin-bottom: 16px; display: block; }
+  .panel-close:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
 
   .panel-label {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
-    color: var(--rust);
-    margin-bottom: 8px;
+    color: var(--muted-fg);
     display: block;
+    margin-bottom: 6px;
   }
 
   .panel-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 2.2rem;
-    font-weight: 900;
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
   }
 
   .panel-desc {
-    font-size: 1rem;
-    color: #4A4540;
-    max-width: 560px;
-    margin-bottom: 36px;
-    line-height: 1.7;
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.6;
+    margin-bottom: 28px;
   }
 
   .panel-section-title {
-    font-size: 0.72rem;
-    font-weight: 500;
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-    color: var(--stone);
-    margin: 36px 0 14px;
     display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    margin: 28px 0 10px;
   }
 
   .panel-brief {
-    background: var(--code-bg);
-    padding: 28px 32px;
-    margin-bottom: 8px;
-    position: relative;
-  }
-
-  .panel-brief::before {
-    content: '● ● ●';
-    display: block;
-    font-size: 0.5rem;
-    color: rgba(255,255,255,0.2);
-    letter-spacing: 0.3em;
-    margin-bottom: 16px;
+    background: var(--fg);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 10px;
   }
 
   .panel-brief code {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.82rem;
-    color: var(--code-text);
-    line-height: 1.9;
-    display: block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
     white-space: pre-wrap;
     word-break: break-word;
   }
 
   .copy-btn {
-    display: inline-block;
-    margin-top: 10px;
-    background: none;
-    border: 1px solid rgba(26,22,18,0.2);
+    background: var(--fg);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
     padding: 8px 16px;
-    font-size: 0.75rem;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: var(--stone);
     cursor: pointer;
-    transition: all 0.2s;
+    transition: opacity 0.15s;
   }
 
-  .copy-btn:hover { background: var(--ink); color: var(--cream); border-color: var(--ink); }
+  .copy-btn:hover { opacity: 0.8; }
 
-  .panel-phases { display: flex; flex-direction: column; gap: 2px; margin: 8px 0; background: rgba(26,22,18,0.07); }
+  .panel-phases {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
 
   .panel-phase {
-    background: var(--warm-white);
-    padding: 20px 24px;
+    background: var(--bg);
+    padding: 12px 16px;
     display: grid;
-    grid-template-columns: 80px 1fr;
-    gap: 16px;
+    grid-template-columns: 40px 1fr;
+    gap: 10px;
     align-items: flex-start;
   }
 
   .phase-tag {
-    font-family: 'DM Mono', monospace;
-    font-size: 0.7rem;
-    color: var(--rust);
-    background: rgba(196,80,26,0.08);
-    padding: 4px 8px;
-    text-align: center;
-    line-height: 1.4;
-    letter-spacing: 0.04em;
-    margin-top: 2px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    padding-top: 1px;
   }
 
-  .panel-phase p { font-size: 0.88rem; color: #4A4540; margin: 0; line-height: 1.6; }
+  .panel-phase p { font-size: 13px; color: var(--muted-fg); margin: 0; line-height: 1.5; }
+  .panel-phase strong { display: block; margin-bottom: 1px; font-size: 13px; font-weight: 600; color: var(--fg); }
 
-  .panel-phase strong { display: block; margin-bottom: 4px; font-size: 0.9rem; }
-
-  .panel-enhancements { display: flex; flex-direction: column; gap: 2px; background: rgba(26,22,18,0.07); }
+  .panel-enhancements {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
 
   .enhancement {
-    background: var(--warm-white);
-    padding: 16px 20px;
-    font-size: 0.86rem;
-    color: #4A4540;
-    display: flex;
-    gap: 12px;
-    align-items: flex-start;
-    line-height: 1.55;
+    background: var(--bg);
+    padding: 10px 16px 10px 30px;
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.5;
+    position: relative;
   }
 
   .enhancement::before {
     content: '+';
-    color: var(--rust);
+    position: absolute;
+    left: 16px;
+    color: var(--emerald);
     font-weight: 700;
-    font-size: 1rem;
-    line-height: 1.4;
-    min-width: 12px;
+    font-family: var(--font-mono);
   }
 
-  /* ── RESPONSIVE additions ── */
-  @media (max-width: 900px) {
-    .process-step { grid-template-columns: 60px 1fr; }
-    .process-icon { font-size: 1.6rem; padding: 40px 12px; }
-    .process-body { padding: 36px 24px; }
-    .project-panel { padding: 40px 28px; }
+  /* ── ACCORDION ── */
+  .accordion {
+    margin: 12px 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
   }
 
-  /* ── UTILITY ── */
-  .divider {
-    border: none;
-    border-top: 1px solid rgba(26,22,18,0.1);
-    margin: 0;
-  }
-
-  .mac-badge {
-    display: inline-flex;
+  .accordion summary {
+    padding: 10px 14px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    color: var(--fg);
+    background: var(--muted);
+    list-style: none;
+    display: flex;
     align-items: center;
     gap: 8px;
-    background: rgba(26,22,18,0.06);
-    border: 1px solid rgba(26,22,18,0.12);
-    padding: 8px 16px;
-    font-size: 0.78rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
+    transition: background 0.15s;
+  }
+
+  .accordion summary:hover {
+    background: var(--border);
+  }
+
+  .accordion summary::before {
+    content: '+';
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--muted-fg);
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    transition: transform 0.2s;
+  }
+
+  .accordion[open] summary::before {
+    content: '−';
+  }
+
+  .accordion summary::-webkit-details-marker { display: none; }
+
+  .accordion-body {
+    padding: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--muted-fg);
+    border-top: 1px solid var(--border);
+  }
+
+  .accordion-body p {
+    margin-bottom: 10px;
+  }
+
+  .accordion-body p:last-child {
+    margin-bottom: 0;
+  }
+
+  .accordion-body ul {
+    margin: 8px 0 0 0;
+    padding-left: 18px;
+  }
+
+  .accordion-body ul li {
+    margin-bottom: 6px;
+    line-height: 1.6;
+  }
+
+  .accordion-body ul li:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ── WORKSHOP NAV ── */
+  .workshop-nav {
+    display: flex;
+    gap: 12px;
+    margin-top: 28px;
+    max-width: 640px;
+  }
+
+  .workshop-nav-item {
+    flex: 1;
+    padding: 14px 18px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    text-decoration: none;
+    color: var(--fg);
+    transition: all 0.15s;
+  }
+
+  .workshop-nav-item strong {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .workshop-nav-item span {
+    font-size: 12px;
+    color: var(--muted-fg);
+    font-weight: 400;
+  }
+
+  .workshop-nav-active {
+    border-color: var(--fg);
+    background: var(--fg);
+    color: var(--bg);
+  }
+
+  .workshop-nav-active span {
+    color: rgba(255,255,255,0.5);
+  }
+
+  a.workshop-nav-item:hover {
+    border-color: var(--red);
+    background: var(--red);
+    color: #fff;
+  }
+
+  a.workshop-nav-item:hover span {
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── NEXT WORKSHOP ── */
+  .next-workshop-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    max-width: 640px;
+    margin-top: 24px;
+  }
+
+  .next-workshop-card {
+    background: var(--fg);
+    color: var(--bg);
+    padding: 28px 24px;
+    border-radius: var(--radius);
+    position: relative;
+    transition: all 0.2s;
+  }
+
+  .next-workshop-card:hover {
+    background: var(--red);
+    transform: translateY(-2px);
+  }
+
+  .next-workshop-badge {
+    font-size: 11px;
+    font-weight: 600;
     text-transform: uppercase;
-    color: var(--stone);
-    margin-bottom: 36px;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.4);
+    margin-bottom: 10px;
   }
 
-  .mac-badge::before {
-    content: '';
+  .next-workshop-card h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+
+  .next-workshop-card p {
+    font-size: 13px;
+    color: rgba(255,255,255,0.55);
+    line-height: 1.6;
+    max-width: 360px;
+  }
+
+  .next-workshop-arrow {
+    position: absolute;
+    top: 28px;
+    right: 24px;
+    font-size: 24px;
+    color: rgba(255,255,255,0.3);
+    transition: transform 0.2s;
+  }
+
+  .next-workshop-card:hover .next-workshop-arrow {
+    transform: translateX(4px);
+    color: rgba(255,255,255,0.6);
+  }
+
+  /* ── HELP BOX ── */
+  .help-box {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    max-width: 640px;
+  }
+
+  .help-box h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .help-box p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.6;
+    margin-bottom: 14px;
+  }
+
+  .help-email {
     display: inline-block;
-    width: 8px;
-    height: 8px;
-    background: var(--rust);
-    border-radius: 50%;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--red);
+    text-decoration: none;
+    border-bottom: 1px solid var(--red);
+    padding-bottom: 1px;
+    transition: opacity 0.15s;
   }
 
-  /* ── ANIMATIONS ── */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
+  .help-email:hover {
+    opacity: 0.7;
   }
 
-  .hero-left > * {
-    animation: fadeUp 0.6s ease both;
+  /* ── FOOTER ── */
+  footer {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted-fg);
   }
 
-  .hero-left > *:nth-child(1) { animation-delay: 0.1s; }
-  .hero-left > *:nth-child(2) { animation-delay: 0.22s; }
-  .hero-left > *:nth-child(3) { animation-delay: 0.34s; }
-  .hero-left > *:nth-child(4) { animation-delay: 0.46s; }
+  footer strong {
+    font-weight: 600;
+    color: var(--fg);
+    font-size: 13px;
+  }
 
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
-    .hero { grid-template-columns: 1fr; }
-    .hero-right { display: none; }
-    .what-is { grid-template-columns: 1fr; }
-    .stack-grid { grid-template-columns: 1fr 1fr; }
-    .idea-cards { grid-template-columns: 1fr 1fr; }
-    .about-section { grid-template-columns: 1fr; }
+    .grid-2 { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr 1fr; }
+    .grid-3 { grid-template-columns: 1fr 1fr; }
+    .claude-tips-grid { grid-template-columns: 1fr; }
     .cheat-grid { grid-template-columns: 1fr; }
-    section { padding: 70px 32px; }
-    nav { padding: 14px 24px; }
-    nav ul { gap: 20px; }
+    .cheat-item { grid-template-columns: 140px 1fr; }
   }
 
   @media (max-width: 600px) {
-    .stack-grid { grid-template-columns: 1fr; }
-    .idea-cards { grid-template-columns: 1fr; }
-    .step { grid-template-columns: 60px 1fr; }
-    .step-num { font-size: 2.5rem; padding: 40px 16px; }
-    .step-content { padding: 40px 24px; }
-    footer { flex-direction: column; gap: 12px; text-align: center; }
-    .cheat-item { grid-template-columns: 1fr; }
+    .grid-4 { grid-template-columns: 1fr; }
+    .grid-3 { grid-template-columns: 1fr; }
+    .step, .process-step { grid-template-columns: 36px 1fr; }
+    .cheat-item { grid-template-columns: 1fr; gap: 2px; }
+    nav ul { display: none; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+    .header h1 { font-size: 28px; }
+    .workshop-nav { flex-direction: column; }
   }
 </style>
 </head>
 <body>
 
-<!-- NAV -->
-<nav>
-  <a href="#" class="nav-logo">Vibe<span>Builders</span></a>
+<div class="nav-wrap">
+<nav class="container">
+  <a href="#" class="nav-logo">Vibe Builders<span>Workshop 1</span></a>
   <ul>
-    <li><a href="#before">Before You Begin</a></li>
-    <li><a href="#what">What This Is</a></li>
-    <li><a href="#stack">The Stack</a></li>
-    <li><a href="#steps">Get Started</a></li>
-    <li><a href="#how">How to Build</a></li>
-    <li><a href="#ideas">Project Ideas</a></li>
-    <li><a href="#about">About</a></li>
+    <li><a href="#agent">What's an agent</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#steps">Setup</a></li>
+    <li><a href="#claude-tips">Beyond the brief</a></li>
+    <li><a href="#terminal">Terminal</a></li>
+    <li><a href="#projects">Projects</a></li>
   </ul>
 </nav>
+</div>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="mac-badge">For Mac Users Only</div>
-    <div class="hero-label">A practical guide for non-developers</div>
-    <h1>You don't need to learn<br><em>to code.</em><br>You need to learn<br>to build.</h1>
-    <p class="hero-sub">You can build AI-powered applications without any coding experience. Claude Code writes the code. You describe what you want. This guide shows you how, step by step.</p>
-    <div class="cta-group">
-      <a href="#before" class="btn-primary">Start Here →</a>
-      <a href="#what" class="btn-ghost">What is this?</a>
+<div class="container">
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">Workshop 1 of 2 &middot; Mac Only</div>
+  <p class="header-credit">Made by Chris Downs &middot; <a href="mailto:chris@datadowns.com">chris@datadowns.com</a></p>
+  <h1>From idea to working app on your laptop. <span>Build an AI agent with Claude Code — no coding experience needed.</span></h1>
+  <div class="workshop-nav">
+    <div class="workshop-nav-item workshop-nav-active">
+      <strong>Workshop 1</strong>
+      <span>Build it on your computer</span>
     </div>
+    <a href="workshop-2.html" class="workshop-nav-item">
+      <strong>Workshop 2</strong>
+      <span>Put it on the internet</span>
+    </a>
   </div>
-  <div class="hero-right">
-    <div class="pullquote-block">
-      <p>Describe what you want in plain English. Claude Code builds it. You iterate. Within a session, you have a working app deployed to the internet.</p>
-      <div class="pullquote-attr">— The process, in four sentences</div>
-    </div>
-    <div class="hero-footnote">
-      This guide is for curious people who've always assumed the door to building software wasn't open to them. It is. You just need the right tools.
-    </div>
+  <div class="header-links">
+    <a href="#agent">1. What is an AI agent?</a>
+    <a href="#prerequisites">2. What you need</a>
+    <a href="#stack">3. The Stack</a>
+    <a href="#steps">4. Setup</a>
+    <a href="#claude-tips">5. Beyond the brief</a>
+    <a href="#terminal">6. Terminal Reference</a>
+    <a href="#projects">7. Project Ideas</a>
   </div>
-</section>
+</div>
 
-<hr class="divider">
+<!-- WHAT IS AN AI AGENT -->
+<div class="section" id="agent">
+  <span class="section-label">01 — What is an AI agent?</span>
+  <h2>A program that thinks, talks, and acts. <span>An AI agent is a program that uses a language model — like Claude — to understand what people say and respond intelligently. You describe what you want it to do. Claude Code builds the program. The result is an app that thinks, talks, and acts.</span></h2>
+</div>
 
-<!-- WHAT THIS IS -->
-<section class="what-is" id="what">
-  <div class="what-left">
-    <span class="section-label">What this is</span>
-    <h2>You're not here to learn to code.<br>You're here to build AI agents.</h2>
-    <div class="not-grid">
-      <div class="not-item">
-        <span class="not-icon">✗</span>
-        <div>
-          <strong>Not a coding course</strong>
-          <p>You won't be memorising syntax or doing exercises. You'll be building things that do things.</p>
-        </div>
-      </div>
-      <div class="not-item">
-        <span class="not-icon">✗</span>
-        <div>
-          <strong>Not for developers</strong>
-          <p>If you already know how to code, this guide isn't for you. Go build something. This is for people who never thought they could.</p>
-        </div>
-      </div>
-      <div class="not-item">
-        <span class="not-icon">✗</span>
-        <div>
-          <strong>Not slow or theoretical</strong>
-          <p>Within your first session, you'll have something running. Something real. Something you made.</p>
-        </div>
-      </div>
-      <div class="not-item">
-        <span class="not-icon">✓</span>
-        <div>
-          <strong>It is about AI agents</strong>
-          <p>Programs that think, respond, and act on your behalf. Things that would have taken a team of engineers to build, five years ago.</p>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="what-right">
-    <p>An AI agent is a program that has a brain — an LLM (large language model) like Claude — and a job. You describe the job. Claude Code helps you build the program. The result is something that talks, thinks, reasons, and acts.</p>
-    <p>The tools that make this possible exist right now. They are free or nearly free. They run on your laptop. And they do not require a computer science degree, years of experience, or any prior knowledge of programming.</p>
-    <p>What they require is: a clear idea of what you want to build, and the willingness to start before you feel ready.</p>
-    <div class="big-stat">4</div>
-    <div class="stat-label">Tools. That's all you need.</div>
-    <p style="font-size:0.9rem; color: rgba(245,240,232,0.5);">Claude Code, Terminal, GitHub, Cloudflare.</p>
-  </div>
-</section>
+<!-- WHAT YOU NEED -->
+<div class="section" id="prerequisites">
+  <span class="section-label">02 — What you need</span>
+  <h2>Two things before starting. <span>One account and one install. Both free. Do these in order and keep your credentials somewhere safe.</span></h2>
 
-<!-- THE STACK -->
-<section class="stack-section" id="stack">
-  <span class="section-label">The tools you'll use</span>
-  <h2>Four tools.<br>One stack. Everything you need.</h2>
-  <p style="max-width:600px; color: var(--stone);">You're going to use four tools, in this order. Each one does a specific job. You don't need to fully understand them before you start — understanding comes from using them.</p>
-
-  <div class="stack-grid">
-    <div class="stack-card">
-      <div class="stack-number">01</div>
-      <h3>Claude Code</h3>
-      <p>Your AI co-builder. You describe what you want, in plain English. Claude Code writes the code, fixes the errors, explains what it's doing. This is the thing that makes everything else possible.</p>
-      <span class="stack-tag">claude.ai/code</span>
-    </div>
-    <div class="stack-card">
-      <div class="stack-number">02</div>
-      <h3>The Terminal</h3>
-      <p>A text-based window into your computer. Looks scary. Isn't. You'll use it to run your apps, install tools, and navigate your files. We'll give you everything you need to know on one page.</p>
-      <span class="stack-tag">Built into your Mac</span>
-    </div>
-    <div class="stack-card">
-      <div class="stack-number">03</div>
-      <h3>GitHub</h3>
-      <p>Where your code lives. Think of it like a very smart version of Google Drive, designed for code. It keeps a history of every change you've made, so you can always go back. You'll push your work here regularly.</p>
-      <span class="stack-tag">github.com</span>
-    </div>
-    <div class="stack-card">
-      <div class="stack-number">04</div>
-      <h3>Cloudflare Pages</h3>
-      <p>Where your app lives on the internet. Once your app works on your laptop, Cloudflare takes it and puts it online — free, fast, and permanently. This is the moment it stops being a project and starts being real.</p>
-      <span class="stack-tag">cloudflare.com</span>
-    </div>
-  </div>
-</section>
-
-<!-- BEFORE YOU BEGIN -->
-<section class="prereq-section" id="before">
-  <span class="section-label">Before you begin</span>
-  <h2>Four accounts.<br>Fifteen minutes.<br>Then you're ready.</h2>
-  <p style="max-width:600px; color: var(--stone); margin-bottom: 60px;">Before touching the Terminal or writing a single line of code, you need to set up four accounts. All of them are free (or have a free tier). Do these in order. Keep a note of your usernames and passwords somewhere safe.</p>
-
-  <div class="prereq-grid">
-
-    <div class="prereq-card">
+  <div class="grid grid-2">
+    <div class="card">
       <div class="prereq-header">
-        <div class="prereq-num">A</div>
-        <div>
+        <span class="prereq-letter">A</span>
+        <div class="prereq-header-text">
           <h3>Anthropic Account</h3>
-          <span class="prereq-url">console.anthropic.com</span>
+          <a class="prereq-url" href="https://console.anthropic.com" target="_blank">console.anthropic.com ↗</a>
         </div>
       </div>
-      <p>Anthropic makes Claude — the AI brain behind everything you'll build. You need an account to use Claude Code and to get an API key (the secret key that lets your apps talk to Claude's intelligence).</p>
-      <ol class="prereq-steps">
-        <li>Go to <strong>console.anthropic.com</strong></li>
-        <li>Click <strong>Sign up</strong> and create an account</li>
-        <li>Once signed in, go to <strong>API Keys</strong> in the left menu</li>
-        <li>Click <strong>Create Key</strong> — give it a name like "my-first-app"</li>
-        <li>Copy the key and save it somewhere safe — you'll only see it once</li>
-      </ol>
-      <div class="warning-box" style="margin-top: 20px;">
-        <strong>About cost</strong>
-        <p>Anthropic gives you a small amount of free credit to start. For learning and building small projects, this goes a long way. You can add a card later if you need more — but don't worry about this now.</p>
-      </div>
-    </div>
+      <p>You need an account and an API key. The API key is what lets the apps you build talk to Claude's brain.</p>
 
-    <div class="prereq-card">
-      <div class="prereq-header">
-        <div class="prereq-num">B</div>
-        <div>
-          <h3>GitHub Account</h3>
-          <span class="prereq-url">github.com</span>
+      <details class="accordion">
+        <summary>What's an API key?</summary>
+        <div class="accordion-body">
+          <p>An API key is a secret password that connects your app to Claude. When your app needs to think — understand a question, generate a response, make a decision — it sends a request to Claude's servers. The API key proves your app has permission to do that.</p>
+          <p>You'll paste this key once when you first set up Claude Code. After that, everything happens automatically — you won't need to think about it again.</p>
         </div>
-      </div>
-      <p>GitHub is where your code lives. It's free, it's permanent, and it keeps a full history of everything you've ever built. Every time something works, you save it here. Think of it as a very smart, very safe backup for your work.</p>
-      <ol class="prereq-steps">
-        <li>Go to <strong>github.com</strong></li>
-        <li>Click <strong>Sign up</strong></li>
-        <li>Choose a username — this will be part of your project URLs, so pick something you're happy with</li>
-        <li>Select the <strong>Free</strong> plan</li>
-        <li>Verify your email address</li>
+      </details>
+
+      <ol>
+        <li>Go to <strong>console.anthropic.com</strong> and sign up</li>
+        <li>Go to <strong>API Keys</strong> in the left menu</li>
+        <li>Click <strong>Create Key</strong> and give it a name (anything — "my first key" is fine)</li>
+        <li>Copy the key immediately — <strong>you won't be able to see it again</strong></li>
       </ol>
-    </div>
 
-    <div class="prereq-card">
-      <div class="prereq-header">
-        <div class="prereq-num">C</div>
-        <div>
-          <h3>Cloudflare Account</h3>
-          <span class="prereq-url">cloudflare.com</span>
-        </div>
-      </div>
-      <p>Cloudflare takes the app you've built on your laptop and puts it live on the internet — with a real URL you can share with anyone. The free tier is generous enough for everything you'll build while learning.</p>
-      <ol class="prereq-steps">
-        <li>Go to <strong>cloudflare.com</strong></li>
-        <li>Click <strong>Sign up</strong> — select the <strong>Free</strong> plan</li>
-        <li>Verify your email address</li>
-        <li>That's it for now — you'll come back to this in Step 6</li>
-      </ol>
-    </div>
-
-    <div class="prereq-card">
-      <div class="prereq-header">
-        <div class="prereq-num">D</div>
-        <div>
-          <h3>Node.js — installed on your Mac</h3>
-          <span class="prereq-url">nodejs.org</span>
-        </div>
-      </div>
-      <p>Node.js isn't an account — it's a tool you install on your Mac. It's what allows your computer to run JavaScript-based code locally. Claude Code needs it to work. You install it once and never think about it again.</p>
-      <ol class="prereq-steps">
-        <li>Go to <strong>nodejs.org</strong></li>
-        <li>Download the version labelled <strong>LTS</strong> (Long Term Support — the stable, recommended one)</li>
-        <li>Open the downloaded file and follow the installer</li>
-        <li>To check it worked, open Terminal and type: <code style="font-family:'DM Mono',monospace; background:var(--highlight); padding: 2px 6px; font-size:0.82rem;">node --version</code></li>
-        <li>If you see a number (like <code style="font-family:'DM Mono',monospace; background:var(--highlight); padding: 2px 6px; font-size:0.82rem;">v20.11.0</code>), you're done</li>
-      </ol>
-    </div>
-
-  </div>
-
-  <div class="prereq-checklist">
-    <strong>✓ Quick checklist — tick these off before moving on:</strong>
-    <ul>
-      <li>I have an Anthropic account and I've saved my API key somewhere safe</li>
-      <li>I have a GitHub account and my email is verified</li>
-      <li>I have a Cloudflare account</li>
-      <li>I've installed Node.js and confirmed it works in the Terminal</li>
-    </ul>
-  </div>
-
-</section>
-
-<!-- STEPS -->
-<section class="steps-section" id="steps">
-  <div class="steps-header">
-    <span class="section-label">Getting started</span>
-    <h2>The path. Step by step.</h2>
-    <p style="color: var(--stone); max-width: 560px;">Follow these in order. Don't skip ahead. Each step builds on the last. And remember — Claude Code is with you the entire time. If something doesn't work, ask it why.</p>
-  </div>
-
-  <!-- STEP 1 -->
-  <div class="step">
-    <div class="step-num">1</div>
-    <div class="step-content">
-      <h3>Sort out your folder — before anything else</h3>
-      <p>Before you install a single thing, you need to know where your work will live. On a Mac, the default is to save everything to iCloud. This causes problems with the tools we're using. <strong>We need a folder that lives locally on your Mac — not in iCloud.</strong></p>
-      <div class="warning-box">
-        <strong>⚠ The iCloud Problem</strong>
-        <p>iCloud syncs your files to Apple's servers. Claude Code and the Terminal work better with files that stay on your actual machine. If you skip this step, you'll hit confusing errors later that are hard to diagnose.</p>
-      </div>
-      <p><strong>How to create a local folder:</strong></p>
-      <p>Open Finder. In the menu bar at the top of your screen, click <strong>Go → Home</strong>. You'll see your home folder. Create a new folder here — call it something like <code style="background: var(--highlight); padding: 2px 6px; font-family: 'DM Mono', monospace; font-size: 0.85rem;">Projects</code>. This folder lives on your Mac, not in iCloud. This is where everything goes.</p>
-      <div class="terminal">
-        <code><span class="comment"># Later, in the Terminal, you'll navigate here like this:</span>
-cd ~/Projects</code>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 2 -->
-  <div class="step">
-    <div class="step-num">2</div>
-    <div class="step-content">
-      <h3>Open the Terminal. Don't panic.</h3>
-      <p>Press <strong>⌘ + Space</strong> to open Spotlight. Type <strong>Terminal</strong>. Hit Enter. A black (or white) window opens with a blinking cursor. This is the Terminal. It's waiting for you to type a command.</p>
-      <p>The Terminal is how you talk to your Mac directly — without icons, without clicking. It feels strange at first. Then it feels like a superpower.</p>
-      <div class="warning-box">
-        <strong>The Terminal is not like normal text editing</strong>
-        <p>You cannot click to place your cursor in the middle of a line. You cannot select a section and delete it. You navigate with the ← → arrow keys and delete with the backspace key. One character at a time. This is not a bug. It's just how it works.</p>
-      </div>
-      <p>The one thing that will save you the most time: <strong>Tab autocomplete</strong>. Start typing a folder or file name and press Tab — the Terminal will finish it for you. This is magic and you'll use it constantly.</p>
-      <p>See the full Terminal cheat sheet below — bookmark it, print it, tattoo it somewhere.</p>
-    </div>
-  </div>
-
-  <!-- STEP 3 -->
-  <div class="step">
-    <div class="step-num">3</div>
-    <div class="step-content">
-      <h3>Install Claude Code</h3>
-      <p>Claude Code is the AI that will build with you. It runs inside your Terminal and responds to plain English instructions. You type what you want. It writes the code.</p>
-      <p>Before you can install Claude Code, your Mac needs two things: <strong>Node.js</strong> (a behind-the-scenes tool that runs code) and <strong>npm</strong> (a package manager — it's how you install tools like Claude Code). Don't worry about understanding these fully. Just install them.</p>
-      <div class="terminal">
-        <code><span class="comment"># Step 1: Install Node.js from nodejs.org — download the LTS version</span>
-<span class="comment"># (LTS means Long Term Support — the stable, recommended one)</span>
-
-<span class="comment"># Step 2: Once Node.js is installed, install Claude Code:</span>
-npm install -g @anthropic-ai/claude-code
-
-<span class="comment"># Step 3: Navigate to your Projects folder:</span>
-cd ~/Projects
-
-<span class="comment"># Step 4: Start Claude Code:</span>
-claude</code>
-      </div>
-      <p>The first time you run it, Claude Code will ask you to sign in with your Anthropic account. Do that. Then you'll see a prompt. Type something. It'll respond. You're in.</p>
-    </div>
-  </div>
-
-  <!-- STEP 4 -->
-  <div class="step">
-    <div class="step-num">4</div>
-    <div class="step-content">
-      <h3>Set up GitHub — your safety net</h3>
-      <p>GitHub is where you save your work. Not just save — <em>version</em> it. Every time you make something work, you commit it to GitHub. If something breaks later, you can always go back. Think of it as an undo button with a memory.</p>
-      <p>Go to <strong>github.com</strong> and create a free account. Then install the GitHub command line tool:</p>
-      <div class="terminal">
-        <code><span class="comment"># Install GitHub CLI (command line interface)</span>
-brew install gh
-
-<span class="comment"># If brew isn't installed, install it first:</span>
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-
-<span class="comment"># Sign in to GitHub from your Terminal:</span>
-gh auth login</code>
-      </div>
-      <p>Once you're set up, you'll commit your work regularly. Claude Code will tell you when it's a good time. The habit to build: whenever something works, commit it.</p>
-      <div class="terminal">
-        <code><span class="comment"># The three commands you'll use constantly:</span>
-git add .
-git commit -m "describe what you just did"
-git push</code>
-      </div>
-    </div>
-  </div>
-
-  <!-- STEP 5 -->
-  <div class="step">
-    <div class="step-num">5</div>
-    <div class="step-content">
-      <h3>Run your first app locally</h3>
-      <p>Before putting anything on the internet, you run it on your own laptop. This is called running it "locally". Your laptop becomes a mini server. You open a browser and go to a local address — usually <code style="background: var(--highlight); padding: 2px 6px; font-family: 'DM Mono', monospace; font-size: 0.85rem;">localhost:3000</code> — and your app appears.</p>
-      <div class="terminal">
-        <code><span class="comment"># Most apps start with one of these:</span>
-npm run dev
-<span class="comment"># or</span>
-npm start</code>
-      </div>
-      <p>When you see something like <code style="background: var(--highlight); padding: 2px 6px; font-family: 'DM Mono', monospace; font-size: 0.85rem;">Local: http://localhost:3000</code> in your Terminal — open that address in your browser. There's your app. Running on your laptop. This is the moment.</p>
-    </div>
-  </div>
-
-  <!-- STEP 6 -->
-  <div class="step">
-    <div class="step-num">6</div>
-    <div class="step-content">
-      <h3>Deploy to Cloudflare — make it real</h3>
-      <p>Once your app works locally, you put it on the internet. Cloudflare Pages takes your GitHub repository and turns it into a live website — with a real URL you can share with anyone. It's free. It takes about five minutes.</p>
-      <ol style="margin: 20px 0 20px 20px; color: #4A4540; line-height: 2;">
-        <li>Go to <strong>pages.cloudflare.com</strong> and create a free account</li>
-        <li>Click <strong>Create a project</strong> → <strong>Connect to Git</strong></li>
-        <li>Select your GitHub repository</li>
-        <li>Cloudflare will ask how to build it — Claude Code will tell you the right settings</li>
-        <li>Click <strong>Deploy</strong></li>
-      </ol>
-      <p>Within minutes, Cloudflare gives you a URL. Your app is live. Anyone in the world can use it. That feeling doesn't go away.</p>
-      <div class="warning-box">
-        <strong>API Keys & Environment Variables</strong>
-        <p>If your app uses Claude's AI (it will), you'll have a secret API key. Don't put this in your code directly. Cloudflare has a section called <strong>Environment Variables</strong> where you store secrets safely. Claude Code will walk you through this.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CHEAT SHEET -->
-<section class="cheat-sheet" id="cheatsheet">
-  <span class="section-label">Reference</span>
-  <h2>Terminal Cheat Sheet</h2>
-  <p class="cheat-intro">Everything you need to know about the Terminal, on one page. Keep this open while you work. You'll refer to it constantly at first, then barely at all.</p>
-
-  <div class="cheat-grid">
-    <div class="cheat-section-header">Navigation</div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">pwd</span>
-      <span class="cheat-desc">Print working directory — shows you exactly where you are</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">ls</span>
-      <span class="cheat-desc">List everything in your current folder</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">ls -la</span>
-      <span class="cheat-desc">List everything, including hidden files (files starting with a dot)</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">cd Projects</span>
-      <span class="cheat-desc">Move into a folder called Projects</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">cd ..</span>
-      <span class="cheat-desc">Go up one level — back to the parent folder</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">cd ~</span>
-      <span class="cheat-desc">Go straight to your home folder, from anywhere</span>
-    </div>
-    <div class="cheat-section-header">Files & Folders</div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">mkdir my-app</span>
-      <span class="cheat-desc">Create a new folder called my-app</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">touch notes.txt</span>
-      <span class="cheat-desc">Create a new empty file called notes.txt</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">open .</span>
-      <span class="cheat-desc">Open the current folder in Finder — very useful</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">cat filename.txt</span>
-      <span class="cheat-desc">Print the contents of a file in the Terminal</span>
-    </div>
-    <div class="cheat-section-header">Running Apps</div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">npm run dev</span>
-      <span class="cheat-desc">Start most apps in development mode</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">npm install</span>
-      <span class="cheat-desc">Install all the packages a project needs (run this first in a new project)</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">Ctrl + C</span>
-      <span class="cheat-desc">Stop whatever is running — the most important shortcut you'll use</span>
-    </div>
-    <div class="cheat-section-header">Git / GitHub</div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">git status</span>
-      <span class="cheat-desc">See what files have changed since your last commit</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">git add .</span>
-      <span class="cheat-desc">Stage all changed files, ready to commit</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">git commit -m "..."</span>
-      <span class="cheat-desc">Save a snapshot with a description of what you changed</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">git push</span>
-      <span class="cheat-desc">Send your commits up to GitHub</span>
-    </div>
-    <div class="cheat-item">
-      <span class="cheat-cmd">git log</span>
-      <span class="cheat-desc">See a history of all your commits</span>
-    </div>
-  </div>
-
-  <div class="cheat-quirk">
-    <strong>⚠ The quirks nobody tells you</strong>
-    <p><strong>You cannot click to move your cursor.</strong> Unlike a normal text editor, clicking in the middle of a line does nothing. Use the ← and → arrow keys to navigate. Use backspace to delete. One character at a time.</p>
-    <p><strong>Tab autocomplete is your best friend.</strong> Start typing a folder or file name and press Tab — the Terminal will complete it for you. If nothing happens, press Tab twice to see all possibilities. Use this constantly.</p>
-    <p><strong>↑ arrow = previous command.</strong> Press the up arrow to cycle through commands you've already typed. You'll use this constantly instead of retyping things.</p>
-    <p><strong>Nothing happens when you type a password.</strong> If the Terminal asks for your Mac password, type it and press Enter — even though nothing appears on screen. It's reading your input, just not showing it.</p>
-  </div>
-</section>
-
-<!-- HOW TO BUILD -->
-<section class="how-section" id="how">
-  <span class="section-label">How to build</span>
-  <h2>From idea to working app.<br>The process.</h2>
-  <p style="max-width:600px; color:var(--stone); margin-bottom:60px;">Claude Code isn't just a code writer. It's a thinking partner. Before it writes a single line, it will plan with you. This is the most important part — and most people skip it.</p>
-
-  <div class="process-flow">
-
-    <div class="process-step">
-      <div class="process-icon">01</div>
-      <div class="process-body">
-        <h3>Write your brief</h3>
-        <p>Describe what you want to build in plain English. Don't worry about technical terms. Don't worry about being precise. Describe the experience you want someone to have. Who is this for? What does it do? How does it feel to use it?</p>
-        <p>The brief doesn't have to be right. It just has to be honest. Claude Code will ask you questions if it needs more.</p>
-        <div class="process-tip">
-          <strong>The ingredients of a good brief:</strong>
-          <ul class="tip-list">
-            <li><strong>What it is</strong> — describe it like you'd describe it to a friend</li>
-            <li><strong>Who uses it</strong> — one specific person, not "everyone"</li>
-            <li><strong>What they do with it</strong> — the main thing, the core interaction</li>
-            <li><strong>What it feels like</strong> — warm? sharp? playful? serious?</li>
-            <li><strong>What it should NOT do</strong> — constraints are as useful as requirements</li>
+      <details class="accordion">
+        <summary>Where should I save my API key?</summary>
+        <div class="accordion-body">
+          <p>Open TextEdit (or Notes), paste your key in, and save the file somewhere you'll remember — something like <strong>API Keys.txt</strong> on your Desktop.</p>
+          <p>This is worth doing properly because:</p>
+          <ul>
+            <li><strong>You can't go back for it.</strong> Once you close the Anthropic page, the key is hidden forever. You'd have to delete it and create a new one.</li>
+            <li><strong>You'll get more keys over time.</strong> As you explore other AI tools, you'll collect API keys from different services. One file to keep them all is a good habit to start now.</li>
+            <li><strong>Never share it.</strong> Your API key is tied to your account and your billing. Anyone who has it can use it — and you'll pay for their usage. Treat it like a bank PIN.</li>
           </ul>
         </div>
+      </details>
+
+      <div class="callout callout-warn">
+        <strong>Cost</strong>
+        <p>You get free credit to start. For learning projects, this goes a long way.</p>
+      </div>
+      <div class="callout">
+        <strong>You won't need to configure anything manually</strong>
+        <p>Claude Code will ask for this key the first time you run it. Just paste it in and press Return.</p>
       </div>
     </div>
 
-    <div class="process-step">
-      <div class="process-icon">02</div>
-      <div class="process-body">
-        <h3>Start in planning mode — don't build yet</h3>
-        <p>This is the most important thing in this entire guide. When you first start Claude Code, add these words to your brief:</p>
-        <div class="terminal">
-          <code><span class="comment"># Start Claude Code in your project folder:</span>
-claude
-
-<span class="comment"># Then paste your brief, followed by this instruction:</span>
-<span style="color:#E8C97A;">Before writing any code, I want you to think through this
-carefully and give me a detailed plan. What will you build?
-What are the main components? What decisions are you making
-and why? Do not start coding until I approve the plan.</span></code>
+    <div class="card">
+      <div class="prereq-header">
+        <span class="prereq-letter">B</span>
+        <div class="prereq-header-text">
+          <h3>Node.js</h3>
+          <a class="prereq-url" href="https://nodejs.org" target="_blank">nodejs.org ↗</a>
         </div>
-        <p>Claude Code will give you a clear breakdown of what it intends to build. Read it. Question it. Push back if something doesn't sound right. This is your chance to steer before anything is built.</p>
-        <div class="warning-box">
+      </div>
+      <p>A runtime that lets your Mac execute JavaScript. Claude Code requires it.</p>
+      <ol>
+        <li>Go to <strong>nodejs.org</strong> and download the <strong>LTS</strong> version</li>
+        <li>Run the installer</li>
+        <li>Verify: open Terminal and type <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">node --version</code></li>
+      </ol>
+      <div class="callout">
+        <strong>Note</strong>
+        <p>To verify, you'll need Terminal — which we cover in the next section. Come back and check this after Step 1.</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="checklist">
+    <strong>Checklist</strong>
+    <ul>
+      <li>Anthropic account created and API key saved</li>
+      <li>Node.js installed and working</li>
+    </ul>
+  </div>
+</div>
+
+<!-- THE STACK -->
+<div class="section" id="stack">
+  <span class="section-label">03 — The Stack</span>
+  <h2>Two tools, used together. <span>Each tool does one job. You don't need to understand them fully before starting.</span></h2>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <span class="card-num">01</span>
+      <h3>Claude Code</h3>
+      <p>Your AI co-builder. You describe what you want in plain English. It writes the code.</p>
+      <a class="card-tag" href="https://claude.ai/code" target="_blank">claude.ai/code ↗</a>
+    </div>
+    <div class="card">
+      <span class="card-num">02</span>
+      <h3>Terminal</h3>
+      <p>The way developers control their Mac. Instead of clicking icons and menus, you type commands. It can do everything Finder can do — and a lot that Finder can't.</p>
+      <span class="card-tag">Built into macOS</span>
+      <details class="accordion" style="margin-top:12px;">
+        <summary>What is Terminal, really?</summary>
+        <div class="accordion-body">
+          <p>Your Mac has two ways to interact with it. There's the one you already know — windows, icons, clicking, dragging. That's the <strong>graphical interface</strong>. Then there's the one underneath: a text-based interface where you type commands and your Mac does exactly what you tell it.</p>
+          <p>That's Terminal. It's an app already on your Mac — you don't need to install anything.</p>
+          <p>It looks intimidating at first because it's just a blank window with a blinking cursor. No buttons, no menus. But that blankness is the point. You type a command, press Return, and something happens. Want to create a folder? One command. Move a file? One command. Install a tool? One command.</p>
+          <p>Developers live in Terminal because it's faster and more powerful than clicking through Finder. And crucially — <strong>Claude Code runs inside Terminal.</strong> When you type <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">claude</code> into Terminal, you're starting a conversation with an AI that can build entire apps for you.</p>
+          <p>You don't need to master Terminal. You need about five commands to get going, and we'll teach you all of them.</p>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px;">
+    <strong>What comes later</strong>
+    <p>Later, in <a href="workshop-2.html" style="color:var(--red);text-decoration:underline;">Workshop 2</a>, you'll also use GitHub (for saving your code online) and learn how to put your app on the internet so other people can use it.</p>
+  </div>
+</div>
+
+<!-- SETUP STEPS -->
+<div class="section" id="steps">
+  <span class="section-label">04 — Setup</span>
+  <h2>Step-by-step setup. <span>Follow these in order. Each step builds on the last. If something doesn't work, ask Claude Code why.</span></h2>
+
+  <div class="steps">
+    <div class="step">
+      <div class="step-num">1</div>
+      <div class="step-body">
+        <h3>Open Terminal</h3>
+        <p>Press <strong>⌘ + Space</strong>, type <strong>Terminal</strong>, press Enter. A window opens with a blinking cursor waiting for commands.</p>
+        <div class="callout callout-warn">
+          <strong>Terminal is not a text editor</strong>
+          <p>You can't click to position the cursor. Navigate with ← → arrow keys. Delete with backspace, one character at a time.</p>
+        </div>
+        <p><strong>Tab autocomplete:</strong> Start typing a folder or file name and press Tab. Terminal finishes it for you. Use this constantly.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">2</div>
+      <div class="step-body">
+        <h3>Create a local project folder</h3>
+        <p>Your work needs to live in a folder on your Mac — not in iCloud. iCloud syncing causes problems with these tools.</p>
+        <div class="callout callout-warn">
+          <strong>iCloud problem</strong>
+          <p>If your files are in iCloud (Desktop or Documents), Claude Code and git will behave unpredictably. Create a folder outside iCloud.</p>
+        </div>
+        <p><strong>How:</strong> Open Finder → Go → Home. Create a folder called <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">Projects</code>. This is where everything goes.</p>
+        <p>Now create a project subfolder inside it. Back in Terminal:</p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <span class="cmd-label">Navigate to your Projects folder:</span>
+            <div class="cmd-box">
+              <code>cd ~/Projects</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <span class="cmd-label">Create a project subfolder:</span>
+            <div class="cmd-box">
+              <code>mkdir my-first-agent</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <span class="cmd-label">Move into it:</span>
+            <div class="cmd-box">
+              <code>cd my-first-agent</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+        <p>You now have an empty project folder. This is where Claude Code will build your app.</p>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">3</div>
+      <div class="step-body">
+        <h3>Install Claude Code</h3>
+        <p>Claude Code runs in your Terminal. You type what you want, it writes the code.</p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <span class="cmd-label">Install Claude Code globally. Type this and press Return:</span>
+            <div class="cmd-box">
+              <code>npm install -g @anthropic-ai/claude-code</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <span class="cmd-note">This will take a minute. Wait until you see your cursor again.</span>
+          </div>
+          <div class="cmd-step">
+            <span class="cmd-label">Start Claude Code. That's it — just the word <strong>claude</strong>:</span>
+            <div class="cmd-box">
+              <code>claude</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <span class="cmd-note">First run will ask you to sign in with your Anthropic account. After that, you'll see this:</span>
+          </div>
+        </div>
+
+        <div class="callout callout-warn">
+          <strong>Xcode Command Line Tools</strong>
+          <p>If you see a popup asking to install "Command Line Tools" or "Xcode", click Install. This is normal on a fresh Mac and can take 10-20 minutes. It only happens once.</p>
+        </div>
+
+        <div class="cw-screen">
+          <div class="cw-prompt-lines">
+            <span>user@MacBook-Pro ~ % cd Projects/my-first-agent</span>
+            <span>user@MacBook-Pro my-first-agent % claude</span>
+          </div>
+          <div class="cw-main">
+            <div class="cw-left">
+              <div class="cw-header">Claude Code <span>v2.1.72</span></div>
+              <div class="cw-body">
+                <div class="cw-welcome">Welcome back!</div>
+                <div class="cw-mascot-grid"></div>
+                <div class="cw-info">Opus 4.6 · ~/Projects/my-first-agent</div>
+              </div>
+            </div>
+            <div class="cw-right">
+              <div class="cw-tips">
+                <div class="cw-tips-title">Tips for getting started</div>
+                <div class="cw-tips-body">Run /init to create a CLAUDE.md …</div>
+              </div>
+              <div class="cw-activity">
+                <div class="cw-activity-title">Recent activity</div>
+                <div class="cw-activity-body">1w ago  npm run dev<br>1w ago  npm install<br><em>/resume for more</em></div>
+              </div>
+            </div>
+          </div>
+          <div class="cw-input">
+            <span class="cw-chevron">›</span>
+            <span class="cw-cursor">▌</span>
+          </div>
+          <div class="cw-hint">? for shortcuts</div>
+        </div>
+
+        <p style="margin-top:16px;">Claude Code will ask for your Anthropic API key on first launch. Paste the key you saved earlier and press Return.</p>
+
+        <div class="pattern-box">
+          <div class="pattern-title">The pattern you'll use every time</div>
+          <div class="pattern-body">
+            <p>Open a new Terminal window (<strong>⌘ + N</strong>), then type these two commands:</p>
+            <div class="cmd-steps" style="margin:8px 0 0;">
+              <div class="cmd-step">
+                <div class="cmd-box"><code>cd ~/Projects/my-first-agent</code><button class="cmd-copy" onclick="copyCmd(this)">Copy</button></div>
+              </div>
+              <div class="cmd-step">
+                <div class="cmd-box"><code>claude</code><button class="cmd-copy" onclick="copyCmd(this)">Copy</button></div>
+              </div>
+            </div>
+            <p style="margin-top:10px; font-size:13px; color:var(--muted-fg);">That's it. You're in Claude Code, ready to build.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Describe what you want to build</h3>
+        <p>This is where you tell Claude Code what to build. You type in the <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">›</code> prompt — the same place you'd type a message.</p>
+
+        <p><strong>Write a brief.</strong> Describe what you want to build in plain English. Include: what it does, who it's for, how it should feel to use, and what it should not do.</p>
+        <div class="tip">
+          <strong>A good brief includes</strong>
+          <ul>
+            <li><strong>What it is</strong> — describe it like you'd tell a friend</li>
+            <li><strong>Who uses it</strong> — one specific person, not "everyone"</li>
+            <li><strong>The core interaction</strong> — the main thing they do with it</li>
+            <li><strong>Constraints</strong> — what it should not do</li>
+          </ul>
+        </div>
+
+        <p style="margin-top:16px;"><strong>Ask for a plan first.</strong> Add this to the end of your brief before Claude Code starts building:</p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <div class="cmd-box" style="align-items:flex-start;">
+              <code style="white-space:pre-wrap;line-height:1.6;">Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making and why? Do not start coding until I approve the plan.</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+        <div class="callout callout-warn">
           <strong>Why this matters</strong>
-          <p>If you let Claude Code start building immediately, it will make dozens of decisions you didn't know were being made. Planning mode surfaces those decisions. It's the difference between directing a project and inheriting one.</p>
+          <p>Without a plan, Claude Code makes dozens of decisions you don't see. Planning surfaces those decisions so you can steer.</p>
+        </div>
+
+        <p style="margin-top:16px;"><strong>Review and approve.</strong> Read the plan. Ask about anything you don't understand. Change anything that doesn't match what you want. When it looks right:</p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <div class="cmd-box">
+              <code>That looks good. Go ahead and build it.</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
-    <div class="process-step">
-      <div class="process-icon">03</div>
-      <div class="process-body">
-        <h3>Review and approve the plan</h3>
-        <p>Read the plan carefully. Ask yourself: does this match what I imagined? Are there things I didn't think about that I should have an opinion on? Are there things in the plan I don't understand?</p>
-        <p>Ask Claude Code to explain anything you don't understand. Change anything that doesn't feel right. When the plan matches your vision, say:</p>
-        <div class="terminal">
-          <code><span style="color:#E8C97A;">That looks good. Go ahead and build it.</span></code>
+    <div class="step">
+      <div class="step-num">5</div>
+      <div class="step-body">
+        <h3>Run your app</h3>
+        <p>Once Claude Code finishes building, run the app on your own machine. Your laptop becomes a temporary server.</p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <span class="cmd-label">Start the development server:</span>
+            <div class="cmd-box">
+              <code>npm run dev</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <span class="cmd-note">Look for a line like "Local: http://localhost:3000" — open that URL in your browser.</span>
+          </div>
         </div>
-        <p>Then watch. It will build quickly. When it's done, it will usually tell you how to run it locally — type the command it gives you, open your browser, and see what you've made.</p>
+        <p>When you see something running in your browser — congratulations. You just built an AI agent. You described an idea in plain English and turned it into working software.</p>
       </div>
     </div>
 
-    <div class="process-step">
-      <div class="process-icon">04</div>
-      <div class="process-body">
-        <h3>Use it. Break it. Improve it.</h3>
-        <p>The first version is never the final version. Use the app. Notice what doesn't feel right. Notice what's missing. Then go back to Claude Code and describe what you want to change — just like the original brief. Plain English. Specific and honest.</p>
-        <div class="terminal">
-          <code><span class="comment"># Examples of good enhancement prompts:</span>
-
-<span style="color:#E8C97A;">"The tone feels too formal. I want it to feel more like a
-conversation with a smart friend."</span>
-
-<span style="color:#E8C97A;">"When I ask it something it doesn't know, it makes things
-up. I want it to say it doesn't know instead."</span>
-
-<span style="color:#E8C97A;">"I want to add a way to save the conversations so I can
-come back to them."</span></code>
-        </div>
-        <p>Each enhancement is a new brief. Each new brief is another loop through this process. This is how software is built — not in one big push, but in small, considered iterations.</p>
-        <div class="process-tip">
-          <strong>Commit before every change.</strong>
-          Always run <code style="font-family:'DM Mono',monospace; background:rgba(196,80,26,0.15); padding:2px 6px; font-size:0.82rem; color:var(--rust-light);">git add . && git commit -m "working version before changes"</code> before asking Claude Code to modify something. That way, if it breaks, you can always go back.
+    <div class="step">
+      <div class="step-num"></div>
+      <div class="step-body">
+        <div class="callout callout-warn">
+          <strong>When things go wrong</strong>
+          <p>When you see an error — and you will — don't panic. Copy the error message, paste it back into Claude Code, and say "I got this error, can you fix it?" This is completely normal. Even experienced developers spend most of their time fixing errors. Claude Code is very good at this.</p>
         </div>
       </div>
     </div>
 
+    <div class="step">
+      <div class="step-num">6</div>
+      <div class="step-body">
+        <h3>Improve it</h3>
+        <p>Run the app, use it, notice what's wrong or missing. Go back to Claude Code and describe changes in plain English. Examples:</p>
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <div class="cmd-box">
+              <code>The tone is too formal. Make it conversational.</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <div class="cmd-box" style="align-items:flex-start;">
+              <code style="white-space:pre-wrap;line-height:1.6;">When it doesn't know something, it makes things up. I want it to say it doesn't know instead.</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+          <div class="cmd-step">
+            <div class="cmd-box">
+              <code>Add a way to save conversations.</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</section>
+</div>
 
-<!-- IDEAS -->
-<section class="ideas-section" id="ideas">
-  <span class="section-label">Project ideas</span>
-  <h2>The blank page problem — solved.</h2>
+<!-- THINGS YOU CAN DO WITH CLAUDE CODE -->
+<div class="section" id="claude-tips">
+  <span class="section-label">05 — Beyond the brief</span>
+  <h2>Claude Code is a conversation, not a command. <span>Pasting a brief is just the start. Here are some of the things you can say to it once your project is running.</span></h2>
 
-  <div class="ideas-intro">
-    <p>The hardest part of getting started is knowing what to build. Pick one of these six agent types. Click it. You'll get a complete brief you can paste straight into Claude Code, plus a set of ideas for where to take it next.</p>
-    <p style="margin-top: 12px; font-size: 0.88rem; color: var(--stone);">The brief doesn't have to be right. It just has to be yours. Start somewhere and let it evolve.</p>
+  <div class="claude-tips-grid">
+    <div class="claude-tip-card">
+      <h3>Ask for its opinion</h3>
+      <p>Claude Code can look at what you've built and tell you what's working and what isn't. It's like having a second pair of eyes.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">Look at what we've built so far. What would you improve? What feels rough or unfinished?</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-tip-card">
+      <h3>Explain what it did</h3>
+      <p>If Claude Code just built something and you have no idea how it works — ask. It'll walk you through it in plain English.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">Explain what you just built like I'm a complete beginner. What are the main parts and how do they fit together?</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-tip-card">
+      <h3>Fix something that broke</h3>
+      <p>When you see an error, don't try to understand it. Just copy the whole error message, paste it in, and let Claude Code handle it.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">I got this error: [paste the error]. Can you fix it?</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-tip-card">
+      <h3>Change how it looks</h3>
+      <p>You don't need to know CSS or design terminology. Describe what you want it to feel like and Claude Code will figure out the rest.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">The design feels generic and boring. Make it feel more like a luxury brand — clean, minimal, lots of white space, elegant typography.</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-tip-card">
+      <h3>Add a feature</h3>
+      <p>Describe what you want it to do, not how to build it. Claude Code turns your ideas into working features.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">I want users to be able to save their conversations and come back to them later. Add that.</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-tip-card">
+      <h3>Think out loud together</h3>
+      <p>You don't always need to give instructions. Sometimes just describe a problem and let Claude Code help you think through it.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">I'm not sure whether this should be one page or multiple pages. What are the trade-offs? What would you recommend?</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="idea-cards">
+  <div class="callout" style="margin-top:20px;">
+    <strong>The key idea</strong>
+    <p>Talk to Claude Code the way you'd talk to a smart colleague. You don't need special commands or technical language. If you can describe what you want in a sentence, Claude Code can usually do it.</p>
+  </div>
+</div>
+
+<!-- TERMINAL CHEAT SHEET -->
+<div class="section" id="terminal">
+  <span class="section-label">06 — Reference</span>
+  <h2>Terminal cheat sheet. <span>Keep this open while you work.</span></h2>
+
+  <div class="cheat-grid">
+    <div class="cheat-group-header">Navigation</div>
+    <div class="cheat-item"><span class="cheat-cmd">pwd</span><span class="cheat-desc">Show current directory</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">ls</span><span class="cheat-desc">List files in current folder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">ls -la</span><span class="cheat-desc">List all files including hidden</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cd folder-name</span><span class="cheat-desc">Move into a folder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cd ..</span><span class="cheat-desc">Go up one level</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cd ~</span><span class="cheat-desc">Go to home folder</span></div>
+
+    <div class="cheat-group-header">Files</div>
+    <div class="cheat-item"><span class="cheat-cmd">mkdir my-app</span><span class="cheat-desc">Create a new folder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">touch file.txt</span><span class="cheat-desc">Create an empty file</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">open .</span><span class="cheat-desc">Open current folder in Finder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cat file.txt</span><span class="cheat-desc">Print file contents</span></div>
+
+    <div class="cheat-group-header">Running apps</div>
+    <div class="cheat-item"><span class="cheat-cmd">npm run dev</span><span class="cheat-desc">Start development server</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">npm install</span><span class="cheat-desc">Install project dependencies</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">Ctrl + C</span><span class="cheat-desc">Stop whatever is running</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">claude</span><span class="cheat-desc">Start Claude Code</span></div>
+  </div>
+
+  <div class="cheat-note">
+    <strong>Things nobody tells you</strong>
+    <p><strong>You can't click to move the cursor.</strong> Use ← → arrow keys. Backspace to delete.</p>
+    <p><strong>Tab autocomplete.</strong> Start typing a name, press Tab. Terminal finishes it.</p>
+    <p><strong>↑ arrow = previous command.</strong> Cycles through your command history.</p>
+    <p><strong>Passwords are invisible.</strong> When Terminal asks for your Mac password, type it and press Enter — nothing appears on screen, but it's working.</p>
+  </div>
+</div>
+
+<!-- PROJECT IDEAS -->
+<div class="section" id="projects">
+  <span class="section-label">07 — Project Ideas</span>
+  <h2>Starter projects. <span>Pick one. Click it for a complete brief you can paste straight into Claude Code.</span></h2>
+
+  <div class="grid grid-3">
     <div class="idea-card" onclick="openProject('archivist')">
-      <span class="idea-emoji">🗂</span>
       <h3>The Archivist</h3>
-      <p>Feed it your notes, writing, voice memos. Ask it questions about your own thinking.</p>
-      <div class="idea-cta">View full brief & build guide →</div>
+      <p>Feed it your notes and writing. Ask it questions about your own thinking.</p>
+      <div class="idea-cta">View brief →</div>
     </div>
     <div class="idea-card" onclick="openProject('interviewer')">
-      <span class="idea-emoji">🎤</span>
       <h3>The Interviewer</h3>
-      <p>It asks you questions to build a living document of your knowledge and experience.</p>
-      <div class="idea-cta">View full brief & build guide →</div>
+      <p>It asks you questions to capture and organise your knowledge.</p>
+      <div class="idea-cta">View brief →</div>
     </div>
     <div class="idea-card" onclick="openProject('advisor')">
-      <span class="idea-emoji">🧭</span>
       <h3>The Advisor</h3>
-      <p>Knows your context. Acts as a thinking partner on a domain you care about.</p>
-      <div class="idea-cta">View full brief & build guide →</div>
+      <p>A thinking partner that knows your context and pushes back.</p>
+      <div class="idea-cta">View brief →</div>
     </div>
     <div class="idea-card" onclick="openProject('explainer')">
-      <span class="idea-emoji">📖</span>
       <h3>The Explainer</h3>
-      <p>Takes something complex and makes it genuinely accessible to one specific person.</p>
-      <div class="idea-cta">View full brief & build guide →</div>
+      <p>Takes something complex and makes it accessible to a specific person.</p>
+      <div class="idea-cta">View brief →</div>
     </div>
     <div class="idea-card" onclick="openProject('curator')">
-      <span class="idea-emoji">🔍</span>
       <h3>The Curator</h3>
-      <p>Monitors a topic you care about. Surfaces what matters and filters out the noise.</p>
-      <div class="idea-cta">View full brief & build guide →</div>
+      <p>Monitors a topic and surfaces what matters, filtering the noise.</p>
+      <div class="idea-cta">View brief →</div>
     </div>
     <div class="idea-card" onclick="openProject('character')">
-      <span class="idea-emoji">🎭</span>
       <h3>The Character</h3>
-      <p>A persona — a mentor, a historical figure, a composite of people you admire.</p>
-      <div class="idea-cta">View full brief & build guide →</div>
+      <p>A custom persona — a mentor, historical figure, or fictional advisor.</p>
+      <div class="idea-cta">View brief →</div>
     </div>
   </div>
 
-  <div class="duncan-card" style="margin-top: 40px;">
-    <span class="section-label">A tip about starting</span>
-    <h3>Your first idea will probably change. That's the point.</h3>
-    <p>You might start wanting to build an archivist — something that organises your notes and writing. Then realise everything you know is in your head, not on paper. So you flip the brief: instead of an archivist, you build an interviewer that asks you questions to draw out what you know.</p>
-    <p style="margin-top: 16px;">Same instinct. Different form. The brief evolved in minutes. That's the process. Start with what feels right, and let the act of building teach you what you actually want.</p>
+  <div class="idea-tip">
+    <h3>Your first idea will change</h3>
+    <p>You might start wanting to build an archivist, then realise everything you know is in your head, not on paper. So you flip the brief to an interviewer instead. Same instinct, different form. Start with what feels right and let the process teach you what you actually want.</p>
   </div>
-</section>
+</div>
 
-<!-- PROJECT DETAIL PANEL -->
+<!-- WHAT'S NEXT -->
+<div class="section" id="next">
+  <span class="section-label">Ready for more?</span>
+  <h2>Your app works on your laptop. <span>Now let's put it on the internet so other people can use it.</span></h2>
+  <a href="workshop-2.html" class="next-workshop-link">
+    <div class="next-workshop-card">
+      <div class="next-workshop-badge">Workshop 2</div>
+      <h3>Put it on the internet</h3>
+      <p>Get a real URL that anyone can visit. Learn how to save your code online and share what you've built with the world.</p>
+      <span class="next-workshop-arrow">&rarr;</span>
+    </div>
+  </a>
+</div>
+
+<!-- NEED HELP -->
+<div class="section" id="help">
+  <div class="help-box">
+    <h3>Stuck? Need help?</h3>
+    <p>If you hit a wall at any point — something doesn't install, Claude gives you an error, or you just don't know what to do next — get in touch. I'll respond.</p>
+    <a href="mailto:chris@datadowns.com" class="help-email">chris@datadowns.com</a>
+  </div>
+</div>
+
+</div><!-- end container -->
+
+<!-- PROJECT PANEL -->
 <div class="project-overlay" id="projectOverlay" onclick="closeProject(event)">
   <div class="project-panel" id="projectPanel">
-    <button class="panel-close" onclick="closeProject()">✕ Close</button>
+    <button class="panel-close" onclick="closeProject()">Close</button>
     <div id="projectContent"></div>
   </div>
 </div>
 
-<!-- ABOUT -->
-<section class="about-section" id="about">
-  <div class="about-badge">
-    <div class="about-badge-name">Vibe Builders</div>
-    <div class="about-badge-title">Build AI agents · No experience required</div>
-    <div class="about-badge-bio">This guide exists because the barrier to building software looks high — but it's paper thin. The terminal is intimidating until you use it. The jargon is opaque until someone explains it plainly. Claude Code is the tool that bridges the gap between your ideas and working code.</div>
-  </div>
-  <div>
-    <span class="section-label">Why this exists</span>
-    <h2>The door was always open.</h2>
-    <p>The assumption — implicit everywhere in tech culture — is that you need a particular kind of brain to build software. You don't.</p>
-    <p>What you need is a clear sense of what you want to build, and a tool that bridges the gap between your ideas and working code. Claude Code is that tool. This guide is the map.</p>
-    <p>Start. Make mistakes. Ask questions. Iterate. That's the whole method.</p>
-  </div>
-</section>
-
+<div class="container">
 <footer>
-  <a href="#" class="footer-logo">Vibe<span>Builders</span></a>
-  <span>Made on a Mac. Built with Claude Code. Deployed on Cloudflare.</span>
-  <span>For Mac users only · © 2026</span>
+  <strong>Vibe Builders</strong>
+  <span>Mac only · 2026</span>
 </footer>
+</div>
 
 <script>
 const projects = {
   archivist: {
-    emoji: '🗂',
-    label: 'Agent Type 01',
+    label: 'Project 01',
     title: 'The Archivist',
-    desc: 'You have more thinking recorded than you realise. Emails, notes, documents, voice memos, half-finished essays. The Archivist turns all of that into something you can have a conversation with — asking questions of your own mind, finding threads you forgot you had, building a picture of what you actually believe.',
+    desc: 'A personal knowledge agent. Paste in your writing — notes, emails, documents — and ask it questions about your own thinking. Finds connections you forgot you had.',
     brief: `I want to build a web app called The Archivist.
 
-It's a personal knowledge agent. The user can paste in pieces of their own writing — notes, emails, documents, fragments of thinking — and the agent learns from them. The user can then ask the agent questions and get answers that are grounded in their own writing.
+It's a personal knowledge agent. The user can paste in pieces of their own writing — notes, emails, documents, fragments of thinking — and the agent learns from them. The user can then ask the agent questions and get answers grounded in their own writing.
 
-The interface should feel calm and considered. Two panels: on the left, a place to add writing (paste text, give it a title and a date). On the right, a conversation with the agent.
+The interface should be clean and functional. Two panels: on the left, a place to add writing (paste text, give it a title and a date). On the right, a conversation with the agent.
 
 The agent's personality: thoughtful, precise, never makes things up. If the answer isn't in the writing, it says so. It occasionally notices connections and surfaces them unprompted.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514), clean GOV.UK-inspired design. Store submitted writing in memory for the session.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store submitted writing in memory for the session.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
-      { tag: 'V1', title: 'Paste & ask', desc: 'A single text input to paste writing, a conversation panel to ask questions. Gets you talking to your own thinking.' },
-      { tag: 'V2', title: 'Multiple sources', desc: 'Add the ability to label and store multiple pieces of writing. The agent knows which source each answer draws from.' },
-      { tag: 'V3', title: 'Surfaced insights', desc: 'The agent occasionally offers connections it has noticed between different pieces — without being asked.' },
-      { tag: 'V4', title: 'Export', desc: 'Save conversations to a document. Build up a record of what you\'ve discovered about your own thinking.' },
+      { tag: 'V1', title: 'Paste and ask', desc: 'Single text input plus conversation panel. The core loop.' },
+      { tag: 'V2', title: 'Multiple sources', desc: 'Label and store multiple pieces of writing. Agent cites which source it draws from.' },
+      { tag: 'V3', title: 'Surfaced insights', desc: 'Agent offers connections between different pieces without being asked.' },
+      { tag: 'V4', title: 'Export', desc: 'Save conversations as documents.' },
     ],
-    enhancements: [
-      'Add a way to upload documents (PDFs, Word files) directly, rather than pasting text',
-      'Let the agent generate a one-page summary of all the thinking it has been given',
-      'Add a "what do I believe about X?" mode — a deeper, slower response that synthesises across everything',
-      'Build a timeline view — arrange thinking chronologically and ask the agent how your views have changed',
-      'Add voice input, so you can speak questions instead of typing them',
-    ]
+    enhancements: ['Upload documents (PDF, Word) directly instead of pasting','Generate a one-page summary of all submitted thinking','Add a "what do I believe about X?" mode for deeper synthesis','Timeline view showing how your thinking has changed','Voice input for questions']
   },
-
   interviewer: {
-    emoji: '🎤',
-    label: 'Agent Type 02',
+    label: 'Project 02',
     title: 'The Interviewer',
-    desc: 'Some of the most valuable thinking you have was never written down. It lives in your head — built from decades of experience, pattern recognition, hard-won knowledge. The Interviewer draws it out. It asks you questions, listens carefully, asks follow-ups, and builds a document of your thinking as you talk.',
+    desc: 'A conversational agent that interviews you to capture expertise that lives in your head. Asks open questions, follows threads, and builds a document of your knowledge.',
     brief: `I want to build a web app called The Interviewer.
 
-It's a conversational agent that interviews the user to capture and preserve their expertise. The user tells the agent what domain or subject they want to be interviewed about — their career, a project, a period of their life, a specialist field they know deeply. The agent then conducts a thoughtful, curious interview: asking open questions, listening to the answers, following threads, occasionally challenging.
+It's a conversational agent that interviews the user to capture and preserve their expertise. The user tells the agent what domain or subject they want to be interviewed about. The agent then conducts a thoughtful, curious interview: asking open questions, listening, following threads, occasionally challenging.
 
 At any point, the user can ask the agent to summarise what it has learned so far.
 
-The agent's personality: genuinely curious, warm but rigorous, asks one question at a time, never rushes, occasionally says "that's interesting — tell me more about that."
+The agent's personality: genuinely curious, warm but rigorous, asks one question at a time, never rushes.
 
-Interface: Simple. A clean chat interface. A "Summarise what you've learned" button. An "Export conversation" button.
+Interface: A clean chat interface. A "Summarise what you've learned" button. An "Export conversation" button.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Mobile-friendly — people might want to use this on their phone.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Mobile-friendly.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
-      { tag: 'V1', title: 'Topic + interview', desc: 'User names a topic. Agent interviews them. Clean, flowing conversation.' },
-      { tag: 'V2', title: 'Live summary', desc: 'A sidebar that updates in real time, capturing key points as the interview unfolds.' },
-      { tag: 'V3', title: 'Interview modes', desc: 'Different modes: career history, a specific project, your philosophy on a topic, lessons learned.' },
-      { tag: 'V4', title: 'Export to document', desc: 'Generate a formatted document from the interview — ready to share or publish.' },
+      { tag: 'V1', title: 'Topic and interview', desc: 'User names a topic. Agent interviews them.' },
+      { tag: 'V2', title: 'Live summary', desc: 'Sidebar updating in real time with key points.' },
+      { tag: 'V3', title: 'Interview modes', desc: 'Career history, specific project, philosophy, lessons learned.' },
+      { tag: 'V4', title: 'Export', desc: 'Generate a formatted document from the interview.' },
     ],
-    enhancements: [
-      'Add voice mode — speak your answers, get spoken questions back',
-      'Build a "prepare me" mode — the agent briefs you on the topic before interviewing you',
-      'Create a "challenge me" mode where the agent pushes back on your answers, testing your thinking',
-      'Add a second agent that reviews the interview and identifies the most interesting moments',
-      'Build a "questions only" export — the list of questions generated, for use as a future interview guide',
-    ]
+    enhancements: ['Voice mode — speak answers, hear questions','A "prepare me" mode that briefs you before the interview','A "challenge me" mode where the agent pushes back','A second agent that reviews and identifies the most interesting moments','Export the questions as a reusable interview guide']
   },
-
   advisor: {
-    emoji: '🧭',
-    label: 'Agent Type 03',
+    label: 'Project 03',
     title: 'The Advisor',
-    desc: 'Not a search engine. Not a chatbot. A thinking partner that actually knows you — your situation, your constraints, your goals — and engages with your specific problems rather than generic ones. The Advisor is the most personal of the six agent types, because it\'s only as good as the context you give it.',
+    desc: 'A thinking partner that knows your situation, constraints, and goals. Engages with your specific problems rather than giving generic advice.',
     brief: `I want to build a web app called The Advisor.
 
-It's a personal thinking partner. When the user first opens it, they go through a short onboarding: they describe themselves, their work, their current situation, their key challenges, and what they want from this kind of tool. This context is stored and used in every subsequent conversation.
+It's a personal thinking partner. When the user first opens it, they go through a short onboarding: they describe themselves, their work, their current situation, their key challenges. This context is stored and used in every subsequent conversation.
 
-The agent then acts as a trusted advisor — someone who knows the user's context and engages seriously with whatever problem they bring. Not a life coach. Not a therapist. A smart, honest thinking partner who asks good questions and offers genuine perspective.
+The agent acts as a trusted advisor — someone who knows the user's context and engages seriously with whatever problem they bring. Not a life coach. A smart, honest thinking partner who asks good questions and offers genuine perspective.
 
 The agent's personality: direct, honest, not sycophantic. It will push back. It will say "I'm not sure that's the right framing." It will ask "what have you already tried?" before offering solutions.
 
-Interface: Onboarding screen first (simple form: who are you, what's your context, what do you want from this). Then a clean conversation interface. A small "your context" panel that can be edited.
+Interface: Onboarding screen first (who are you, what's your context). Then a conversation interface. A small editable "your context" panel.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store context in local state for the session.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store context in local state.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
-      { tag: 'V1', title: 'Context + conversation', desc: 'Onboarding that captures context, then a conversation that uses it throughout.' },
-      { tag: 'V2', title: 'Persistent context', desc: 'Context survives between sessions. The advisor remembers you.' },
-      { tag: 'V3', title: 'Modes', desc: 'Switch between modes: big picture thinking, a specific decision, a difficult conversation you\'re preparing for.' },
-      { tag: 'V4', title: 'Session notes', desc: 'At the end of each conversation, the advisor writes a short summary: what was discussed, what was decided, what to think about next.' },
+      { tag: 'V1', title: 'Context and conversation', desc: 'Onboarding captures context, conversation uses it throughout.' },
+      { tag: 'V2', title: 'Persistent context', desc: 'Context survives between sessions.' },
+      { tag: 'V3', title: 'Modes', desc: 'Big picture thinking, specific decision, preparing for a conversation.' },
+      { tag: 'V4', title: 'Session notes', desc: 'Summary at end of each conversation: discussed, decided, think about next.' },
     ],
-    enhancements: [
-      'Add a "steelman my idea" mode — the advisor argues the best possible case for your plan, before critiquing it',
-      'Add a "worst case" mode — what could go wrong, and how would you handle it?',
-      'Build a "weekly review" feature — a structured conversation to end each week',
-      'Let the advisor suggest relevant frameworks or mental models for the problem you\'re working on',
-      'Add a second perspective mode — the advisor plays devil\'s advocate and argues the opposite position',
-    ]
+    enhancements: ['A "steelman my idea" mode','A "worst case" mode — what could go wrong','Weekly review feature','Suggest relevant frameworks or mental models','Devil\'s advocate mode']
   },
-
   explainer: {
-    emoji: '📖',
-    label: 'Agent Type 04',
+    label: 'Project 04',
     title: 'The Explainer',
-    desc: 'There\'s a gap between understanding something yourself and being able to explain it to one specific person who doesn\'t share your background. The Explainer bridges that gap. You describe what you want to explain and exactly who you\'re explaining it to. The agent does the translation work.',
+    desc: 'Takes something complex and makes it genuinely understandable for one specific person, using analogies from their world and avoiding jargon they wouldn\'t know.',
     brief: `I want to build a web app called The Explainer.
 
-It's a tool for making complex things genuinely understandable. The user provides two things: the topic they want explained, and a detailed description of the person they're explaining it to (their age, background, what they do know, what they don't, why they're interested).
+It's a tool for making complex things understandable. The user provides two things: the topic they want explained, and a description of the person they're explaining it to (age, background, what they know, what they don't, why they're interested).
 
-The agent then produces a clear, engaging explanation written specifically for that person — using analogies from their world, avoiding jargon they wouldn't know, respecting what they do know. Not dumbed down. Translated.
+The agent produces a clear explanation written specifically for that person — using analogies from their world, avoiding jargon they wouldn't know. Not dumbed down. Translated.
 
-The user can then ask follow-up questions, or ask the agent to try a different approach.
+The agent's personality: a brilliant teacher who never talks down to anyone.
 
-The agent's personality: a brilliant teacher who never talks down to anyone and who is endlessly patient.
+Interface: Two input boxes (topic / audience). Generated explanation below. Conversation thread for follow-ups.
 
-Interface: Two input boxes at the top (topic / audience). A generated explanation below. A conversation thread below that for follow-up questions and refinements.
-
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Clean, readable typography — this is about the words.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Clean, readable typography.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
-      { tag: 'V1', title: 'Topic + audience → explanation', desc: 'The core loop. Input two things, get a tailored explanation.' },
-      { tag: 'V2', title: 'Refinement conversation', desc: 'Ask follow-up questions, request a different approach, go deeper on one part.' },
-      { tag: 'V3', title: 'Multiple formats', desc: 'Generate the same explanation as a short essay, a bullet-point summary, or a simple analogy.' },
-      { tag: 'V4', title: 'Save & share', desc: 'Save explanations and share them as a link. Build a library of your best explanations.' },
+      { tag: 'V1', title: 'Topic + audience → explanation', desc: 'Input two things, get a tailored explanation.' },
+      { tag: 'V2', title: 'Refinement', desc: 'Ask follow-ups, request different approaches, go deeper.' },
+      { tag: 'V3', title: 'Multiple formats', desc: 'Same explanation as essay, bullet points, or analogy.' },
+      { tag: 'V4', title: 'Save and share', desc: 'Save explanations and share as a link.' },
     ],
-    enhancements: [
-      'Add a "test their understanding" mode — the agent generates questions to check the explanation landed',
-      'Build a "jargon finder" — paste in any text and it highlights terms that need explaining for your specific audience',
-      'Add a "simplify further" button — one click to make it even more accessible',
-      'Let users rate explanations, building up a sense of what\'s working',
-      'Build a "chain of explanations" — explain something to a child, then to a teenager, then to an adult professional, and compare them',
-    ]
+    enhancements: ['A "test understanding" mode with generated questions','A jargon finder that highlights terms needing explanation','A "simplify further" button','Let users rate explanations','Chain of explanations — child, teenager, professional']
   },
-
   curator: {
-    emoji: '🔍',
-    label: 'Agent Type 05',
+    label: 'Project 05',
     title: 'The Curator',
-    desc: 'You are interested in things that the algorithm doesn\'t understand. The Curator is a personal editor for a subject you\'re obsessed with — finding what matters, filtering out the noise, and explaining why each thing is worth your attention.',
+    desc: 'A personal editor for a subject you care about. Finds what matters, filters noise, and explains why each thing is worth your attention.',
     brief: `I want to build a web app called The Curator.
 
-It's a personal content editor for a specific topic. When the user sets it up, they define: what topic they care about, what kind of things they want (news, ideas, research, debate, examples), what they already know (so the agent doesn't surface basics), and how much they want at once.
+It's a personal content editor for a specific topic. When the user sets it up, they define: what topic they care about, what kind of things they want (news, ideas, research, debate), what they already know (so it doesn't surface basics), and how much they want at once.
 
-The user can then ask the agent to surface interesting things on their topic, to explain why something matters, to give context for a development they've heard about, or to go deep on a specific aspect.
+The user can then ask the agent to surface interesting things, explain why something matters, or go deep on a specific aspect.
 
-The agent's personality: an extremely well-read friend who happens to know everything about your obsession, and who curates with a point of view — not just a list.
+The agent's personality: an extremely well-read friend who curates with a point of view — not just a list.
 
-Interface: A topic-setup screen. Then a clean feed-style interface. Each item has a headline, a short "why this matters" paragraph, and a link. A search box to ask the agent specific questions about the topic.
+Interface: Topic setup screen. Then a feed-style interface. Each item has a headline, a "why this matters" paragraph. A search box for specific questions.
 
 Tech: Next.js, Claude API (claude-sonnet-4-20250514) with web search enabled.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
-      { tag: 'V1', title: 'Topic setup + curation', desc: 'Define your topic, get a curated set of interesting things with context.' },
-      { tag: 'V2', title: 'Conversation layer', desc: 'Ask the agent to go deeper, explain something, or explore a specific thread.' },
-      { tag: 'V3', title: 'Recurring digest', desc: 'A "what\'s new this week" mode — run it every Monday and get a curated digest.' },
-      { tag: 'V4', title: 'Multiple topics', desc: 'Manage several topics at once. The agent knows the difference between your professional interest and your personal obsession.' },
+      { tag: 'V1', title: 'Topic setup and curation', desc: 'Define your topic, get curated items with context.' },
+      { tag: 'V2', title: 'Conversation layer', desc: 'Ask the agent to go deeper or explore threads.' },
+      { tag: 'V3', title: 'Recurring digest', desc: 'A "what\'s new this week" mode.' },
+      { tag: 'V4', title: 'Multiple topics', desc: 'Manage several topics at once.' },
     ],
-    enhancements: [
-      'Add a "convince me this matters" mode — the agent makes the case for why you should care about something',
-      'Build a "who to follow" feature — suggest people, publications, or sources worth tracking',
-      'Add a "contrarian view" mode — for any topic, surface the best argument against the mainstream view',
-      'Let the agent compare how different outlets are covering the same story',
-      'Build a "explain the history" feature — for any current development, give the backstory',
-    ]
+    enhancements: ['A "convince me this matters" mode','A "who to follow" feature','Contrarian view mode','Compare how different outlets cover the same story','History and backstory for any current development']
   },
-
   character: {
-    emoji: '🎭',
-    label: 'Agent Type 06',
+    label: 'Project 06',
     title: 'The Character',
-    desc: 'Some conversations can only happen with someone who doesn\'t exist. A composite of every mentor you\'ve had. A historical figure you\'d give anything to talk to. A version of your future self. The Character is the most imaginative of the six — and often the most surprising.',
+    desc: 'Create and talk to a custom persona — a mentor, historical figure, or composite of people you admire. Define their personality, expertise, and voice.',
     brief: `I want to build a web app called The Character.
 
-It lets the user create and talk to a custom persona. When setting up, the user defines: who the character is (name, background, era, expertise), what the character knows and believes, how they speak (formal, direct, warm, challenging), and what they're for (a mentor, a critic, a historical figure, a fictional advisor).
+It lets the user create and talk to a custom persona. When setting up, the user defines: who the character is (name, background, era, expertise), what they know and believe, how they speak, and what they're for (mentor, critic, historical figure, fictional advisor).
 
-Once defined, the character comes to life in a conversation interface. The character stays in character consistently — drawing on the defined persona in every response.
+Once defined, the character comes to life in a conversation interface. It stays in character consistently.
 
 The user can create multiple characters and switch between them.
 
-The agent's personality: defined entirely by the user. The system's job is to inhabit whatever persona is described, faithfully and consistently.
-
-Interface: A character creation screen (feels like filling in a character sheet — name, backstory, voice, purpose). Then a conversation interface. A small character card visible throughout showing who you're talking to.
+Interface: Character creation screen (name, backstory, voice, purpose). Then conversation interface. Character card visible throughout.
 
 Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store characters in local state.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
-      { tag: 'V1', title: 'Create & converse', desc: 'Define a character, have a conversation with them. The core magic.' },
-      { tag: 'V2', title: 'Character library', desc: 'Save multiple characters. Switch between them. Build up a cast.' },
-      { tag: 'V3', title: 'Character evolution', desc: 'Characters can learn and remember across conversations — growing from what you\'ve discussed.' },
-      { tag: 'V4', title: 'Two characters talking', desc: 'Mediate a conversation between two characters. Watch them debate.' },
+      { tag: 'V1', title: 'Create and converse', desc: 'Define a character, have a conversation.' },
+      { tag: 'V2', title: 'Character library', desc: 'Save and switch between multiple characters.' },
+      { tag: 'V3', title: 'Character evolution', desc: 'Characters learn and remember across conversations.' },
+      { tag: 'V4', title: 'Two characters talking', desc: 'Mediate a conversation between two characters.' },
     ],
-    enhancements: [
-      'Add a "surprise me" character generator — describe the kind of conversation you want, the agent invents the perfect character for it',
-      'Build a "historical figure" mode with factual grounding — the character is constrained by what that person actually believed and said',
-      'Add a "challenge me" mode where the character actively disagrees with you and argues its case',
-      'Let the character ask the user questions, not just answer them',
-      'Build a "composite" mode — blend two characters into one and see what emerges',
-    ]
+    enhancements: ['A "surprise me" character generator','Historical figure mode with factual grounding','A "challenge me" mode where the character disagrees','Let the character ask you questions','Composite mode — blend two characters']
   }
 };
 
 function openProject(id) {
   const p = projects[id];
   const el = document.getElementById('projectContent');
-
-  const phasesHTML = p.phases.map(ph => `
-    <div class="panel-phase">
-      <span class="phase-tag">${ph.tag}</span>
-      <div><strong>${ph.title}</strong><p>${ph.desc}</p></div>
-    </div>`).join('');
-
-  const enhancementsHTML = p.enhancements.map(e => `
-    <div class="enhancement">${e}</div>`).join('');
-
+  const phasesHTML = p.phases.map(ph => `<div class="panel-phase"><span class="phase-tag">${ph.tag}</span><div><strong>${ph.title}</strong><p>${ph.desc}</p></div></div>`).join('');
+  const enhancementsHTML = p.enhancements.map(e => `<div class="enhancement">${e}</div>`).join('');
   el.innerHTML = `
-    <span class="panel-emoji">${p.emoji}</span>
     <span class="panel-label">${p.label}</span>
     <h2 class="panel-title">${p.title}</h2>
     <p class="panel-desc">${p.desc}</p>
-
-    <span class="panel-section-title">Your Claude Code brief — paste this in to start</span>
+    <span class="panel-section-title">Claude Code brief — paste this to start</span>
     <div class="panel-brief"><code id="brief-${id}">${p.brief}</code></div>
-    <button class="copy-btn" onclick="copyBrief('brief-${id}', this)">Copy brief to clipboard</button>
-
-    <span class="panel-section-title">How to build it — phase by phase</span>
+    <button class="copy-btn" onclick="copyBrief('brief-${id}', this)">Copy brief</button>
+    <span class="panel-section-title">Build phases</span>
     <div class="panel-phases">${phasesHTML}</div>
-
-    <span class="panel-section-title">Ideas for where to take it next</span>
+    <span class="panel-section-title">Enhancement ideas</span>
     <div class="panel-enhancements">${enhancementsHTML}</div>
   `;
-
-  const overlay = document.getElementById('projectOverlay');
-  overlay.classList.add('open');
+  document.getElementById('projectOverlay').classList.add('open');
   document.body.style.overflow = 'hidden';
   document.getElementById('projectPanel').scrollTop = 0;
 }
@@ -1990,18 +2145,21 @@ function closeProject(e) {
 }
 
 function copyBrief(id, btn) {
-  const text = document.getElementById(id).innerText;
-  navigator.clipboard.writeText(text).then(() => {
-    btn.textContent = '✓ Copied!';
-    setTimeout(() => btn.textContent = 'Copy brief to clipboard', 2000);
+  navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
+    btn.textContent = 'Copied';
+    setTimeout(() => btn.textContent = 'Copy brief', 2000);
   });
 }
 
-// Close on Escape
-document.addEventListener('keydown', e => {
-  if (e.key === 'Escape') {
-    document.getElementById('projectOverlay').classList.remove('open');
-    document.body.style.overflow = '';
-  }
-});
+function copyCmd(btn) {
+  const code = btn.closest('.cmd-box').querySelector('code').innerText;
+  navigator.clipboard.writeText(code).then(() => {
+    btn.textContent = 'Copied';
+    setTimeout(() => btn.textContent = 'Copy', 1500);
+  });
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProject(); });
 </script>
+</body>
+</html>
