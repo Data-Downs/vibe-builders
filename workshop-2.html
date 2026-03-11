@@ -811,8 +811,8 @@
   <ul>
     <li><a href="#recap">Where you left off</a></li>
     <li><a href="#prerequisites">What you need</a></li>
-    <li><a href="#git">Understanding git</a></li>
-    <li><a href="#setup">Setup</a></li>
+    <li><a href="#setup">Go live</a></li>
+    <li><a href="#updates">Updates</a></li>
     <li><a href="#help">Help</a></li>
   </ul>
 </nav>
@@ -824,7 +824,7 @@
 <div class="header">
   <div class="header-badge">Workshop 2 of 2 &middot; Mac Only</div>
   <p class="header-credit">Made by Chris Downs &middot; <a href="mailto:chris@datadowns.com">chris@datadowns.com</a></p>
-  <h1>Put your app on the internet. <span>Get a real URL that anyone can visit &mdash; no technical background needed.</span></h1>
+  <h1>Put your agent on the internet. <span>Get a real URL that anyone can visit &mdash; no technical background needed.</span></h1>
   <div class="workshop-nav">
     <a href="index.html" class="workshop-nav-item">
       <strong>Workshop 1</strong>
@@ -838,8 +838,8 @@
   <div class="header-links">
     <a href="#recap">1. Where you left off</a>
     <a href="#prerequisites">2. What you need</a>
-    <a href="#git">3. Understanding git</a>
-    <a href="#setup">4. Setup</a>
+    <a href="#setup">3. Go live</a>
+    <a href="#updates">4. Making updates</a>
     <a href="#help">5. Need help?</a>
   </div>
 </div>
@@ -847,14 +847,14 @@
 <!-- WHERE YOU LEFT OFF -->
 <div class="section" id="recap">
   <span class="section-label">01 &mdash; Where you left off</span>
-  <h2>You have a working app on your laptop. <span>In Workshop 1, you built something with Claude Code that runs on your machine. Now we'll put it online so that anyone with the link can use it.</span></h2>
+  <h2>You have a working agent on your laptop. <span>In Workshop 1, you built something with Claude Code that runs on your machine. Now we'll put it online so that anyone with the link can use it.</span></h2>
 
   <div class="card" style="max-width:640px;">
     <h3>What you'll set up today</h3>
     <p style="margin-bottom:8px;">Two new things, both free:</p>
     <ol>
       <li><strong>GitHub</strong> &mdash; saves your code online (like Google Drive, but for code)</li>
-      <li><strong>Cloudflare Pages</strong> &mdash; gives your app a real URL on the internet that anyone can visit</li>
+      <li><strong>Cloudflare Pages</strong> &mdash; gives your agent a real URL on the internet that anyone can visit</li>
     </ol>
   </div>
 </div>
@@ -907,84 +907,9 @@
   </div>
 </div>
 
-<!-- UNDERSTANDING GIT -->
-<div class="section" id="git">
-  <span class="section-label">03 &mdash; Understanding git</span>
-  <h2>Git tracks every change you make. <span>Think of it like version history in Google Docs &mdash; but for your entire project. It's already on your Mac from Workshop 1.</span></h2>
-
-  <div class="card" style="max-width:640px;margin-bottom:20px;">
-    <h3>What is git?</h3>
-    <p>Git is a tool that keeps a complete history of every change to your code. Every time you save a snapshot, git remembers exactly what changed. If something breaks, you can go back to a version that worked.</p>
-    <p style="margin-top:8px;">It's already installed on your Mac &mdash; it came with the Xcode tools you set up in Workshop 1.</p>
-  </div>
-
-  <h3 style="max-width:640px;margin-bottom:12px;">Three things to know</h3>
-  <p style="font-size:13px;color:var(--muted-fg);max-width:640px;line-height:1.6;margin-bottom:16px;">You only need three concepts to use git. Here's an analogy: imagine you're packing and shipping a box.</p>
-
-  <div class="analogy-box">
-    <div class="analogy-title">The packing analogy</div>
-    <div class="analogy-body">
-      <div class="analogy-row analogy-header">
-        <span>Command</span>
-        <span>What it does</span>
-        <span>Like...</span>
-      </div>
-      <div class="analogy-row">
-        <span class="analogy-cmd">git add .</span>
-        <span>Stage your changes</span>
-        <span>Putting items into a box</span>
-      </div>
-      <div class="analogy-row">
-        <span class="analogy-cmd">git commit</span>
-        <span>Save a snapshot</span>
-        <span>Sealing the box and writing what's inside on the label</span>
-      </div>
-      <div class="analogy-row">
-        <span class="analogy-cmd">git push</span>
-        <span>Send to GitHub</span>
-        <span>Shipping the box to GitHub</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="cmd-steps" style="margin-top:20px;">
-    <div class="cmd-step">
-      <span class="cmd-label">Stage all your changes (put items in the box)</span>
-      <div class="cmd-box">
-        <code>git add .</code>
-        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
-      </div>
-    </div>
-    <div class="cmd-step">
-      <span class="cmd-label">Save a snapshot with a description (seal and label the box)</span>
-      <div class="cmd-box">
-        <code>git commit -m "description of what changed"</code>
-        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
-      </div>
-    </div>
-    <div class="cmd-step">
-      <span class="cmd-label">Send it to GitHub (ship the box)</span>
-      <div class="cmd-box">
-        <code>git push</code>
-        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
-      </div>
-    </div>
-  </div>
-
-  <details class="accordion" style="max-width:640px;">
-    <summary>Why do developers use git?</summary>
-    <div class="accordion-body">
-      <p><strong>Undo mistakes.</strong> Every snapshot you save is permanent. If you break something, you can go back to any previous version. It's like having infinite undo.</p>
-      <p><strong>Work with other people.</strong> Git lets multiple people work on the same code without overwriting each other's work. Everyone has their own copy, and git handles merging the changes together.</p>
-      <p><strong>Try things safely.</strong> You can create a "branch" &mdash; like a parallel universe for your code &mdash; to experiment with something new. If it works, merge it in. If it doesn't, delete the branch and nothing is lost.</p>
-      <p>You don't need to understand all of this right now. For today, you just need: add, commit, push.</p>
-    </div>
-  </details>
-</div>
-
-<!-- SETUP -->
+<!-- GO LIVE -->
 <div class="section" id="setup">
-  <span class="section-label">04 &mdash; Setup</span>
+  <span class="section-label">03 &mdash; Go live</span>
   <h2>Step by step. <span>Follow these in order. Each step builds on the last.</span></h2>
 
   <div class="steps">
@@ -993,49 +918,50 @@
     <div class="step">
       <div class="step-num">1</div>
       <div class="step-body">
-        <h3>Send your project to GitHub</h3>
-        <p>First, create a place for your code to live on GitHub. Then send your code there.</p>
+        <h3>Send your code to GitHub</h3>
+        <p>You need to get your code off your laptop and onto GitHub. This uses a tool called <strong>git</strong> &mdash; it's like version history in Google Docs, but for code. It's already on your Mac from Workshop 1.</p>
 
-        <p><strong style="color:var(--fg);">On GitHub:</strong></p>
+        <p style="margin-top:12px;"><strong style="color:var(--fg);">First, create a repository on GitHub:</strong></p>
         <ol style="margin:4px 0 16px 18px;font-size:13px;color:var(--muted-fg);line-height:1.8;">
           <li>Go to <strong>github.com</strong> and sign in</li>
           <li>Click the <strong>+</strong> in the top right, then <strong>New repository</strong></li>
-          <li>Name it the same thing as your project folder (e.g. <code class="inline">my-app</code>)</li>
+          <li>Name it the same thing as your project folder (e.g. <code class="inline">my-first-agent</code>)</li>
           <li>Leave everything else as default and click <strong>Create repository</strong></li>
+          <li><strong>Stay on the page that appears</strong> &mdash; you'll need the URL it shows you</li>
         </ol>
 
-        <p><strong style="color:var(--fg);">In Terminal, inside your project folder:</strong></p>
+        <p><strong style="color:var(--fg);">Now open Terminal and go to your project folder:</strong></p>
         <div class="cmd-steps">
           <div class="cmd-step">
-            <span class="cmd-label">Set up git in your project</span>
+            <span class="cmd-label">Set up git in your project:</span>
             <div class="cmd-box">
               <code>git init</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
             </div>
           </div>
           <div class="cmd-step">
-            <span class="cmd-label">Stage all your files</span>
+            <span class="cmd-label">Add all your files (like putting items into a box):</span>
             <div class="cmd-box">
               <code>git add .</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
             </div>
           </div>
           <div class="cmd-step">
-            <span class="cmd-label">Save your first snapshot</span>
+            <span class="cmd-label">Save a snapshot (like sealing the box with a label):</span>
             <div class="cmd-box">
               <code>git commit -m "first version"</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
             </div>
           </div>
           <div class="cmd-step">
-            <span class="cmd-label">Connect your project to GitHub (replace YOUR-USERNAME and YOUR-PROJECT)</span>
+            <span class="cmd-label">Connect to GitHub &mdash; copy the URL from the GitHub page you're looking at and paste it here:</span>
             <div class="cmd-box">
               <code>git remote add origin https://github.com/YOUR-USERNAME/YOUR-PROJECT.git</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
             </div>
           </div>
           <div class="cmd-step">
-            <span class="cmd-label">Send your code to GitHub</span>
+            <span class="cmd-label">Send your code to GitHub (like shipping the box):</span>
             <div class="cmd-box">
               <code>git push -u origin main</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
@@ -1043,20 +969,20 @@
           </div>
         </div>
 
-        <div class="callout">
-          <strong>Important</strong>
-          <p>In the <code class="inline">git remote add</code> command above, replace <strong>YOUR-USERNAME</strong> with your GitHub username and <strong>YOUR-PROJECT</strong> with whatever you named the repository. You can copy the exact URL from the GitHub page that appears after you create the repository.</p>
+        <div class="callout callout-warn">
+          <strong>The URL in the command above</strong>
+          <p>Don't type YOUR-USERNAME and YOUR-PROJECT literally. On the GitHub page you just created, there's a URL that looks like <code class="inline">https://github.com/janedoe/my-first-agent.git</code> &mdash; copy that and use it instead.</p>
         </div>
 
         <div class="callout" style="margin-top:8px;">
           <strong>What just happened</strong>
-          <p>Your code is now saved online at GitHub. If your laptop breaks tomorrow, your code is safe. You can also see it by going to github.com and clicking on your repository.</p>
+          <p>Your code is now saved online at GitHub. If your laptop breaks tomorrow, your code is safe. Go to github.com and click on your repository to see it.</p>
         </div>
 
         <details class="accordion" style="max-width:640px;">
           <summary>Getting an error about "main" vs "master"?</summary>
           <div class="accordion-body">
-            <p>Some setups use "master" instead of "main" as the default name. If you see an error about this, try running:</p>
+            <p>Some setups use "master" instead of "main" as the default name. If you see an error about this, run:</p>
             <div class="cmd-steps" style="margin-top:8px;">
               <div class="cmd-step">
                 <div class="cmd-box">
@@ -1084,19 +1010,25 @@
           <li>Click <strong>Create</strong>, then choose <strong>Pages</strong>, then <strong>Connect to Git</strong></li>
           <li>It will ask you to connect your GitHub account &mdash; follow the prompts</li>
           <li>Select the repository you just created</li>
-          <li>For <strong>build settings</strong>:
-            <ul style="margin:4px 0 4px 18px;line-height:1.8;">
-              <li>Framework preset: pick what matches your project (e.g. <strong>Next.js</strong>)</li>
-              <li>Build command: <code class="inline">npm run build</code></li>
-              <li>Output directory: <code class="inline">.next</code> (or <code class="inline">out</code> depending on your setup)</li>
-            </ul>
+          <li>For <strong>build settings</strong> &mdash; don't guess, ask Claude Code:
           </li>
-          <li>Click <strong>Save and Deploy</strong></li>
         </ol>
 
-        <div class="callout callout-warn">
+        <div class="cmd-steps">
+          <div class="cmd-step">
+            <div class="cmd-box" style="align-items:flex-start;">
+              <code style="white-space:pre-wrap;line-height:1.6;">I'm putting this project on Cloudflare Pages. What framework preset, build command, and output directory should I use?</code>
+              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+            </div>
+            <span class="cmd-note">Paste this into Claude Code. It knows what it built and will give you the exact settings.</span>
+          </div>
+        </div>
+
+        <p style="margin-top:12px;">Enter whatever Claude Code tells you, then click <strong>Save and Deploy</strong>.</p>
+
+        <div class="callout callout-warn" style="margin-top:12px;">
           <strong>If the build fails</strong>
-          <p>Build settings depend on what Claude Code built for you. If it doesn't work first time, copy the error message, go back to Claude Code in Terminal, and paste it in with: "I'm trying to put this on Cloudflare Pages. It gave me this error. What build settings should I use?"</p>
+          <p>Copy the error message from Cloudflare, paste it into Claude Code, and say "I got this error when deploying to Cloudflare Pages. Can you help?" It will know what to fix.</p>
         </div>
       </div>
     </div>
@@ -1105,7 +1037,31 @@
     <div class="step">
       <div class="step-num">3</div>
       <div class="step-body">
-        <h3>Your app is live</h3>
+        <h3>Add your API key to Cloudflare</h3>
+        <p>Your agent needs your Anthropic API key to talk to Claude. But you should <strong style="color:var(--fg);">never</strong> put API keys directly in your code &mdash; especially code on GitHub where anyone could see it.</p>
+        <p>Instead, you store it as a secret in Cloudflare. Think of it like a safe deposit box &mdash; your agent can access it, but nobody else can see it.</p>
+
+        <ol style="margin:4px 0 16px 18px;font-size:13px;color:var(--muted-fg);line-height:1.8;">
+          <li>In your Cloudflare Pages project, go to <strong>Settings</strong></li>
+          <li>Find <strong>Environment Variables</strong></li>
+          <li>Click <strong>Add variable</strong></li>
+          <li>For the name, use what Claude Code expects (usually <code class="inline">ANTHROPIC_API_KEY</code> &mdash; ask Claude Code if you're not sure)</li>
+          <li>Paste your Anthropic API key as the value</li>
+          <li>Save, then re-deploy (or push a new change to trigger it)</li>
+        </ol>
+
+        <div class="callout callout-warn">
+          <strong>Check your code too</strong>
+          <p>If Claude Code put your API key directly in the code, ask it: "Can you move my API key to an environment variable so it's not in the code?" It will know what to do.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-num">4</div>
+      <div class="step-body">
+        <h3>Your agent is live</h3>
         <p>Once Cloudflare finishes building, it gives you a URL like:</p>
         <div class="cmd-steps">
           <div class="cmd-step">
@@ -1115,93 +1071,70 @@
             </div>
           </div>
         </div>
-        <p>That's a real URL on the internet. Anyone with that link can use your app.</p>
-        <p>And here's the best part: every time you push changes to GitHub, Cloudflare automatically updates your live site. You never have to manually update it again.</p>
-      </div>
-    </div>
-
-    <!-- STEP 4 -->
-    <div class="step">
-      <div class="step-num">4</div>
-      <div class="step-body">
-        <h3>Add your API key (environment variables)</h3>
-        <p>Your app needs your Anthropic API key to work. But you should <strong style="color:var(--fg);">never</strong> put API keys directly in your code &mdash; especially code that's on GitHub where anyone could see it.</p>
-        <p>Instead, you add it as an "environment variable" in Cloudflare. This is a secure way to give your live app access to the key without putting it in the code.</p>
-
-        <ol style="margin:4px 0 16px 18px;font-size:13px;color:var(--muted-fg);line-height:1.8;">
-          <li>In your Cloudflare Pages project, go to <strong>Settings</strong></li>
-          <li>Find <strong>Environment Variables</strong></li>
-          <li>Click <strong>Add variable</strong></li>
-          <li>The variable name needs to match what Claude Code used in your code</li>
-          <li>Paste your Anthropic API key as the value</li>
-          <li>Save, then re-run the build (or push a new change to trigger it)</li>
-        </ol>
-
-        <div class="callout">
-          <strong>Not sure what variable name to use?</strong>
-          <p>Ask Claude Code: "What environment variable name did you use for the Anthropic API key?" It will tell you the exact name (often something like <code class="inline">ANTHROPIC_API_KEY</code>).</p>
-        </div>
-
-        <div class="callout callout-warn" style="margin-top:8px;">
-          <strong>Never put API keys in your code</strong>
-          <p>Anyone can see code on public GitHub pages. If Claude Code put your key directly in the code, ask it: "Can you move my API key to an environment variable so it's not in the code?" It will know what to do.</p>
-        </div>
-      </div>
-    </div>
-
-    <!-- STEP 5 -->
-    <div class="step">
-      <div class="step-num">5</div>
-      <div class="step-body">
-        <h3>Making updates</h3>
-        <p>From now on, whenever you make changes to your app, this is the pattern:</p>
-
-        <div class="flow-steps">
-          <div class="flow-step">
-            <div class="flow-num">1</div>
-            <div class="flow-body"><strong>Make changes</strong> to your app locally (with Claude Code or by editing files)</div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-num">2</div>
-            <div class="flow-body">Run <strong>git add .</strong> to stage the changes</div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-num">3</div>
-            <div class="flow-body">Run <strong>git commit -m "what changed"</strong> to save a snapshot</div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-num">4</div>
-            <div class="flow-body">Run <strong>git push</strong> to send it to GitHub</div>
-          </div>
-          <div class="flow-step">
-            <div class="flow-num">5</div>
-            <div class="flow-body"><strong>Cloudflare updates automatically</strong> &mdash; your live site has the new version within minutes</div>
-          </div>
-        </div>
-
-        <div class="cmd-steps" style="margin-top:16px;">
-          <div class="cmd-step">
-            <span class="cmd-label">The full update cycle (all three commands)</span>
-            <div class="cmd-box" style="align-items:flex-start;">
-              <code style="white-space:pre-wrap;line-height:1.7;">git add .
-git commit -m "what changed"
-git push</code>
-              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
-            </div>
-          </div>
-        </div>
-
-        <div class="pattern-box">
-          <div class="pattern-title">The pattern to remember</div>
-          <div class="pattern-body">
-            <p>Change &rarr; add &rarr; commit &rarr; push &rarr; live.</p>
-            <p style="color:var(--muted-fg);margin-top:6px;">That's it. You'll do this every time you update your app. It becomes muscle memory fast.</p>
-          </div>
-        </div>
+        <p><strong style="color:var(--fg);">That's a real URL on the internet.</strong> Anyone with that link can use your agent. Send it to someone &mdash; right now.</p>
       </div>
     </div>
 
   </div><!-- end steps -->
+</div>
+
+<!-- MAKING UPDATES -->
+<div class="section" id="updates">
+  <span class="section-label">04 &mdash; Making updates</span>
+  <h2>Change it, push it, it's live. <span>Every time you update your agent, Cloudflare picks up the changes automatically.</span></h2>
+
+  <div class="flow-steps">
+    <div class="flow-step">
+      <div class="flow-num">1</div>
+      <div class="flow-body"><strong>Make changes</strong> to your agent locally (with Claude Code)</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">2</div>
+      <div class="flow-body">Run <strong>git add .</strong> to stage the changes</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">3</div>
+      <div class="flow-body">Run <strong>git commit -m "what changed"</strong> to save a snapshot</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">4</div>
+      <div class="flow-body">Run <strong>git push</strong> to send it to GitHub</div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-num">5</div>
+      <div class="flow-body"><strong>Cloudflare updates automatically</strong> &mdash; your live site has the new version within minutes</div>
+    </div>
+  </div>
+
+  <div class="cmd-steps" style="margin-top:16px;">
+    <div class="cmd-step">
+      <span class="cmd-label">The three commands you'll run every time:</span>
+      <div class="cmd-box" style="align-items:flex-start;">
+        <code style="white-space:pre-wrap;line-height:1.7;">git add .
+git commit -m "what changed"
+git push</code>
+        <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="pattern-box">
+    <div class="pattern-title">The pattern to remember</div>
+    <div class="pattern-body">
+      <p>Change &rarr; add &rarr; commit &rarr; push &rarr; live.</p>
+      <p style="color:var(--muted-fg);margin-top:6px;">That's it. It becomes muscle memory fast.</p>
+    </div>
+  </div>
+
+  <details class="accordion" style="max-width:640px;margin-top:20px;">
+    <summary>Why do developers use git?</summary>
+    <div class="accordion-body">
+      <p><strong>Undo mistakes.</strong> Every snapshot you save is permanent. If you break something, you can go back to any previous version. It's like having infinite undo.</p>
+      <p><strong>Work with other people.</strong> Git lets multiple people work on the same code without overwriting each other's work.</p>
+      <p><strong>Try things safely.</strong> You can create a "branch" &mdash; like a parallel universe for your code &mdash; to experiment without risk.</p>
+      <p>You don't need to understand all of this right now. Add, commit, push is all you need.</p>
+    </div>
+  </details>
 </div>
 
 <!-- NEED HELP -->

@@ -1305,6 +1305,140 @@
     opacity: 0.7;
   }
 
+  /* ── PHASE BREAK ── */
+  .phase-break {
+    padding: 56px 0;
+    border-bottom: none;
+    text-align: center;
+  }
+
+  .phase-break-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 48px 40px;
+    max-width: none;
+  }
+
+  .phase-break-label {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--emerald);
+    background: rgba(0, 151, 103, 0.08);
+    padding: 6px 14px;
+    border-radius: 4px;
+    display: inline-block;
+    margin-bottom: 20px;
+  }
+
+  .phase-break h2 {
+    font-size: 36px;
+    font-weight: 600;
+    letter-spacing: -0.035em;
+    margin-bottom: 12px;
+    max-width: none;
+    text-align: center;
+    line-height: 1.15;
+  }
+
+  .phase-break p {
+    font-size: 15px;
+    color: var(--muted-fg);
+    line-height: 1.55;
+    max-width: 420px;
+    margin: 0 auto;
+  }
+
+  /* ── RESOURCES ── */
+  .resource-list {
+    display: grid;
+    gap: 10px;
+    max-width: 640px;
+  }
+
+  .resource-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px 18px;
+    text-decoration: none;
+    color: var(--card-fg);
+    transition: border-color 0.15s;
+  }
+
+  .resource-item:hover {
+    border-color: var(--ring);
+  }
+
+  .resource-icon {
+    flex-shrink: 0;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .resource-icon svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .resource-icon--video { background: #fef2f2; color: #dc2626; }
+  .resource-icon--article { background: #f0f9ff; color: #2563eb; }
+  .resource-icon--course { background: #f0fdf4; color: #16a34a; }
+  .resource-icon--docs { background: #faf5ff; color: #9333ea; }
+  .resource-icon--reference { background: #fffbeb; color: #d97706; }
+
+  .resource-icon--video svg { color: #dc2626; }
+  .resource-icon--article svg { color: #2563eb; }
+  .resource-icon--course svg { color: #16a34a; }
+  .resource-icon--docs svg { color: #9333ea; }
+  .resource-icon--reference svg { color: #d97706; }
+
+  .resource-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .resource-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 2px;
+  }
+
+  .resource-title {
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .resource-type {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted-fg);
+    background: var(--muted);
+    padding: 2px 6px;
+    border-radius: 3px;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    flex-shrink: 0;
+  }
+
+  .resource-desc {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.5;
+  }
+
   /* ── FOOTER ── */
   footer {
     padding: 20px 0;
@@ -1350,11 +1484,12 @@
   <a href="#" class="nav-logo">Vibe Builders<span>Workshop 1</span></a>
   <ul>
     <li><a href="#agent">What's an agent</a></li>
-    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#prerequisites">What you need</a></li>
     <li><a href="#steps">Setup</a></li>
-    <li><a href="#claude-tips">Beyond the brief</a></li>
     <li><a href="#terminal">Terminal</a></li>
-    <li><a href="#projects">Projects</a></li>
+    <li><a href="#projects">Choose an agent</a></li>
+    <li><a href="#build">Build it</a></li>
+    <li><a href="#claude-tips">Beyond the brief</a></li>
   </ul>
 </nav>
 </div>
@@ -1379,18 +1514,18 @@
   <div class="header-links">
     <a href="#agent">1. What is an AI agent?</a>
     <a href="#prerequisites">2. What you need</a>
-    <a href="#stack">3. The Stack</a>
-    <a href="#steps">4. Setup</a>
-    <a href="#claude-tips">5. Beyond the brief</a>
-    <a href="#terminal">6. Terminal Reference</a>
-    <a href="#projects">7. Project Ideas</a>
+    <a href="#steps">3. Setup</a>
+    <a href="#terminal">4. Terminal reference</a>
+    <a href="#projects">5. Choose your agent</a>
+    <a href="#build">6. Build and run it</a>
+    <a href="#claude-tips">7. Beyond the brief</a>
   </div>
 </div>
 
 <!-- WHAT IS AN AI AGENT -->
 <div class="section" id="agent">
   <span class="section-label">01 — What is an AI agent?</span>
-  <h2>A program that thinks, talks, and acts. <span>An AI agent is a program that uses a language model — like Claude — to understand what people say and respond intelligently. You describe what you want it to do. Claude Code builds the program. The result is an app that thinks, talks, and acts.</span></h2>
+  <h2>A program that thinks, talks, and acts. <span>An AI agent is a program that uses AI to understand what people say and respond intelligently. Think: a chatbot that actually knows about your specific topic, or a tool that reads your notes and answers questions about them. You describe what you want. Claude Code builds it.</span></h2>
 </div>
 
 <!-- WHAT YOU NEED -->
@@ -1455,9 +1590,9 @@
           <a class="prereq-url" href="https://nodejs.org" target="_blank">nodejs.org ↗</a>
         </div>
       </div>
-      <p>A runtime that lets your Mac execute JavaScript. Claude Code requires it.</p>
+      <p>Software that Claude Code needs to work. You install it once and forget about it.</p>
       <ol>
-        <li>Go to <strong>nodejs.org</strong> and download the <strong>LTS</strong> version</li>
+        <li>Go to <strong>nodejs.org</strong> and click the big green download button (the recommended version)</li>
         <li>Run the installer</li>
         <li>Verify: open Terminal and type <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">node --version</code></li>
       </ol>
@@ -1477,46 +1612,10 @@
   </div>
 </div>
 
-<!-- THE STACK -->
-<div class="section" id="stack">
-  <span class="section-label">03 — The Stack</span>
-  <h2>Two tools, used together. <span>Each tool does one job. You don't need to understand them fully before starting.</span></h2>
-
-  <div class="grid grid-2">
-    <div class="card">
-      <span class="card-num">01</span>
-      <h3>Claude Code</h3>
-      <p>Your AI co-builder. You describe what you want in plain English. It writes the code.</p>
-      <a class="card-tag" href="https://claude.ai/code" target="_blank">claude.ai/code ↗</a>
-    </div>
-    <div class="card">
-      <span class="card-num">02</span>
-      <h3>Terminal</h3>
-      <p>The way developers control their Mac. Instead of clicking icons and menus, you type commands. It can do everything Finder can do — and a lot that Finder can't.</p>
-      <span class="card-tag">Built into macOS</span>
-      <details class="accordion" style="margin-top:12px;">
-        <summary>What is Terminal, really?</summary>
-        <div class="accordion-body">
-          <p>Your Mac has two ways to interact with it. There's the one you already know — windows, icons, clicking, dragging. That's the <strong>graphical interface</strong>. Then there's the one underneath: a text-based interface where you type commands and your Mac does exactly what you tell it.</p>
-          <p>That's Terminal. It's an app already on your Mac — you don't need to install anything.</p>
-          <p>It looks intimidating at first because it's just a blank window with a blinking cursor. No buttons, no menus. But that blankness is the point. You type a command, press Return, and something happens. Want to create a folder? One command. Move a file? One command. Install a tool? One command.</p>
-          <p>Developers live in Terminal because it's faster and more powerful than clicking through Finder. And crucially — <strong>Claude Code runs inside Terminal.</strong> When you type <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">claude</code> into Terminal, you're starting a conversation with an AI that can build entire apps for you.</p>
-          <p>You don't need to master Terminal. You need about five commands to get going, and we'll teach you all of them.</p>
-        </div>
-      </details>
-    </div>
-  </div>
-
-  <div class="callout" style="margin-top:20px;">
-    <strong>What comes later</strong>
-    <p>Later, in <a href="workshop-2.html" style="color:var(--red);text-decoration:underline;">Workshop 2</a>, you'll also use GitHub (for saving your code online) and learn how to put your app on the internet so other people can use it.</p>
-  </div>
-</div>
-
 <!-- SETUP STEPS -->
 <div class="section" id="steps">
-  <span class="section-label">04 — Setup</span>
-  <h2>Step-by-step setup. <span>Follow these in order. Each step builds on the last. If something doesn't work, ask Claude Code why.</span></h2>
+  <span class="section-label">03 — Setup</span>
+  <h2>Step-by-step setup. <span>Follow these in order. Each step builds on the last.</span></h2>
 
   <div class="steps">
     <div class="step">
@@ -1577,7 +1676,7 @@
         <p>Claude Code runs in your Terminal. You type what you want, it writes the code.</p>
         <div class="cmd-steps">
           <div class="cmd-step">
-            <span class="cmd-label">Install Claude Code globally. Type this and press Return:</span>
+            <span class="cmd-label">Install Claude Code:</span>
             <div class="cmd-box">
               <code>npm install -g @anthropic-ai/claude-code</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
@@ -1651,38 +1750,116 @@
       </div>
     </div>
 
+  </div>
+
+  <div class="callout" style="margin-top:20px;">
+    <strong>What comes later</strong>
+    <p>In <a href="workshop-2.html" style="color:var(--red);text-decoration:underline;">Workshop 2</a>, you'll learn how to save your code online with GitHub and put your agent on the internet so other people can use it.</p>
+  </div>
+</div>
+
+<!-- TERMINAL CHEAT SHEET -->
+<div class="section" id="terminal">
+  <span class="section-label">04 — Reference</span>
+  <h2>Terminal cheat sheet. <span>Keep this open while you work.</span></h2>
+
+  <div class="cheat-grid">
+    <div class="cheat-group-header">Navigation</div>
+    <div class="cheat-item"><span class="cheat-cmd">pwd</span><span class="cheat-desc">Show current directory</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">ls</span><span class="cheat-desc">List files in current folder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">ls -la</span><span class="cheat-desc">List all files including hidden</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cd folder-name</span><span class="cheat-desc">Move into a folder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cd ..</span><span class="cheat-desc">Go up one level</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cd ~</span><span class="cheat-desc">Go to home folder</span></div>
+
+    <div class="cheat-group-header">Files</div>
+    <div class="cheat-item"><span class="cheat-cmd">mkdir my-app</span><span class="cheat-desc">Create a new folder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">touch file.txt</span><span class="cheat-desc">Create an empty file</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">open .</span><span class="cheat-desc">Open current folder in Finder</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">cat file.txt</span><span class="cheat-desc">Print file contents</span></div>
+
+    <div class="cheat-group-header">Running apps</div>
+    <div class="cheat-item"><span class="cheat-cmd">npm run dev</span><span class="cheat-desc">Start development server</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">npm install</span><span class="cheat-desc">Install project dependencies</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">Ctrl + C</span><span class="cheat-desc">Stop whatever is running</span></div>
+    <div class="cheat-item"><span class="cheat-cmd">claude</span><span class="cheat-desc">Start Claude Code</span></div>
+  </div>
+
+  <div class="cheat-note">
+    <strong>Things nobody tells you</strong>
+    <p><strong>You can't click to move the cursor.</strong> Use ← → arrow keys. Backspace to delete.</p>
+    <p><strong>Tab autocomplete.</strong> Start typing a name, press Tab. Terminal finishes it.</p>
+    <p><strong>↑ arrow = previous command.</strong> Cycles through your command history.</p>
+    <p><strong>Passwords are invisible.</strong> When Terminal asks for your Mac password, type it and press Enter — nothing appears on screen, but it's working.</p>
+  </div>
+</div>
+
+<!-- PHASE BREAK -->
+<div class="phase-break">
+  <div class="phase-break-card">
+    <span class="phase-break-label">Setup complete</span>
+    <h2>Now build your agent.</h2>
+    <p>Everything above was preparation. This is where it gets interesting — choose an agent and bring it to life.</p>
+  </div>
+</div>
+
+<!-- PROJECT IDEAS -->
+<div class="section" id="projects">
+  <span class="section-label">05 — Choose your first agent</span>
+  <h2>Each card is a complete agent app. <span>Pick one, click it, and paste the brief straight into Claude Code. It handles the rest.</span></h2>
+
+  <div class="grid grid-3">
+    <div class="idea-card" onclick="openProject('archivist')">
+      <h3>The Archivist</h3>
+      <p>Feed it your notes and writing. Ask it questions about your own thinking.</p>
+      <div class="idea-cta">View brief →</div>
+    </div>
+    <div class="idea-card" onclick="openProject('interviewer')">
+      <h3>The Interviewer</h3>
+      <p>It asks you questions to capture and organise your knowledge.</p>
+      <div class="idea-cta">View brief →</div>
+    </div>
+    <div class="idea-card" onclick="openProject('advisor')">
+      <h3>The Advisor</h3>
+      <p>A thinking partner that knows your context and pushes back.</p>
+      <div class="idea-cta">View brief →</div>
+    </div>
+    <div class="idea-card" onclick="openProject('explainer')">
+      <h3>The Explainer</h3>
+      <p>Takes something complex and makes it accessible to a specific person.</p>
+      <div class="idea-cta">View brief →</div>
+    </div>
+    <div class="idea-card" onclick="openProject('curator')">
+      <h3>The Curator</h3>
+      <p>Monitors a topic and surfaces what matters, filtering the noise.</p>
+      <div class="idea-cta">View brief →</div>
+    </div>
+    <div class="idea-card" onclick="openProject('character')">
+      <h3>The Character</h3>
+      <p>A custom persona — a mentor, historical figure, or fictional advisor.</p>
+      <div class="idea-cta">View brief →</div>
+    </div>
+  </div>
+
+  <div class="idea-tip">
+    <h3>Your first agent will change</h3>
+    <p>You might start wanting to build an archivist, then realise everything you know is in your head, not on paper. So you flip the brief to an interviewer instead. Same instinct, different agent. Start with what feels right and let the process teach you what you actually want.</p>
+  </div>
+</div>
+
+<!-- BUILD AND RUN -->
+<div class="section" id="build">
+  <span class="section-label">06 — Describe, build, run</span>
+  <h2>Paste your brief and watch it come to life. <span>You picked an agent. Now tell Claude Code to build it.</span></h2>
+
+  <div class="steps">
     <div class="step">
-      <div class="step-num">4</div>
+      <div class="step-num">1</div>
       <div class="step-body">
-        <h3>Describe what you want to build</h3>
-        <p>This is where you tell Claude Code what to build. You type in the <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">›</code> prompt — the same place you'd type a message.</p>
+        <h3>Paste the brief</h3>
+        <p>Open Claude Code (type <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">claude</code> in Terminal from your project folder). Paste the brief you copied from the agent card into the <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">›</code> prompt.</p>
 
-        <p><strong>Write a brief.</strong> Describe what you want to build in plain English. Include: what it does, who it's for, how it should feel to use, and what it should not do.</p>
-        <div class="tip">
-          <strong>A good brief includes</strong>
-          <ul>
-            <li><strong>What it is</strong> — describe it like you'd tell a friend</li>
-            <li><strong>Who uses it</strong> — one specific person, not "everyone"</li>
-            <li><strong>The core interaction</strong> — the main thing they do with it</li>
-            <li><strong>Constraints</strong> — what it should not do</li>
-          </ul>
-        </div>
-
-        <p style="margin-top:16px;"><strong>Ask for a plan first.</strong> Add this to the end of your brief before Claude Code starts building:</p>
-        <div class="cmd-steps">
-          <div class="cmd-step">
-            <div class="cmd-box" style="align-items:flex-start;">
-              <code style="white-space:pre-wrap;line-height:1.6;">Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making and why? Do not start coding until I approve the plan.</code>
-              <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
-            </div>
-          </div>
-        </div>
-        <div class="callout callout-warn">
-          <strong>Why this matters</strong>
-          <p>Without a plan, Claude Code makes dozens of decisions you don't see. Planning surfaces those decisions so you can steer.</p>
-        </div>
-
-        <p style="margin-top:16px;"><strong>Review and approve.</strong> Read the plan. Ask about anything you don't understand. Change anything that doesn't match what you want. When it looks right:</p>
+        <p style="margin-top:12px;">Each brief already asks Claude Code for a plan before building. Read the plan, ask about anything you don't understand, then approve it:</p>
         <div class="cmd-steps">
           <div class="cmd-step">
             <div class="cmd-box">
@@ -1691,17 +1868,20 @@
             </div>
           </div>
         </div>
+        <div class="callout callout-warn">
+          <strong>Why a plan matters</strong>
+          <p>Without a plan, Claude Code makes dozens of decisions you don't see. The plan surfaces those decisions so you can steer before anything gets built.</p>
+        </div>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-num">5</div>
+      <div class="step-num">2</div>
       <div class="step-body">
-        <h3>Run your app</h3>
-        <p>Once Claude Code finishes building, run the app on your own machine. Your laptop becomes a temporary server.</p>
+        <h3>Run your agent</h3>
+        <p>Once Claude Code finishes building, exit it by typing <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">/exit</code> — then run the app on your own machine:</p>
         <div class="cmd-steps">
           <div class="cmd-step">
-            <span class="cmd-label">Start the development server:</span>
             <div class="cmd-box">
               <code>npm run dev</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
@@ -1709,25 +1889,19 @@
             <span class="cmd-note">Look for a line like "Local: http://localhost:3000" — open that URL in your browser.</span>
           </div>
         </div>
-        <p>When you see something running in your browser — congratulations. You just built an AI agent. You described an idea in plain English and turned it into working software.</p>
-      </div>
-    </div>
-
-    <div class="step">
-      <div class="step-num"></div>
-      <div class="step-body">
-        <div class="callout callout-warn">
+        <p>When you see something running in your browser — that's your agent.</p>
+        <div class="callout callout-warn" style="margin-top:12px;">
           <strong>When things go wrong</strong>
-          <p>When you see an error — and you will — don't panic. Copy the error message, paste it back into Claude Code, and say "I got this error, can you fix it?" This is completely normal. Even experienced developers spend most of their time fixing errors. Claude Code is very good at this.</p>
+          <p>When you see an error — and you will — don't panic. Copy the error message, paste it back into Claude Code, and say "I got this error, can you fix it?" This is completely normal. Even experienced developers spend most of their time fixing errors.</p>
         </div>
       </div>
     </div>
 
     <div class="step">
-      <div class="step-num">6</div>
+      <div class="step-num">3</div>
       <div class="step-body">
         <h3>Improve it</h3>
-        <p>Run the app, use it, notice what's wrong or missing. Go back to Claude Code and describe changes in plain English. Examples:</p>
+        <p>Use the app, notice what's wrong or missing, go back to Claude Code and describe changes in plain English:</p>
         <div class="cmd-steps">
           <div class="cmd-step">
             <div class="cmd-box">
@@ -1753,10 +1927,10 @@
   </div>
 </div>
 
-<!-- THINGS YOU CAN DO WITH CLAUDE CODE -->
+<!-- BEYOND THE BRIEF -->
 <div class="section" id="claude-tips">
-  <span class="section-label">05 — Beyond the brief</span>
-  <h2>Claude Code is a conversation, not a command. <span>Pasting a brief is just the start. Here are some of the things you can say to it once your project is running.</span></h2>
+  <span class="section-label">07 — Beyond the brief</span>
+  <h2>Your agent is running. Now make it yours. <span>Pasting the brief was just the start. Here's how to shape it into something that actually fits what you need.</span></h2>
 
   <div class="claude-tips-grid">
     <div class="claude-tip-card">
@@ -1844,90 +2018,10 @@
   </div>
 </div>
 
-<!-- TERMINAL CHEAT SHEET -->
-<div class="section" id="terminal">
-  <span class="section-label">06 — Reference</span>
-  <h2>Terminal cheat sheet. <span>Keep this open while you work.</span></h2>
-
-  <div class="cheat-grid">
-    <div class="cheat-group-header">Navigation</div>
-    <div class="cheat-item"><span class="cheat-cmd">pwd</span><span class="cheat-desc">Show current directory</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">ls</span><span class="cheat-desc">List files in current folder</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">ls -la</span><span class="cheat-desc">List all files including hidden</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">cd folder-name</span><span class="cheat-desc">Move into a folder</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">cd ..</span><span class="cheat-desc">Go up one level</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">cd ~</span><span class="cheat-desc">Go to home folder</span></div>
-
-    <div class="cheat-group-header">Files</div>
-    <div class="cheat-item"><span class="cheat-cmd">mkdir my-app</span><span class="cheat-desc">Create a new folder</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">touch file.txt</span><span class="cheat-desc">Create an empty file</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">open .</span><span class="cheat-desc">Open current folder in Finder</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">cat file.txt</span><span class="cheat-desc">Print file contents</span></div>
-
-    <div class="cheat-group-header">Running apps</div>
-    <div class="cheat-item"><span class="cheat-cmd">npm run dev</span><span class="cheat-desc">Start development server</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">npm install</span><span class="cheat-desc">Install project dependencies</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">Ctrl + C</span><span class="cheat-desc">Stop whatever is running</span></div>
-    <div class="cheat-item"><span class="cheat-cmd">claude</span><span class="cheat-desc">Start Claude Code</span></div>
-  </div>
-
-  <div class="cheat-note">
-    <strong>Things nobody tells you</strong>
-    <p><strong>You can't click to move the cursor.</strong> Use ← → arrow keys. Backspace to delete.</p>
-    <p><strong>Tab autocomplete.</strong> Start typing a name, press Tab. Terminal finishes it.</p>
-    <p><strong>↑ arrow = previous command.</strong> Cycles through your command history.</p>
-    <p><strong>Passwords are invisible.</strong> When Terminal asks for your Mac password, type it and press Enter — nothing appears on screen, but it's working.</p>
-  </div>
-</div>
-
-<!-- PROJECT IDEAS -->
-<div class="section" id="projects">
-  <span class="section-label">07 — Project Ideas</span>
-  <h2>Starter projects. <span>Pick one. Click it for a complete brief you can paste straight into Claude Code.</span></h2>
-
-  <div class="grid grid-3">
-    <div class="idea-card" onclick="openProject('archivist')">
-      <h3>The Archivist</h3>
-      <p>Feed it your notes and writing. Ask it questions about your own thinking.</p>
-      <div class="idea-cta">View brief →</div>
-    </div>
-    <div class="idea-card" onclick="openProject('interviewer')">
-      <h3>The Interviewer</h3>
-      <p>It asks you questions to capture and organise your knowledge.</p>
-      <div class="idea-cta">View brief →</div>
-    </div>
-    <div class="idea-card" onclick="openProject('advisor')">
-      <h3>The Advisor</h3>
-      <p>A thinking partner that knows your context and pushes back.</p>
-      <div class="idea-cta">View brief →</div>
-    </div>
-    <div class="idea-card" onclick="openProject('explainer')">
-      <h3>The Explainer</h3>
-      <p>Takes something complex and makes it accessible to a specific person.</p>
-      <div class="idea-cta">View brief →</div>
-    </div>
-    <div class="idea-card" onclick="openProject('curator')">
-      <h3>The Curator</h3>
-      <p>Monitors a topic and surfaces what matters, filtering the noise.</p>
-      <div class="idea-cta">View brief →</div>
-    </div>
-    <div class="idea-card" onclick="openProject('character')">
-      <h3>The Character</h3>
-      <p>A custom persona — a mentor, historical figure, or fictional advisor.</p>
-      <div class="idea-cta">View brief →</div>
-    </div>
-  </div>
-
-  <div class="idea-tip">
-    <h3>Your first idea will change</h3>
-    <p>You might start wanting to build an archivist, then realise everything you know is in your head, not on paper. So you flip the brief to an interviewer instead. Same instinct, different form. Start with what feels right and let the process teach you what you actually want.</p>
-  </div>
-</div>
-
 <!-- WHAT'S NEXT -->
 <div class="section" id="next">
   <span class="section-label">Ready for more?</span>
-  <h2>Your app works on your laptop. <span>Now let's put it on the internet so other people can use it.</span></h2>
+  <h2>Your agent works on your laptop. <span>Now let's put it on the internet so other people can use it.</span></h2>
   <a href="workshop-2.html" class="next-workshop-link">
     <div class="next-workshop-card">
       <div class="next-workshop-badge">Workshop 2</div>
@@ -1944,6 +2038,74 @@
     <h3>Stuck? Need help?</h3>
     <p>If you hit a wall at any point — something doesn't install, Claude gives you an error, or you just don't know what to do next — get in touch. I'll respond.</p>
     <a href="mailto:chris@datadowns.com" class="help-email">chris@datadowns.com</a>
+  </div>
+</div>
+
+<!-- RESOURCES -->
+<div class="section" id="resources">
+  <span class="section-label">08 — Go further</span>
+  <h2>Resources for when you want to <span>learn more or go deeper.</span></h2>
+  <div class="resource-list">
+    <a href="https://www.youtube.com/watch?v=GepHGs_CZdk" target="_blank" rel="noopener" class="resource-item">
+      <div class="resource-icon resource-icon--video">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m15.75 10.5 4.72-4.72a.75.75 0 0 1 1.28.53v11.38a.75.75 0 0 1-1.28.53l-4.72-4.72M4.5 18.75h9a2.25 2.25 0 0 0 2.25-2.25v-9A2.25 2.25 0 0 0 13.5 5.25h-9A2.25 2.25 0 0 0 2.25 7.5v9A2.25 2.25 0 0 0 4.5 18.75Z" /></svg>
+      </div>
+      <div class="resource-body">
+        <div class="resource-meta">
+          <span class="resource-title">Claude Code Beginner's Tutorial — Build a Movie App in 15 Minutes</span>
+          <span class="resource-type">Video</span>
+        </div>
+        <span class="resource-desc">Peter Yang walks through building a complete app from scratch. Great first watch after finishing this guide.</span>
+      </div>
+    </a>
+    <a href="https://every.to/source-code/how-to-use-claude-code-for-everyday-tasks-no-programming-required" target="_blank" rel="noopener" class="resource-item">
+      <div class="resource-icon resource-icon--article">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" /></svg>
+      </div>
+      <div class="resource-body">
+        <div class="resource-meta">
+          <span class="resource-title">How to Use Claude Code for Everyday Tasks — No Programming Required</span>
+          <span class="resource-type">Article</span>
+        </div>
+        <span class="resource-desc">Practical ideas for using Claude Code beyond building apps — automating tasks, organising files, working with data.</span>
+      </div>
+    </a>
+    <a href="https://ccforeveryone.com/" target="_blank" rel="noopener" class="resource-item">
+      <div class="resource-icon resource-icon--course">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M4.26 10.147a60.438 60.438 0 0 0-.491 6.347A48.62 48.62 0 0 1 12 20.904a48.62 48.62 0 0 1 8.232-4.41 60.46 60.46 0 0 0-.491-6.347m-15.482 0a50.636 50.636 0 0 0-2.658-.813A59.906 59.906 0 0 1 12 3.493a59.903 59.903 0 0 1 10.399 5.84 50.636 50.636 0 0 0-2.658.814m-15.482 0A50.717 50.717 0 0 1 12 13.489a50.717 50.717 0 0 1 7.74-3.342M6.75 15v-3.75m0 0-2.25.75L6.75 15l2.25-.75-2.25-.75Z" /></svg>
+      </div>
+      <div class="resource-body">
+        <div class="resource-meta">
+          <span class="resource-title">CC for Everyone — Free Interactive Course</span>
+          <span class="resource-type">Course</span>
+        </div>
+        <span class="resource-desc">A hands-on course that teaches Claude Code by doing real work inside it. No videos, no docs — just follow along.</span>
+      </div>
+    </a>
+    <a href="https://code.claude.com/docs/en/quickstart" target="_blank" rel="noopener" class="resource-item">
+      <div class="resource-icon resource-icon--docs">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.042A8.967 8.967 0 0 0 6 3.75c-1.052 0-2.062.18-3 .512v14.25A8.987 8.987 0 0 1 6 18c2.305 0 4.408.867 6 2.292m0-14.25a8.966 8.966 0 0 1 6-2.292c1.052 0 2.062.18 3 .512v14.25A8.987 8.987 0 0 0 18 18a8.967 8.967 0 0 0-6 2.292m0-14.25v14.25" /></svg>
+      </div>
+      <div class="resource-body">
+        <div class="resource-meta">
+          <span class="resource-title">Claude Code Official Docs</span>
+          <span class="resource-type">Docs</span>
+        </div>
+        <span class="resource-desc">Anthropic's own documentation. More technical, but useful once you're comfortable with the basics.</span>
+      </div>
+    </a>
+    <a href="https://awesomeclaude.ai/code-cheatsheet" target="_blank" rel="noopener" class="resource-item">
+      <div class="resource-icon resource-icon--reference">
+        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M17.25 6.75 22.5 12l-5.25 5.25m-10.5 0L1.5 12l5.25-5.25m7.5-3-4.5 16.5" /></svg>
+      </div>
+      <div class="resource-body">
+        <div class="resource-meta">
+          <span class="resource-title">Claude Code Cheat Sheet</span>
+          <span class="resource-type">Reference</span>
+        </div>
+        <span class="resource-desc">Every command, shortcut, and config option in one place. Handy to bookmark for quick lookups.</span>
+      </div>
+    </a>
   </div>
 </div>
 
