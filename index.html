@@ -1455,6 +1455,291 @@
     font-size: 13px;
   }
 
+  /* ── HELP SYSTEM ── */
+
+  /* Helpable sections get a subtle indicator on hover */
+  .helpable {
+    position: relative;
+    transition: box-shadow 0.2s;
+  }
+
+  .helpable:hover {
+    box-shadow: inset 0 0 0 1px rgba(196,101,26,0.15);
+  }
+
+  .help-nudge {
+    position: absolute;
+    bottom: 8px;
+    right: 8px;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--muted-fg);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 3px 10px;
+    opacity: 0;
+    transform: translateY(4px);
+    transition: all 0.2s;
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .helpable:hover .help-nudge {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Text selection floating toolbar */
+  .sel-toolbar {
+    position: fixed;
+    z-index: 300;
+    display: flex;
+    gap: 1px;
+    background: var(--fg);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+    opacity: 0;
+    pointer-events: none;
+    transform: translateY(4px);
+    transition: opacity 0.15s, transform 0.15s;
+  }
+
+  .sel-toolbar.visible {
+    opacity: 1;
+    pointer-events: all;
+    transform: translateY(0);
+  }
+
+  .sel-toolbar button {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.85);
+    font-family: var(--font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 14px;
+    cursor: pointer;
+    transition: background 0.1s;
+    white-space: nowrap;
+  }
+
+  .sel-toolbar button:hover {
+    background: rgba(255,255,255,0.1);
+  }
+
+  .sel-toolbar button.sel-help {
+    color: var(--red);
+    border-left: 1px solid rgba(255,255,255,0.1);
+  }
+
+  /* Help modal */
+  .help-modal-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 400;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .help-modal-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .help-modal {
+    background: var(--bg);
+    border-radius: var(--radius);
+    width: min(480px, 90vw);
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 32px;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.2s;
+  }
+
+  .help-modal-overlay.open .help-modal {
+    transform: translateY(0) scale(1);
+  }
+
+  .help-modal-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  .help-modal h3 {
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .help-context-box {
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+    max-height: 120px;
+    overflow-y: auto;
+  }
+
+  .help-context-section {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    margin-bottom: 4px;
+  }
+
+  .help-context-text {
+    font-size: 13px;
+    color: var(--fg);
+    line-height: 1.5;
+  }
+
+  .help-form-group {
+    margin-bottom: 16px;
+  }
+
+  .help-form-group label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--fg);
+    margin-bottom: 6px;
+  }
+
+  .help-form-group textarea,
+  .help-form-group input {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 10px 12px;
+    resize: vertical;
+    transition: border-color 0.15s;
+  }
+
+  .help-form-group textarea:focus,
+  .help-form-group input:focus {
+    outline: none;
+    border-color: var(--ring);
+  }
+
+  .help-form-group textarea {
+    min-height: 80px;
+  }
+
+  .help-form-group .help-hint {
+    font-size: 11px;
+    color: var(--muted-fg);
+    margin-top: 4px;
+  }
+
+  .help-form-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+  }
+
+  .help-btn-cancel {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    padding: 8px 16px;
+    cursor: pointer;
+    color: var(--fg);
+    transition: all 0.15s;
+  }
+
+  .help-btn-cancel:hover {
+    background: var(--muted);
+  }
+
+  .help-btn-send {
+    background: var(--fg);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 20px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .help-btn-send:hover {
+    opacity: 0.85;
+  }
+
+  /* Onboarding hint */
+  .help-onboarding {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 50;
+    background: var(--fg);
+    color: rgba(255,255,255,0.85);
+    font-size: 12px;
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    max-width: 260px;
+    line-height: 1.5;
+    opacity: 0;
+    transform: translateY(10px);
+    transition: all 0.3s;
+    pointer-events: none;
+  }
+
+  .help-onboarding.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: all;
+  }
+
+  .help-onboarding strong {
+    display: block;
+    color: var(--red);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+
+  .help-onboarding-close {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+  }
+
   /* ── RESPONSIVE ── */
   @media (max-width: 900px) {
     .grid-2 { grid-template-columns: 1fr; }
@@ -1577,8 +1862,8 @@
         <p>You get free credit to start. For learning projects, this goes a long way.</p>
       </div>
       <div class="callout">
-        <strong>You won't need to configure anything manually</strong>
-        <p>Claude Code will ask for this key the first time you run it. Just paste it in and press Return.</p>
+        <strong>You'll use this key twice</strong>
+        <p>Once when you first start Claude Code (it asks you to sign in), and once when Claude Code builds your app (it will ask you to paste it into a settings file). Keep it handy.</p>
       </div>
     </div>
 
@@ -1886,13 +2171,17 @@
               <code>npm run dev</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
             </div>
-            <span class="cmd-note">Look for a line like "Local: http://localhost:3000" — open that URL in your browser.</span>
+            <span class="cmd-note">Look for a line that says "Local: http://localhost:" followed by a number (usually 3000). Open that full URL in your browser.</span>
           </div>
         </div>
         <p>When you see something running in your browser — that's your agent.</p>
         <div class="callout callout-warn" style="margin-top:12px;">
+          <strong>Your API key</strong>
+          <p>During the build, Claude Code should ask you to paste your Anthropic API key. This is the key you saved earlier — it goes into a file called <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">.env.local</code> so your app can talk to Claude. If your app loads but shows an error or doesn't respond, go back to Claude Code and say: "My app isn't working — I think it needs my API key. Can you help me set it up?"</p>
+        </div>
+        <div class="callout callout-warn" style="margin-top:12px;">
           <strong>When things go wrong</strong>
-          <p>When you see an error — and you will — don't panic. Copy the error message, paste it back into Claude Code, and say "I got this error, can you fix it?" This is completely normal. Even experienced developers spend most of their time fixing errors.</p>
+          <p>When you see an error — and you will — don't panic. Errors can appear in two places: in Terminal (where you ran <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">npm run dev</code>) or in the browser. Either way, copy the error message, paste it back into Claude Code, and say "I got this error, can you fix it?" This is completely normal. Even experienced developers spend most of their time fixing errors.</p>
         </div>
       </div>
     </div>
@@ -1901,7 +2190,11 @@
       <div class="step-num">3</div>
       <div class="step-body">
         <h3>Improve it</h3>
-        <p>Use the app, notice what's wrong or missing, go back to Claude Code and describe changes in plain English:</p>
+        <p>Use the app, notice what's wrong or missing, then go back to Claude Code and describe changes in plain English. The loop is: use the app → notice something → tell Claude Code → it fixes it → refresh the browser.</p>
+        <div class="callout" style="margin-bottom:12px;">
+          <strong>Two Terminal windows</strong>
+          <p>Keep one Terminal window running <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">npm run dev</code> (your app) and open a second Terminal window (<strong>⌘ + N</strong>) for Claude Code. That way you can make changes without stopping your app. Your app updates automatically when Claude Code saves a file.</p>
+        </div>
         <div class="cmd-steps">
           <div class="cmd-step">
             <div class="cmd-box">
@@ -2140,7 +2433,7 @@ The interface should be clean and functional. Two panels: on the left, a place t
 
 The agent's personality: thoughtful, precise, never makes things up. If the answer isn't in the writing, it says so. It occasionally notices connections and surfaces them unprompted.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store submitted writing in memory for the session.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store submitted writing in memory for the session. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
@@ -2165,7 +2458,7 @@ The agent's personality: genuinely curious, warm but rigorous, asks one question
 
 Interface: A clean chat interface. A "Summarise what you've learned" button. An "Export conversation" button.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Mobile-friendly.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Mobile-friendly. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
@@ -2190,7 +2483,7 @@ The agent's personality: direct, honest, not sycophantic. It will push back. It 
 
 Interface: Onboarding screen first (who are you, what's your context). Then a conversation interface. A small editable "your context" panel.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store context in local state.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store context in local state. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
@@ -2215,7 +2508,7 @@ The agent's personality: a brilliant teacher who never talks down to anyone.
 
 Interface: Two input boxes (topic / audience). Generated explanation below. Conversation thread for follow-ups.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Clean, readable typography.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Clean, readable typography. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
@@ -2240,7 +2533,7 @@ The agent's personality: an extremely well-read friend who curates with a point 
 
 Interface: Topic setup screen. Then a feed-style interface. Each item has a headline, a "why this matters" paragraph. A search box for specific questions.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514) with web search enabled.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514) with web search enabled. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
@@ -2265,7 +2558,7 @@ The user can create multiple characters and switch between them.
 
 Interface: Character creation screen (name, backstory, voice, purpose). Then conversation interface. Character card visible throughout.
 
-Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store characters in local state.
+Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store characters in local state. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.
 
 Before writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.`,
     phases: [
@@ -2322,6 +2615,244 @@ function copyCmd(btn) {
 }
 
 document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProject(); });
+</script>
+
+<!-- HELP SYSTEM -->
+
+<!-- Text selection toolbar -->
+<div class="sel-toolbar" id="selToolbar">
+  <button onclick="copySelection()">Copy</button>
+  <button class="sel-help" onclick="openHelpFromSelection()">Ask about this</button>
+</div>
+
+<!-- Help form modal -->
+<div class="help-modal-overlay" id="helpModalOverlay">
+  <div class="help-modal">
+    <span class="help-modal-label">Get help</span>
+    <h3>What do you need help with?</h3>
+    <div class="help-context-box" id="helpContextBox">
+      <div class="help-context-section">You highlighted</div>
+      <div class="help-context-text" id="helpContextText"></div>
+    </div>
+    <div class="help-form-group">
+      <label for="helpQuestion">Your question</label>
+      <textarea id="helpQuestion" placeholder="What's confusing? What happened when you tried? What were you expecting?"></textarea>
+      <div class="help-hint">Be as specific as you can — it helps me help you faster.</div>
+    </div>
+    <div class="help-form-group">
+      <label for="helpEmail">Your email (so I can reply)</label>
+      <input type="email" id="helpEmail" placeholder="you@example.com">
+    </div>
+    <div class="help-form-actions">
+      <button class="help-btn-cancel" onclick="closeHelpModal()">Cancel</button>
+      <button class="help-btn-send" onclick="sendHelp()">Send question</button>
+    </div>
+  </div>
+</div>
+
+<!-- Onboarding hint -->
+<div class="help-onboarding" id="helpOnboarding">
+  <button class="help-onboarding-close" onclick="dismissOnboarding()">&times;</button>
+  <strong>Stuck on something?</strong>
+  Highlight any text on this page and click "Ask about this" to send a question.
+</div>
+
+<script>
+(function() {
+  // ── Selection toolbar ──
+  const toolbar = document.getElementById('selToolbar');
+  let currentSelection = '';
+  let currentSectionTitle = '';
+
+  function getNearestSectionTitle(node) {
+    let el = node.nodeType === 3 ? node.parentElement : node;
+    while (el && el !== document.body) {
+      // Check if we're inside a step
+      const step = el.closest('.step');
+      if (step) {
+        const h3 = step.querySelector('h3');
+        return h3 ? h3.textContent : '';
+      }
+      // Check if we're inside a card
+      const card = el.closest('.card, .claude-tip-card, .idea-card');
+      if (card) {
+        const h3 = card.querySelector('h3');
+        return h3 ? h3.textContent : '';
+      }
+      // Check if we're inside a section
+      const section = el.closest('.section');
+      if (section) {
+        const label = section.querySelector('.section-label');
+        const h2 = section.querySelector('h2');
+        return label ? label.textContent : (h2 ? h2.textContent.substring(0, 60) : '');
+      }
+      el = el.parentElement;
+    }
+    return '';
+  }
+
+  document.addEventListener('mouseup', function(e) {
+    // Don't show toolbar when clicking inside toolbar, modal, or project panel
+    if (e.target.closest('.sel-toolbar, .help-modal-overlay, .project-overlay')) return;
+
+    setTimeout(() => {
+      const sel = window.getSelection();
+      const text = sel.toString().trim();
+
+      if (text.length > 3) {
+        currentSelection = text;
+        currentSectionTitle = getNearestSectionTitle(sel.anchorNode);
+
+        const range = sel.getRangeAt(0);
+        const rect = range.getBoundingClientRect();
+
+        // Position toolbar just below the selection end
+        toolbar.style.left = Math.max(8, rect.left + rect.width / 2 - 100) + 'px';
+        toolbar.style.top = (rect.bottom + 6) + 'px';
+        toolbar.classList.add('visible');
+      } else {
+        toolbar.classList.remove('visible');
+      }
+    }, 10);
+  });
+
+  document.addEventListener('mousedown', function(e) {
+    if (!e.target.closest('.sel-toolbar')) {
+      toolbar.classList.remove('visible');
+    }
+  });
+
+  // ── Copy selection ──
+  window.copySelection = function() {
+    navigator.clipboard.writeText(currentSelection).then(() => {
+      const btn = toolbar.querySelector('button:first-child');
+      btn.textContent = 'Copied';
+      setTimeout(() => {
+        btn.textContent = 'Copy';
+        toolbar.classList.remove('visible');
+      }, 1200);
+    });
+  };
+
+  // ── Help modal ──
+  window.openHelpFromSelection = function() {
+    toolbar.classList.remove('visible');
+    document.getElementById('helpContextText').textContent = currentSelection;
+    document.getElementById('helpQuestion').value = '';
+    document.getElementById('helpModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('helpQuestion').focus(), 200);
+  };
+
+  window.closeHelpModal = function() {
+    document.getElementById('helpModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  // Close modal on overlay click
+  document.getElementById('helpModalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeHelpModal();
+  });
+
+  // Close modal on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeHelpModal();
+  });
+
+  // ── Send help request ──
+  window.sendHelp = function() {
+    const context = document.getElementById('helpContextText').textContent;
+    const question = document.getElementById('helpQuestion').value.trim();
+    const email = document.getElementById('helpEmail').value.trim();
+    const btn = document.querySelector('.help-btn-send');
+
+    if (!question) {
+      document.getElementById('helpQuestion').focus();
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+
+    const formData = new FormData();
+    formData.append('_subject', 'Vibe Builders help: ' + (currentSectionTitle || 'Question'));
+    formData.append('highlighted-text', context);
+    formData.append('question', question);
+    formData.append('email', email || '(not provided)');
+
+    fetch('https://formspree.io/f/mwvrorwo', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).then(res => {
+      if (res.ok) {
+        btn.textContent = 'Sent!';
+        setTimeout(() => {
+          btn.textContent = 'Send question';
+          btn.disabled = false;
+          closeHelpModal();
+        }, 1500);
+      } else {
+        btn.textContent = 'Something went wrong';
+        btn.disabled = false;
+        setTimeout(() => btn.textContent = 'Send question', 2000);
+      }
+    }).catch(() => {
+      btn.textContent = 'Something went wrong';
+      btn.disabled = false;
+      setTimeout(() => btn.textContent = 'Send question', 2000);
+    });
+  };
+
+  // ── Onboarding hint ──
+  const onboarding = document.getElementById('helpOnboarding');
+  const dismissed = localStorage.getItem('help-onboarding-dismissed');
+
+  if (!dismissed) {
+    setTimeout(() => onboarding.classList.add('visible'), 5000);
+    // Auto-dismiss after 15 seconds
+    setTimeout(() => {
+      if (onboarding.classList.contains('visible')) {
+        onboarding.classList.remove('visible');
+      }
+    }, 20000);
+  }
+
+  window.dismissOnboarding = function() {
+    onboarding.classList.remove('visible');
+    localStorage.setItem('help-onboarding-dismissed', '1');
+  };
+
+  // Also dismiss when user makes their first selection
+  document.addEventListener('mouseup', function handler() {
+    const sel = window.getSelection().toString().trim();
+    if (sel.length > 3 && onboarding.classList.contains('visible')) {
+      onboarding.classList.remove('visible');
+      localStorage.setItem('help-onboarding-dismissed', '1');
+    }
+  });
+
+  // ── Add helpable indicators to key sections ──
+  const helpableSelectors = [
+    '.step',
+    '.card:not(.idea-card)',
+    '.callout',
+    '.cheat-note',
+    '.pattern-box',
+    '.claude-tip-card'
+  ];
+
+  helpableSelectors.forEach(selector => {
+    document.querySelectorAll(selector).forEach(el => {
+      el.classList.add('helpable');
+      const nudge = document.createElement('span');
+      nudge.className = 'help-nudge';
+      nudge.textContent = 'Highlight text for help';
+      el.appendChild(nudge);
+    });
+  });
+
+})();
 </script>
 </body>
 </html>
