@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Archivist — Live Demo | Vibe Builders</title>
+<meta name="description" content="A personal knowledge agent that learns from your writing and answers questions grounded in your own thinking. Built with Claude Code.">
+<link rel="canonical" href="https://vibe.datadowns.com/archivist/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="The Archivist — Live Demo | Vibe Builders">
+<meta property="og:description" content="A personal knowledge agent that learns from your writing. Built with Claude Code in minutes.">
+<meta property="og:url" content="https://vibe.datadowns.com/archivist/">
+<meta property="og:site_name" content="Vibe Builders">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+  :root {
+    --bg: #0a0a0a;
+    --fg: #fafafa;
+    --card: #171717;
+    --border: #262626;
+    --muted: #a3a3a3;
+    --red: #c4651a;
+    --radius: 0.5rem;
+    --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .topbar-title {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+
+  .demo-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--red);
+    background: rgba(196,101,26,0.1);
+    border: 1px solid rgba(196,101,26,0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  .topbar-right a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .topbar-right a:hover { color: var(--fg); }
+
+  /* Layout */
+  .app {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Left panel — writing */
+  .panel-left {
+    width: 380px;
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    flex-shrink: 0;
+    overflow: hidden;
+  }
+
+  .panel-header {
+    padding: 16px 20px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .add-form-row {
+    display: flex;
+    gap: 8px;
+  }
+
+  .add-form input,
+  .add-form textarea {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px;
+    transition: border-color 0.15s;
+  }
+
+  .add-form input:focus,
+  .add-form textarea:focus {
+    outline: none;
+    border-color: #525252;
+  }
+
+  .add-form input::placeholder,
+  .add-form textarea::placeholder { color: #525252; }
+
+  .add-form textarea {
+    resize: vertical;
+    min-height: 80px;
+    line-height: 1.5;
+  }
+
+  .add-form .add-form-row input:first-child { flex: 1; }
+  .add-form .add-form-row input:last-child { width: 130px; }
+
+  .btn-add {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 16px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    cursor: pointer;
+    transition: opacity 0.15s;
+    align-self: flex-end;
+  }
+
+  .btn-add:hover { opacity: 0.85; }
+
+  /* Writing list */
+  .writings-list {
+    flex: 1;
+    overflow-y: auto;
+    padding: 12px 20px;
+  }
+
+  .writing-item {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    position: relative;
+  }
+
+  .writing-item-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+  }
+
+  .writing-item-title {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--fg);
+  }
+
+  .writing-item-date {
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+
+  .writing-item-preview {
+    font-size: 12px;
+    color: var(--muted);
+    line-height: 1.5;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .writing-item-remove {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    color: #525252;
+    cursor: pointer;
+    font-size: 14px;
+    line-height: 1;
+    padding: 2px 4px;
+    transition: color 0.15s;
+  }
+
+  .writing-item-remove:hover { color: var(--fg); }
+
+  .empty-state {
+    color: #525252;
+    font-size: 13px;
+    text-align: center;
+    padding: 32px 20px;
+    line-height: 1.6;
+  }
+
+  .writing-count {
+    font-size: 11px;
+    color: var(--muted);
+    padding: 8px 20px;
+    border-top: 1px solid var(--border);
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  /* Right panel — chat */
+  .panel-right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .msg {
+    max-width: 640px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  .msg-user {
+    align-self: flex-end;
+    background: #262626;
+    color: var(--fg);
+  }
+
+  .msg-assistant {
+    align-self: flex-start;
+    background: var(--card);
+    color: #d4d4d4;
+  }
+
+  .msg-thinking {
+    align-self: flex-start;
+    background: var(--card);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .msg-limit {
+    align-self: center;
+    background: rgba(196,101,26,0.1);
+    border: 1px solid rgba(196,101,26,0.2);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    max-width: 480px;
+  }
+
+  .msg-limit a {
+    color: var(--red);
+    text-decoration: underline;
+  }
+
+  .msg-system {
+    align-self: center;
+    color: var(--muted);
+    font-size: 12px;
+    text-align: center;
+    max-width: 400px;
+    line-height: 1.6;
+  }
+
+  /* Input */
+  .input-area {
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    flex-shrink: 0;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .input-row input {
+    flex: 1;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    transition: border-color 0.15s;
+  }
+
+  .input-row input:focus {
+    outline: none;
+    border-color: #525252;
+  }
+
+  .input-row input::placeholder { color: #525252; }
+  .input-row input:disabled { opacity: 0.5; }
+
+  .input-row button {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+
+  .input-row button:hover { opacity: 0.85; }
+  .input-row button:disabled { opacity: 0.3; cursor: default; }
+
+  .input-hint {
+    font-size: 11px;
+    color: #525252;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* Responsive */
+  @media (max-width: 800px) {
+    .app { flex-direction: column; }
+    .panel-left {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      max-height: 45vh;
+    }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-title">The Archivist</span>
+    <span class="demo-badge">Live demo</span>
+  </div>
+  <div class="topbar-right">
+    <a href="/showcase.html">&larr; All examples</a> &nbsp;&middot;&nbsp;
+    <a href="/">Build your own</a>
+  </div>
+</div>
+
+<div class="app">
+  <!-- Left panel: add writing -->
+  <div class="panel-left">
+    <div class="panel-header">
+      <div class="panel-label">Your writing</div>
+      <form class="add-form" onsubmit="addWriting(event)">
+        <div class="add-form-row">
+          <input type="text" id="writingTitle" placeholder="Title" required>
+          <input type="date" id="writingDate">
+        </div>
+        <textarea id="writingText" placeholder="Paste your writing here — notes, emails, journal entries, fragments of thinking..." required></textarea>
+        <button type="submit" class="btn-add">Add</button>
+      </form>
+    </div>
+    <div class="writings-list" id="writingsList">
+      <div class="empty-state" id="emptyState">No writing added yet. Paste in some notes, emails, or fragments of thinking and the Archivist will learn from them.</div>
+    </div>
+    <div class="writing-count" id="writingCount" style="display:none;"></div>
+  </div>
+
+  <!-- Right panel: conversation -->
+  <div class="panel-right">
+    <div class="messages" id="messages">
+      <div class="msg msg-system">Add some of your writing on the left, then ask the Archivist anything about it. It will only answer from what you've given it.</div>
+    </div>
+    <div class="input-area">
+      <form class="input-row" onsubmit="sendMessage(event)">
+        <input type="text" id="chatInput" placeholder="Ask something about your writing..." autocomplete="off">
+        <button type="submit" id="sendBtn">Send</button>
+      </form>
+      <div class="input-hint" id="inputHint"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var MAX_MESSAGES = 6;
+  var writings = [];
+  var messages = [];
+  var userMessageCount = 0;
+  var loading = false;
+
+  function addWriting(e) {
+    e.preventDefault();
+    var titleEl = document.getElementById('writingTitle');
+    var dateEl = document.getElementById('writingDate');
+    var textEl = document.getElementById('writingText');
+
+    var title = titleEl.value.trim();
+    var date = dateEl.value || '';
+    var text = textEl.value.trim();
+
+    if (!title || !text) return;
+
+    writings.push({ title: title, date: date, text: text });
+
+    titleEl.value = '';
+    dateEl.value = '';
+    textEl.value = '';
+
+    renderWritings();
+  }
+  window.addWriting = addWriting;
+
+  function removeWriting(index) {
+    writings.splice(index, 1);
+    renderWritings();
+  }
+  window.removeWriting = removeWriting;
+
+  function renderWritings() {
+    var list = document.getElementById('writingsList');
+    var empty = document.getElementById('emptyState');
+    var countEl = document.getElementById('writingCount');
+
+    if (writings.length === 0) {
+      list.innerHTML = '<div class="empty-state" id="emptyState">No writing added yet. Paste in some notes, emails, or fragments of thinking and the Archivist will learn from them.</div>';
+      countEl.style.display = 'none';
+      return;
+    }
+
+    var html = '';
+    for (var i = writings.length - 1; i >= 0; i--) {
+      var w = writings[i];
+      html += '<div class="writing-item">';
+      html += '<button class="writing-item-remove" onclick="removeWriting(' + i + ')" title="Remove">&times;</button>';
+      html += '<div class="writing-item-header">';
+      html += '<span class="writing-item-title">' + escapeHtml(w.title) + '</span>';
+      if (w.date) html += '<span class="writing-item-date">' + escapeHtml(w.date) + '</span>';
+      html += '</div>';
+      html += '<div class="writing-item-preview">' + escapeHtml(w.text) + '</div>';
+      html += '</div>';
+    }
+    list.innerHTML = html;
+
+    countEl.textContent = writings.length + ' piece' + (writings.length === 1 ? '' : 's') + ' of writing';
+    countEl.style.display = 'block';
+  }
+
+  function escapeHtml(str) {
+    var div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  function buildContext() {
+    if (writings.length === 0) return '';
+    var parts = [];
+    for (var i = 0; i < writings.length; i++) {
+      var w = writings[i];
+      var header = '--- ' + w.title;
+      if (w.date) header += ' (' + w.date + ')';
+      header += ' ---';
+      parts.push(header + '\n' + w.text);
+    }
+    return parts.join('\n\n');
+  }
+
+  function updateHint() {
+    var remaining = MAX_MESSAGES - userMessageCount;
+    var hint = document.getElementById('inputHint');
+    if (remaining <= 3 && remaining > 0) {
+      hint.textContent = remaining + ' message' + (remaining === 1 ? '' : 's') + ' remaining in this demo';
+    } else {
+      hint.textContent = '';
+    }
+  }
+
+  function addMessage(role, content) {
+    var div = document.createElement('div');
+    div.className = 'msg msg-' + role;
+    div.textContent = content;
+    document.getElementById('messages').appendChild(div);
+    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+    return div;
+  }
+
+  function sendMessage(e) {
+    e.preventDefault();
+    var input = document.getElementById('chatInput');
+    var text = input.value.trim();
+    if (!text || loading) return;
+    if (userMessageCount >= MAX_MESSAGES) return;
+
+    if (writings.length === 0) {
+      addMessage('system', 'Add some writing first — the Archivist needs something to work with.');
+      return;
+    }
+
+    input.value = '';
+    send(text);
+  }
+  window.sendMessage = sendMessage;
+
+  function send(text) {
+    userMessageCount++;
+    messages.push({ role: 'user', content: text });
+    addMessage('user', text);
+
+    updateHint();
+
+    loading = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('chatInput').disabled = true;
+
+    var thinkingDiv = addMessage('thinking', 'Searching your writing...');
+
+    var context = buildContext();
+
+    fetch('/api/archivist/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: messages, context: context })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      thinkingDiv.remove();
+      var reply = data.response || data.error || 'Something went wrong.';
+      messages.push({ role: 'assistant', content: reply });
+      addMessage('assistant', reply);
+
+      if (userMessageCount >= MAX_MESSAGES) {
+        showLimit();
+      }
+    })
+    .catch(function() {
+      thinkingDiv.remove();
+      addMessage('assistant', 'Something went wrong. Try refreshing the page.');
+    })
+    .finally(function() {
+      loading = false;
+      if (userMessageCount < MAX_MESSAGES) {
+        document.getElementById('sendBtn').disabled = false;
+        document.getElementById('chatInput').disabled = false;
+        document.getElementById('chatInput').focus();
+      }
+    });
+  }
+
+  function showLimit() {
+    document.getElementById('chatInput').disabled = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('chatInput').placeholder = 'Demo limit reached';
+    document.getElementById('inputHint').textContent = '';
+
+    var div = document.createElement('div');
+    div.className = 'msg msg-limit';
+    div.innerHTML = 'You\'ve reached the 6-message limit for this demo. Want your own Archivist with no limits? <a href="/">Build it yourself</a> \u2014 it takes about 20 minutes.';
+    document.getElementById('messages').appendChild(div);
+    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+  }
+
+})();
+</script>
+<script async defer src="https://scripts.withcabin.com/hello.js"></script>
+</body>
+</html>

@@ -1,0 +1,666 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Curator — Live Demo | Vibe Builders</title>
+<meta name="description" content="A personal content editor for any topic — surfaces what matters, explains why, and goes deep on demand. Built with Claude Code.">
+<link rel="canonical" href="https://vibe.datadowns.com/curator/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<meta property="og:title" content="The Curator — Live Demo | Vibe Builders">
+<meta property="og:description" content="A personal content editor for any topic. Curates with a point of view — not just a list. Built with Claude Code.">
+<meta property="og:url" content="https://vibe.datadowns.com/curator/">
+<meta property="og:site_name" content="Vibe Builders">
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+  :root {
+    --bg: #0a0a0a;
+    --fg: #fafafa;
+    --card: #171717;
+    --border: #262626;
+    --muted: #a3a3a3;
+    --red: #c4651a;
+    --radius: 0.5rem;
+    --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Top bar */
+  .topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .topbar-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .topbar-title {
+    font-weight: 600;
+    font-size: 15px;
+    letter-spacing: -0.02em;
+  }
+
+  .topbar-subtitle {
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .topbar-right a {
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .topbar-right a:hover { color: var(--fg); }
+
+  .demo-badge {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--red);
+    background: rgba(196,101,26,0.1);
+    border: 1px solid rgba(196,101,26,0.2);
+    padding: 2px 8px;
+    border-radius: 4px;
+  }
+
+  /* Layout */
+  .app {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    width: 280px;
+    border-right: 1px solid var(--border);
+    padding: 20px;
+    overflow-y: auto;
+    flex-shrink: 0;
+  }
+
+  .sidebar-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 12px;
+  }
+
+  .sidebar pre {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--muted);
+    white-space: pre-wrap;
+    line-height: 1.6;
+  }
+
+  .sidebar-edit {
+    display: inline-block;
+    margin-top: 12px;
+    font-size: 12px;
+    color: var(--muted);
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: var(--font-sans);
+    transition: color 0.15s;
+  }
+
+  .sidebar-edit:hover { color: var(--fg); }
+
+  .sidebar textarea {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 12px;
+    resize: vertical;
+    min-height: 200px;
+    line-height: 1.6;
+  }
+
+  .sidebar textarea:focus {
+    outline: none;
+    border-color: #525252;
+  }
+
+  /* Chat area */
+  .chat {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .messages {
+    flex: 1;
+    overflow-y: auto;
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .msg {
+    max-width: 640px;
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 14px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+  }
+
+  .msg-user {
+    align-self: flex-end;
+    background: #262626;
+    color: var(--fg);
+  }
+
+  .msg-assistant {
+    align-self: flex-start;
+    background: var(--card);
+    color: #d4d4d4;
+  }
+
+  .msg-thinking {
+    align-self: flex-start;
+    background: var(--card);
+    color: var(--muted);
+    font-style: italic;
+  }
+
+  .msg-limit {
+    align-self: center;
+    background: rgba(196,101,26,0.1);
+    border: 1px solid rgba(196,101,26,0.2);
+    color: var(--muted);
+    font-size: 13px;
+    text-align: center;
+    max-width: 480px;
+  }
+
+  .msg-limit a {
+    color: var(--red);
+    text-decoration: underline;
+  }
+
+  /* Input */
+  .input-area {
+    border-top: 1px solid var(--border);
+    padding: 16px 24px;
+    flex-shrink: 0;
+  }
+
+  .input-row {
+    display: flex;
+    gap: 10px;
+  }
+
+  .input-row input {
+    flex: 1;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px 16px;
+    transition: border-color 0.15s;
+  }
+
+  .input-row input:focus {
+    outline: none;
+    border-color: #525252;
+  }
+
+  .input-row input::placeholder { color: #525252; }
+
+  .input-row input:disabled { opacity: 0.5; }
+
+  .input-row button {
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 24px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    cursor: pointer;
+    transition: opacity 0.15s;
+    white-space: nowrap;
+  }
+
+  .input-row button:hover { opacity: 0.85; }
+  .input-row button:disabled { opacity: 0.3; cursor: default; }
+
+  .input-hint {
+    font-size: 11px;
+    color: #525252;
+    margin-top: 8px;
+    text-align: center;
+  }
+
+  /* Onboarding */
+  .onboarding {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+  }
+
+  .onboarding-card {
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .onboarding-card h1 {
+    font-size: 28px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 8px;
+  }
+
+  .onboarding-card > p {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 28px;
+    line-height: 1.6;
+  }
+
+  .form-group {
+    margin-bottom: 16px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 6px;
+  }
+
+  .form-group input,
+  .form-group textarea,
+  .form-group select {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--fg);
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    transition: border-color 0.15s;
+    resize: vertical;
+  }
+
+  .form-group input:focus,
+  .form-group textarea:focus,
+  .form-group select:focus {
+    outline: none;
+    border-color: #525252;
+  }
+
+  .form-group input::placeholder,
+  .form-group textarea::placeholder { color: #525252; }
+
+  .form-group select option {
+    background: var(--card);
+    color: var(--fg);
+  }
+
+  .checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 6px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.15s;
+    margin-bottom: 0;
+  }
+
+  .checkbox-group label:hover {
+    border-color: #525252;
+    color: var(--fg);
+  }
+
+  .checkbox-group input[type="checkbox"] {
+    width: auto;
+    accent-color: var(--red);
+  }
+
+  .checkbox-group input[type="checkbox"]:checked + span {
+    color: var(--fg);
+  }
+
+  .btn-start {
+    width: 100%;
+    font-family: var(--font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    cursor: pointer;
+    margin-top: 8px;
+    transition: opacity 0.15s;
+  }
+
+  .btn-start:hover { opacity: 0.85; }
+
+  /* Responsive */
+  @media (max-width: 700px) {
+    .app { flex-direction: column; }
+    .sidebar {
+      width: 100%;
+      border-right: none;
+      border-bottom: 1px solid var(--border);
+      max-height: 200px;
+    }
+    .onboarding { padding: 24px 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="topbar-left">
+    <span class="topbar-title">The Curator</span>
+    <span class="demo-badge">Live demo</span>
+  </div>
+  <div class="topbar-right">
+    <a href="/showcase.html">&larr; All examples</a> &nbsp;&middot;&nbsp;
+    <a href="/">Build your own</a>
+  </div>
+</div>
+
+<!-- Onboarding screen -->
+<div class="onboarding" id="onboarding">
+  <div class="onboarding-card">
+    <h1>An extremely well-read friend who curates with a point of view</h1>
+    <p>Tell it what you care about, what you already know, and how deep you want to go. It won't just hand you a list — it'll surface what's interesting and tell you why it matters.</p>
+    <form onsubmit="startChat(event)">
+      <div class="form-group">
+        <label>What topic do you want curated?</label>
+        <input type="text" id="fieldTopic" placeholder="e.g. AI regulation in the EU, regenerative agriculture, indie game design" required>
+      </div>
+      <div class="form-group">
+        <label>What kind of content are you after?</label>
+        <div class="checkbox-group">
+          <label><input type="checkbox" name="contentType" value="news"><span>News & developments</span></label>
+          <label><input type="checkbox" name="contentType" value="ideas"><span>Ideas & frameworks</span></label>
+          <label><input type="checkbox" name="contentType" value="research"><span>Research & data</span></label>
+          <label><input type="checkbox" name="contentType" value="debate"><span>Debate & contrarian takes</span></label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>What do you already know about this?</label>
+        <textarea id="fieldKnowledge" placeholder="e.g. I've been following the EU AI Act since 2023, understand the risk tiers, and know the basics of GDPR. I don't need introductions — I want the stuff that's actually moving." rows="3" required></textarea>
+      </div>
+      <div class="form-group">
+        <label>How much do you want at once?</label>
+        <select id="fieldDepth" required>
+          <option value="brief">Brief — just the highlights, keep it tight</option>
+          <option value="moderate" selected>Moderate — a solid briefing with some context</option>
+          <option value="deep">Deep — go long, I want the full picture</option>
+        </select>
+      </div>
+      <button type="submit" class="btn-start">Start curating</button>
+    </form>
+  </div>
+</div>
+
+<!-- Chat screen (hidden initially) -->
+<div class="app" id="chatScreen" style="display:none;">
+  <div class="sidebar">
+    <div class="sidebar-label">Your setup</div>
+    <div id="contextDisplay">
+      <pre id="contextText"></pre>
+      <button class="sidebar-edit" onclick="editContext()">Edit setup</button>
+    </div>
+    <div id="contextEditor" style="display:none;">
+      <textarea id="contextTextarea"></textarea>
+      <button class="sidebar-edit" onclick="saveContext()">Done editing</button>
+    </div>
+  </div>
+  <div class="chat">
+    <div class="messages" id="messages"></div>
+    <div class="input-area">
+      <form class="input-row" onsubmit="sendMessage(event)">
+        <input type="text" id="chatInput" placeholder="Go deeper on something, ask why it matters, or request a new angle..." autocomplete="off">
+        <button type="submit" id="sendBtn">Send</button>
+      </form>
+      <div class="input-hint" id="inputHint"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function() {
+  var MAX_MESSAGES = 6;
+  var context = '';
+  var messages = [];
+  var userMessageCount = 0;
+  var loading = false;
+
+  function startChat(e) {
+    e.preventDefault();
+    var topic = document.getElementById('fieldTopic').value.trim();
+    var checkboxes = document.querySelectorAll('input[name="contentType"]:checked');
+    var contentTypes = [];
+    checkboxes.forEach(function(cb) { contentTypes.push(cb.value); });
+    var knowledge = document.getElementById('fieldKnowledge').value.trim();
+    var depth = document.getElementById('fieldDepth').value;
+
+    var depthLabels = { brief: 'Brief', moderate: 'Moderate', deep: 'Deep' };
+
+    if (contentTypes.length === 0) {
+      contentTypes = ['news', 'ideas', 'research', 'debate'];
+    }
+
+    context = 'Topic: ' + topic + '\nContent types: ' + contentTypes.join(', ') + '\nExisting knowledge: ' + knowledge + '\nDepth: ' + depthLabels[depth];
+
+    document.getElementById('contextText').textContent = context;
+    document.getElementById('contextTextarea').value = context;
+    document.getElementById('onboarding').style.display = 'none';
+    document.getElementById('chatScreen').style.display = 'flex';
+
+    updateHint();
+    sendOpener();
+  }
+  window.startChat = startChat;
+
+  function editContext() {
+    document.getElementById('contextDisplay').style.display = 'none';
+    document.getElementById('contextEditor').style.display = 'block';
+    document.getElementById('contextTextarea').value = context;
+  }
+  window.editContext = editContext;
+
+  function saveContext() {
+    context = document.getElementById('contextTextarea').value;
+    document.getElementById('contextText').textContent = context;
+    document.getElementById('contextDisplay').style.display = 'block';
+    document.getElementById('contextEditor').style.display = 'none';
+  }
+  window.saveContext = saveContext;
+
+  function updateHint() {
+    var remaining = MAX_MESSAGES - userMessageCount;
+    var hint = document.getElementById('inputHint');
+    if (remaining <= 3 && remaining > 0) {
+      hint.textContent = remaining + ' message' + (remaining === 1 ? '' : 's') + ' remaining in this demo';
+    } else if (remaining <= 0) {
+      hint.textContent = '';
+    } else {
+      hint.textContent = '';
+    }
+  }
+
+  function addMessage(role, content) {
+    var div = document.createElement('div');
+    div.className = 'msg msg-' + role;
+    div.textContent = content;
+    document.getElementById('messages').appendChild(div);
+    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+    return div;
+  }
+
+  function sendOpener() {
+    loading = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('chatInput').disabled = true;
+
+    var thinkingDiv = addMessage('thinking', 'Putting together your first briefing...');
+
+    var openerMessages = [{ role: 'user', content: 'I\'ve just set up my curation preferences. Read my setup carefully, then deliver my first curated briefing. Don\'t greet me or introduce yourself — get straight into the interesting stuff. Surface what\'s worth paying attention to right now in my topic, explain why each thing matters, and give me your take. Match the depth level I chose.' }];
+
+    fetch('/api/curator/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: openerMessages, context: context })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      thinkingDiv.remove();
+      var reply = data.response || data.error || 'Something went wrong.';
+      messages.push({ role: 'user', content: openerMessages[0].content });
+      messages.push({ role: 'assistant', content: reply });
+      addMessage('assistant', reply);
+    })
+    .catch(function() {
+      thinkingDiv.remove();
+      addMessage('assistant', 'Something went wrong. Try refreshing the page.');
+    })
+    .finally(function() {
+      loading = false;
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('chatInput').disabled = false;
+      document.getElementById('chatInput').focus();
+    });
+  }
+
+  function sendMessage(e) {
+    e.preventDefault();
+    var input = document.getElementById('chatInput');
+    var text = input.value.trim();
+    if (!text || loading) return;
+
+    if (userMessageCount >= MAX_MESSAGES) return;
+
+    input.value = '';
+    send(text);
+  }
+  window.sendMessage = sendMessage;
+
+  function send(text) {
+    userMessageCount++;
+    messages.push({ role: 'user', content: text });
+    addMessage('user', text);
+
+    updateHint();
+
+    loading = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('chatInput').disabled = true;
+
+    var thinkingDiv = addMessage('thinking', 'Curating...');
+
+    fetch('/api/curator/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: messages, context: context })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      thinkingDiv.remove();
+      var reply = data.response || data.error || 'Something went wrong.';
+      messages.push({ role: 'assistant', content: reply });
+      addMessage('assistant', reply);
+
+      if (userMessageCount >= MAX_MESSAGES) {
+        showLimit();
+      }
+    })
+    .catch(function() {
+      thinkingDiv.remove();
+      addMessage('assistant', 'Something went wrong. Try refreshing the page.');
+    })
+    .finally(function() {
+      loading = false;
+      if (userMessageCount < MAX_MESSAGES) {
+        document.getElementById('sendBtn').disabled = false;
+        document.getElementById('chatInput').disabled = false;
+        document.getElementById('chatInput').focus();
+      }
+    });
+  }
+
+  function showLimit() {
+    document.getElementById('chatInput').disabled = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('chatInput').placeholder = 'Demo limit reached';
+    document.getElementById('inputHint').textContent = '';
+
+    var div = document.createElement('div');
+    div.className = 'msg msg-limit';
+    div.innerHTML = 'You\'ve reached the 6-message limit for this demo. Want your own Curator with no limits? <a href="/">Build it yourself</a> — it takes about 20 minutes.';
+    document.getElementById('messages').appendChild(div);
+    document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
+  }
+
+})();
+</script>
+<script async defer src="https://scripts.withcabin.com/hello.js"></script>
+</body>
+</html>
