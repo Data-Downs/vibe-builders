@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Showcase — AI Agents Built with Claude Code | Vibe Builders</title>
+<meta name="description" content="Working examples of AI agents built with Claude Code by complete beginners. Try them live, then build your own.">
+<link rel="canonical" href="https://vibe.datadowns.com/showcase.html">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+
+<!-- Open Graph -->
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://vibe.datadowns.com/showcase.html">
+<meta property="og:title" content="Showcase — AI Agents Built with Claude Code">
+<meta property="og:description" content="Working examples of AI agents built with Claude Code by complete beginners. Try them live, then build your own.">
+<meta property="og:site_name" content="Vibe Builders">
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Showcase — AI Agents Built with Claude Code">
+<meta name="twitter:description" content="Working examples of AI agents built with Claude Code by complete beginners. Try them live, then build your own.">
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Regular.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Medium.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-SemiBold.woff2') format('woff2'); font-weight: 600; font-display: swap; }
+  @font-face { font-family: 'Geist'; src: url('https://cdn.jsdelivr.net/npm/geist@1.3.1/dist/fonts/geist-sans/Geist-Bold.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+  :root {
+    --bg: #f6f5f2;
+    --fg: #2a2a2a;
+    --card: #ffffff;
+    --card-fg: #171717;
+    --muted: #f5f5f5;
+    --muted-fg: #737373;
+    --border: #e5e5e5;
+    --ring: #a3a3a3;
+    --red: #c4651a;
+    --emerald: #009767;
+    --radius: 0.5rem;
+    --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .nav-wrap {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--bg);
+    border-bottom: 1px solid var(--border);
+  }
+
+  nav {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-logo {
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--fg);
+    text-decoration: none;
+    letter-spacing: -0.025em;
+  }
+
+  .nav-logo span {
+    color: var(--muted-fg);
+    font-weight: 400;
+    font-size: 12px;
+    margin-left: 8px;
+  }
+
+  nav ul {
+    list-style: none;
+    display: flex;
+    gap: 24px;
+  }
+
+  nav ul a {
+    font-size: 13px;
+    color: var(--muted-fg);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  nav ul a:hover { color: var(--fg); }
+
+  .container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+  /* Header */
+  .header {
+    padding: 48px 0 32px;
+  }
+
+  .header h1 {
+    font-size: 36px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.15;
+    max-width: 640px;
+  }
+
+  .header h1 span {
+    color: var(--muted-fg);
+    font-weight: 400;
+  }
+
+  .header p {
+    font-size: 15px;
+    color: var(--muted-fg);
+    margin-top: 12px;
+    max-width: 560px;
+    line-height: 1.6;
+  }
+
+  /* Section */
+  .section {
+    padding: 32px 0;
+  }
+
+  .section-label {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    margin-bottom: 8px;
+  }
+
+  .section h2 {
+    font-size: 22px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+  }
+
+  .section h2 span {
+    color: var(--muted-fg);
+    font-weight: 400;
+  }
+
+  /* Project grid */
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .project-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 24px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+
+  .project-card:hover {
+    border-color: var(--ring);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  }
+
+  .project-card-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    margin-bottom: 8px;
+  }
+
+  .project-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .project-card p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.5;
+    margin-bottom: 16px;
+  }
+
+  .project-card-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .btn-try {
+    display: inline-block;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    text-decoration: none;
+    transition: opacity 0.15s;
+  }
+
+  .btn-try:hover { opacity: 0.85; }
+
+  .btn-build {
+    font-size: 13px;
+    color: var(--muted-fg);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .btn-build:hover { color: var(--fg); }
+
+  .coming-soon {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--muted-fg);
+    letter-spacing: 0.03em;
+  }
+
+  /* Submit section */
+  .submit-section {
+    border-top: 1px solid var(--border);
+    padding: 40px 0;
+    margin-top: 16px;
+  }
+
+  .submit-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 32px;
+    max-width: 560px;
+  }
+
+  .submit-card h3 {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 6px;
+  }
+
+  .submit-card > p {
+    font-size: 13px;
+    color: var(--muted-fg);
+    margin-bottom: 20px;
+    line-height: 1.6;
+  }
+
+  .submit-form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .submit-form input,
+  .submit-form textarea {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    color: var(--fg);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 10px 14px;
+    transition: border-color 0.15s;
+  }
+
+  .submit-form input:focus,
+  .submit-form textarea:focus {
+    outline: none;
+    border-color: var(--ring);
+  }
+
+  .submit-form textarea {
+    resize: vertical;
+    min-height: 60px;
+  }
+
+  .submit-form button {
+    align-self: flex-start;
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 600;
+    padding: 10px 24px;
+    border: none;
+    border-radius: var(--radius);
+    background: var(--fg);
+    color: var(--bg);
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .submit-form button:hover { opacity: 0.85; }
+  .submit-form button:disabled { opacity: 0.5; cursor: default; }
+
+  .submit-msg {
+    font-size: 13px;
+    font-weight: 500;
+    min-height: 20px;
+  }
+
+  /* Footer */
+  footer {
+    padding: 20px 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 12px;
+    color: var(--muted-fg);
+  }
+
+  footer strong {
+    font-weight: 600;
+    color: var(--fg);
+    font-size: 13px;
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    .grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 600px) {
+    .grid { grid-template-columns: 1fr; }
+    nav ul { display: none; }
+    footer { flex-direction: column; gap: 8px; text-align: center; }
+    .header h1 { font-size: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="nav-wrap">
+<nav>
+  <a href="/" class="nav-logo">Vibe Builders<span>Showcase</span></a>
+  <ul>
+    <li><a href="/">Workshop 1</a></li>
+    <li><a href="/workshop-2.html">Workshop 2</a></li>
+  </ul>
+</nav>
+</div>
+
+<div class="container">
+
+<div class="header">
+  <h1>See what you can build. <span>Working examples of every agent from the workshop — try them live.</span></h1>
+  <p>Each of these was built using the briefs from Workshop 1. They're real apps, running on Claude. Try one, then go build your own version.</p>
+</div>
+
+<div class="section">
+  <span class="section-label">Official examples</span>
+  <h2>The six agents. <span>Built exactly as described in the workshop briefs.</span></h2>
+
+  <div class="grid">
+    <div class="project-card">
+      <div class="project-card-label">Project 01</div>
+      <h3>The Archivist</h3>
+      <p>Paste in your writing — notes, emails, documents — and ask it questions about your own thinking.</p>
+      <div class="project-card-actions">
+        <span class="coming-soon">Coming soon</span>
+        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-label">Project 02</div>
+      <h3>The Interviewer</h3>
+      <p>A conversational agent that interviews you to capture expertise that lives in your head.</p>
+      <div class="project-card-actions">
+        <span class="coming-soon">Coming soon</span>
+        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-label">Project 03</div>
+      <h3>The Advisor</h3>
+      <p>A thinking partner that knows your situation, constraints, and goals. Pushes back when appropriate.</p>
+      <div class="project-card-actions">
+        <a href="/advisor/" class="btn-try">Try it live</a>
+        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-label">Project 04</div>
+      <h3>The Explainer</h3>
+      <p>Takes something complex and makes it genuinely understandable for one specific person.</p>
+      <div class="project-card-actions">
+        <span class="coming-soon">Coming soon</span>
+        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-label">Project 05</div>
+      <h3>The Curator</h3>
+      <p>A personal editor for a subject you care about. Finds what matters, filters the noise.</p>
+      <div class="project-card-actions">
+        <span class="coming-soon">Coming soon</span>
+        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+      </div>
+    </div>
+
+    <div class="project-card">
+      <div class="project-card-label">Project 06</div>
+      <h3>The Character</h3>
+      <p>Create and talk to a custom persona — a mentor, historical figure, or fictional advisor.</p>
+      <div class="project-card-actions">
+        <span class="coming-soon">Coming soon</span>
+        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Community submissions -->
+<div class="submit-section">
+  <div class="submit-card">
+    <h3>Built something you're proud of?</h3>
+    <p>If you've followed the workshop, built an agent, and hosted it — I'd love to see it. Send me the link and I'll add it to the showcase.</p>
+    <form class="submit-form" id="submitForm" onsubmit="return handleSubmit(event)">
+      <input type="text" name="name" placeholder="Your name" required>
+      <input type="email" name="email" placeholder="Your email (so I can follow up)" required>
+      <input type="url" name="url" placeholder="https://your-agent.pages.dev" required>
+      <textarea name="description" placeholder="What did you build? Which brief did you start from? What did you change?" rows="3"></textarea>
+      <button type="submit">Submit your project</button>
+    </form>
+    <div class="submit-msg" id="submitMsg"></div>
+  </div>
+</div>
+
+<footer>
+  <strong>Vibe Builders</strong>
+  <span>Beta &mdash; feedback welcome: <a href="mailto:chris@datadowns.com" style="color:var(--red);text-decoration:underline;">chris@datadowns.com</a></span>
+  <span>Mac only &middot; 2026</span>
+</footer>
+
+</div>
+
+<script>
+function handleSubmit(e) {
+  e.preventDefault();
+  var form = document.getElementById('submitForm');
+  var btn = form.querySelector('button');
+  var msg = document.getElementById('submitMsg');
+
+  btn.disabled = true;
+  btn.textContent = 'Submitting...';
+
+  var formData = new FormData(form);
+  formData.append('_subject', 'New showcase submission');
+
+  fetch('https://formspree.io/f/mwvrorwo', {
+    method: 'POST',
+    body: formData,
+    headers: { 'Accept': 'application/json' }
+  }).then(function(res) {
+    if (res.ok) {
+      msg.style.color = 'var(--emerald)';
+      msg.textContent = "Thanks! I'll take a look and be in touch.";
+      form.style.display = 'none';
+    } else {
+      msg.style.color = 'var(--red)';
+      msg.textContent = 'Something went wrong. Try again or email me directly.';
+      btn.disabled = false;
+      btn.textContent = 'Submit your project';
+    }
+  }).catch(function() {
+    msg.style.color = 'var(--red)';
+    msg.textContent = 'Something went wrong. Try again or email me directly.';
+    btn.disabled = false;
+    btn.textContent = 'Submit your project';
+  });
+  return false;
+}
+</script>
+<script async defer src="https://scripts.withcabin.com/hello.js"></script>
+</body>
+</html>
