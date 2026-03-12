@@ -3,12 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>The Advisor — Live Demo | Vibe Builders</title>
-<meta name="description" content="A direct, honest AI thinking partner that knows your context and pushes back. Built with Claude Code — no coding experience needed.">
+<title>My Advisor — Live Demo | Vibe Builders</title>
+<meta name="description" content="A thinking partner that actually knows your situation. Built with Claude Code — no coding experience needed.">
 <link rel="canonical" href="https://vibe.datadowns.com/advisor/">
 <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-<meta property="og:title" content="The Advisor — Live Demo | Vibe Builders">
-<meta property="og:description" content="A direct, honest AI thinking partner. Built with Claude Code in minutes.">
+<meta property="og:title" content="My Advisor — Live Demo | Vibe Builders">
+<meta property="og:description" content="A thinking partner that actually knows your situation. Built with Claude Code in minutes.">
 <meta property="og:url" content="https://vibe.datadowns.com/advisor/">
 <meta property="og:site_name" content="Vibe Builders">
 <style>
@@ -371,7 +371,7 @@
 
 <div class="topbar">
   <div class="topbar-left">
-    <span class="topbar-title">The Advisor</span>
+    <span class="topbar-title" id="topbarTitle">The Advisor</span>
     <span class="demo-badge">Live demo</span>
   </div>
   <div class="topbar-right">
@@ -383,26 +383,26 @@
 <!-- Onboarding screen -->
 <div class="onboarding" id="onboarding">
   <div class="onboarding-card">
-    <h1>The Advisor</h1>
-    <p>A thinking partner that actually knows your situation. Give it some context and it will identify what matters, ask sharp questions, and push back when you need it. Not a cheerleader — a genuinely useful second opinion.</p>
+    <h1>A thinking partner that actually knows your situation</h1>
+    <p>Fill in a bit about yourself and what you're dealing with. Your advisor will read it, pick up on what matters, and open the conversation — no generic advice, no "how can I help you today." Just a smart second opinion that gets straight into it.</p>
     <form onsubmit="startChat(event)">
       <div class="form-group">
         <label>What's your name?</label>
-        <input type="text" id="fieldName" placeholder="Your name" required>
+        <input type="text" id="fieldName" placeholder="e.g. Sarah" required>
       </div>
       <div class="form-group">
         <label>What do you do?</label>
-        <textarea id="fieldWork" placeholder="e.g. I'm a freelance designer, I run a small bakery, I'm a student" rows="2" required></textarea>
+        <textarea id="fieldWork" placeholder="e.g. I run a small marketing agency with 4 employees, mostly B2B clients" rows="2" required></textarea>
       </div>
       <div class="form-group">
         <label>What's going on right now?</label>
-        <textarea id="fieldSituation" placeholder="e.g. I just got offered a new job but I'm not sure I should take it" rows="3" required></textarea>
+        <textarea id="fieldSituation" placeholder="e.g. My biggest client just asked me to cut my rates by 30% or they'll go elsewhere. They're 40% of my revenue." rows="3" required></textarea>
       </div>
       <div class="form-group">
-        <label>What's the thing you're stuck on?</label>
-        <textarea id="fieldChallenges" placeholder="e.g. I can't decide whether to stay or go, and everyone gives me different advice" rows="3" required></textarea>
+        <label>What are you stuck on?</label>
+        <textarea id="fieldChallenges" placeholder="e.g. I don't know if I should negotiate, walk away, or try to replace them first. Every option feels risky." rows="3" required></textarea>
       </div>
-      <button type="submit" class="btn-start">Get advice</button>
+      <button type="submit" class="btn-start">Start conversation</button>
     </form>
   </div>
 </div>
@@ -447,7 +447,11 @@
     const situation = document.getElementById('fieldSituation').value.trim();
     const challenges = document.getElementById('fieldChallenges').value.trim();
 
-    context = 'Name: ' + name + '\nWork: ' + work + '\nCurrent situation: ' + situation + '\nKey challenges: ' + challenges;
+    context = 'Name: ' + name + '\nWork: ' + work + '\nCurrent situation: ' + situation + '\nStuck on: ' + challenges;
+
+    // Personalize the title
+    document.getElementById('topbarTitle').textContent = name + '\u2019s Advisor';
+    document.title = name + '\u2019s Advisor — Live Demo | Vibe Builders';
 
     document.getElementById('contextText').textContent = context;
     document.getElementById('contextTextarea').value = context;
