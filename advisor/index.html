@@ -384,7 +384,7 @@
 <div class="onboarding" id="onboarding">
   <div class="onboarding-card">
     <h1>The Advisor</h1>
-    <p>A direct, honest thinking partner. Tell me about yourself so I can give you advice that actually fits your situation.</p>
+    <p>A thinking partner that actually knows your situation. Give it some context and it will identify what matters, ask sharp questions, and push back when you need it. Not a cheerleader — a genuinely useful second opinion.</p>
     <form onsubmit="startChat(event)">
       <div class="form-group">
         <label>What's your name?</label>
@@ -392,17 +392,17 @@
       </div>
       <div class="form-group">
         <label>What do you do?</label>
-        <textarea id="fieldWork" placeholder="Your work, role, or what you spend your time on" rows="2" required></textarea>
+        <textarea id="fieldWork" placeholder="e.g. I'm a freelance designer, I run a small bakery, I'm a student" rows="2" required></textarea>
       </div>
       <div class="form-group">
-        <label>What's your current situation?</label>
-        <textarea id="fieldSituation" placeholder="What's going on in your life or work right now?" rows="3" required></textarea>
+        <label>What's going on right now?</label>
+        <textarea id="fieldSituation" placeholder="e.g. I just got offered a new job but I'm not sure I should take it" rows="3" required></textarea>
       </div>
       <div class="form-group">
-        <label>What are your key challenges?</label>
-        <textarea id="fieldChallenges" placeholder="What problems are you trying to solve?" rows="3" required></textarea>
+        <label>What's the thing you're stuck on?</label>
+        <textarea id="fieldChallenges" placeholder="e.g. I can't decide whether to stay or go, and everyone gives me different advice" rows="3" required></textarea>
       </div>
-      <button type="submit" class="btn-start">Start talking</button>
+      <button type="submit" class="btn-start">Get advice</button>
     </form>
   </div>
 </div>
@@ -455,7 +455,7 @@
     document.getElementById('chatScreen').style.display = 'flex';
 
     updateHint();
-    send('Hi, I\'ve just set up my context. What should we talk about first?');
+    sendOpener();
   }
   window.startChat = startChat;
 
@@ -493,6 +493,42 @@
     document.getElementById('messages').appendChild(div);
     document.getElementById('messages').scrollTop = document.getElementById('messages').scrollHeight;
     return div;
+  }
+
+  function sendOpener() {
+    // Advisor speaks first — no user message shown
+    loading = true;
+    document.getElementById('sendBtn').disabled = true;
+    document.getElementById('chatInput').disabled = true;
+
+    var thinkingDiv = addMessage('thinking', 'Reading your context...');
+
+    var openerMessages = [{ role: 'user', content: 'I\'ve just shared my context with you. Read it carefully, then open the conversation. Don\'t greet me — get straight into it. Show me you understand my situation by identifying the core tension or most interesting thing in what I\'ve told you, then ask me one sharp question about it.' }];
+
+    fetch('/api/advisor/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ messages: openerMessages, context: context })
+    })
+    .then(function(res) { return res.json(); })
+    .then(function(data) {
+      thinkingDiv.remove();
+      var reply = data.response || data.error || 'Something went wrong.';
+      // Store as if it was a normal exchange but don't show the user message
+      messages.push({ role: 'user', content: openerMessages[0].content });
+      messages.push({ role: 'assistant', content: reply });
+      addMessage('assistant', reply);
+    })
+    .catch(function() {
+      thinkingDiv.remove();
+      addMessage('assistant', 'Something went wrong. Try refreshing the page.');
+    })
+    .finally(function() {
+      loading = false;
+      document.getElementById('sendBtn').disabled = false;
+      document.getElementById('chatInput').disabled = false;
+      document.getElementById('chatInput').focus();
+    });
   }
 
   function sendMessage(e) {
