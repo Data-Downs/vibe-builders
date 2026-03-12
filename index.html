@@ -1045,6 +1045,21 @@
 
   .copy-btn:hover { opacity: 0.8; }
 
+  .panel-actions {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .panel-demo-link {
+    font-size: 13px;
+    color: var(--muted-fg);
+    text-decoration: none;
+    transition: color 0.15s;
+  }
+
+  .panel-demo-link:hover { color: var(--fg); }
+
   .panel-phases {
     display: flex;
     flex-direction: column;
@@ -2630,7 +2645,8 @@ Before writing any code, give me a detailed plan. What will you build? What are 
       { tag: 'V3', title: 'Surfaced insights', desc: 'Agent offers connections between different pieces without being asked.' },
       { tag: 'V4', title: 'Export', desc: 'Save conversations as documents.' },
     ],
-    enhancements: ['Upload documents (PDF, Word) directly instead of pasting','Generate a one-page summary of all submitted thinking','Add a "what do I believe about X?" mode for deeper synthesis','Timeline view showing how your thinking has changed','Voice input for questions']
+    enhancements: ['Upload documents (PDF, Word) directly instead of pasting','Generate a one-page summary of all submitted thinking','Add a "what do I believe about X?" mode for deeper synthesis','Timeline view showing how your thinking has changed','Voice input for questions'],
+    demo: '/archivist/'
   },
   interviewer: {
     label: 'Project 02',
@@ -2655,7 +2671,8 @@ Before writing any code, give me a detailed plan. What will you build? What are 
       { tag: 'V3', title: 'Interview modes', desc: 'Career history, specific project, philosophy, lessons learned.' },
       { tag: 'V4', title: 'Export', desc: 'Generate a formatted document from the interview.' },
     ],
-    enhancements: ['Voice mode — speak answers, hear questions','A "prepare me" mode that briefs you before the interview','A "challenge me" mode where the agent pushes back','A second agent that reviews and identifies the most interesting moments','Export the questions as a reusable interview guide']
+    enhancements: ['Voice mode — speak answers, hear questions','A "prepare me" mode that briefs you before the interview','A "challenge me" mode where the agent pushes back','A second agent that reviews and identifies the most interesting moments','Export the questions as a reusable interview guide'],
+    demo: '/interviewer/'
   },
   advisor: {
     label: 'Project 03',
@@ -2680,7 +2697,8 @@ Before writing any code, give me a detailed plan. What will you build? What are 
       { tag: 'V3', title: 'Modes', desc: 'Big picture thinking, specific decision, preparing for a conversation.' },
       { tag: 'V4', title: 'Session notes', desc: 'Summary at end of each conversation: discussed, decided, think about next.' },
     ],
-    enhancements: ['A "steelman my idea" mode','A "worst case" mode — what could go wrong','Weekly review feature','Suggest relevant frameworks or mental models','Devil\'s advocate mode']
+    enhancements: ['A "steelman my idea" mode','A "worst case" mode — what could go wrong','Weekly review feature','Suggest relevant frameworks or mental models','Devil\'s advocate mode'],
+    demo: '/advisor/'
   },
   explainer: {
     label: 'Project 04',
@@ -2705,7 +2723,8 @@ Before writing any code, give me a detailed plan. What will you build? What are 
       { tag: 'V3', title: 'Multiple formats', desc: 'Same explanation as essay, bullet points, or analogy.' },
       { tag: 'V4', title: 'Save and share', desc: 'Save explanations and share as a link.' },
     ],
-    enhancements: ['A "test understanding" mode with generated questions','A jargon finder that highlights terms needing explanation','A "simplify further" button','Let users rate explanations','Chain of explanations — child, teenager, professional']
+    enhancements: ['A "test understanding" mode with generated questions','A jargon finder that highlights terms needing explanation','A "simplify further" button','Let users rate explanations','Chain of explanations — child, teenager, professional'],
+    demo: '/explainer/'
   },
   curator: {
     label: 'Project 05',
@@ -2730,7 +2749,8 @@ Before writing any code, give me a detailed plan. What will you build? What are 
       { tag: 'V3', title: 'Recurring digest', desc: 'A "what\'s new this week" mode.' },
       { tag: 'V4', title: 'Multiple topics', desc: 'Manage several topics at once.' },
     ],
-    enhancements: ['A "convince me this matters" mode','A "who to follow" feature','Contrarian view mode','Compare how different outlets cover the same story','History and backstory for any current development']
+    enhancements: ['A "convince me this matters" mode','A "who to follow" feature','Contrarian view mode','Compare how different outlets cover the same story','History and backstory for any current development'],
+    demo: '/curator/'
   },
   character: {
     label: 'Project 06',
@@ -2755,7 +2775,8 @@ Before writing any code, give me a detailed plan. What will you build? What are 
       { tag: 'V3', title: 'Character evolution', desc: 'Characters learn and remember across conversations.' },
       { tag: 'V4', title: 'Two characters talking', desc: 'Mediate a conversation between two characters.' },
     ],
-    enhancements: ['A "surprise me" character generator','Historical figure mode with factual grounding','A "challenge me" mode where the character disagrees','Let the character ask you questions','Composite mode — blend two characters']
+    enhancements: ['A "surprise me" character generator','Historical figure mode with factual grounding','A "challenge me" mode where the character disagrees','Let the character ask you questions','Composite mode — blend two characters'],
+    demo: '/character/'
   }
 };
 
@@ -2770,7 +2791,10 @@ function openProject(id) {
     <p class="panel-desc">${p.desc}</p>
     <span class="panel-section-title">Claude Code brief — paste this to start</span>
     <div class="panel-brief"><code id="brief-${id}">${p.brief}</code></div>
-    <button class="copy-btn" onclick="copyBrief('brief-${id}', this)">Copy brief</button>
+    <div class="panel-actions">
+      <button class="copy-btn" onclick="copyBrief('brief-${id}', this)">Copy brief</button>
+      <a href="${p.demo}" class="panel-demo-link">or try the live demo &rarr;</a>
+    </div>
     <span class="panel-section-title">Build phases</span>
     <div class="panel-phases">${phasesHTML}</div>
     <span class="panel-section-title">Enhancement ideas</span>
