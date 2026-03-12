@@ -176,6 +176,8 @@
     border-radius: var(--radius);
     padding: 24px;
     transition: border-color 0.15s, box-shadow 0.15s;
+    display: flex;
+    flex-direction: column;
   }
 
   .project-card:hover {
@@ -205,12 +207,14 @@
     color: var(--muted-fg);
     line-height: 1.5;
     margin-bottom: 16px;
+    flex: 1;
   }
 
   .project-card-actions {
     display: flex;
     gap: 12px;
     align-items: center;
+    margin-top: auto;
   }
 
   .btn-try {
@@ -235,7 +239,187 @@
     transition: color 0.15s;
   }
 
+  .btn-build {
+    cursor: pointer;
+  }
+
   .btn-build:hover { color: var(--fg); }
+
+  /* Slide-in panel */
+  .project-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    background: rgba(0,0,0,0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s;
+  }
+
+  .project-overlay.open {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .project-panel {
+    position: absolute;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: min(540px, 90vw);
+    background: var(--bg);
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+    padding: 40px 32px;
+    transform: translateX(100%);
+    transition: transform 0.2s ease;
+  }
+
+  .project-overlay.open .project-panel {
+    transform: translateX(0);
+  }
+
+  .panel-close {
+    position: absolute;
+    top: 12px;
+    right: 16px;
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.15s;
+  }
+
+  .panel-close:hover {
+    background: var(--fg);
+    color: var(--bg);
+    border-color: var(--fg);
+  }
+
+  .panel-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .panel-title {
+    font-size: 24px;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    margin-bottom: 8px;
+  }
+
+  .panel-desc {
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.6;
+    margin-bottom: 28px;
+  }
+
+  .panel-section-title {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted-fg);
+    margin: 28px 0 10px;
+  }
+
+  .panel-brief {
+    background: var(--fg);
+    border-radius: var(--radius);
+    padding: 16px 20px;
+    margin-bottom: 10px;
+  }
+
+  .panel-brief code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: rgba(255,255,255,0.85);
+    line-height: 1.7;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  .copy-btn {
+    background: var(--fg);
+    color: var(--bg);
+    border: none;
+    border-radius: var(--radius);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 8px 16px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+
+  .copy-btn:hover { opacity: 0.8; }
+
+  .panel-phases {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .panel-phase {
+    background: var(--bg);
+    padding: 12px 16px;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 10px;
+    align-items: flex-start;
+  }
+
+  .phase-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--red);
+    padding-top: 1px;
+  }
+
+  .panel-phase p { font-size: 13px; color: var(--muted-fg); margin: 0; line-height: 1.5; }
+  .panel-phase strong { display: block; margin-bottom: 1px; font-size: 13px; font-weight: 600; color: var(--fg); }
+
+  .panel-enhancements {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    background: var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+  }
+
+  .enhancement {
+    background: var(--bg);
+    padding: 10px 16px 10px 30px;
+    font-size: 13px;
+    color: var(--muted-fg);
+    line-height: 1.5;
+    position: relative;
+  }
+
+  .enhancement::before {
+    content: '+';
+    position: absolute;
+    left: 16px;
+    color: var(--emerald);
+    font-weight: 700;
+    font-family: var(--font-mono);
+  }
 
   /* Submit section */
   .submit-section {
@@ -377,7 +561,7 @@
       <p>Paste in your writing — notes, emails, documents — and ask it questions about your own thinking.</p>
       <div class="project-card-actions">
         <a href="/archivist/" class="btn-try">Try it live</a>
-        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+        <span class="btn-build" onclick="openProject('archivist')">View brief &rarr;</span>
       </div>
     </div>
 
@@ -387,7 +571,7 @@
       <p>A conversational agent that interviews you to capture expertise that lives in your head.</p>
       <div class="project-card-actions">
         <a href="/interviewer/" class="btn-try">Try it live</a>
-        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+        <span class="btn-build" onclick="openProject('interviewer')">View brief &rarr;</span>
       </div>
     </div>
 
@@ -397,7 +581,7 @@
       <p>A thinking partner that knows your situation, constraints, and goals. Pushes back when appropriate.</p>
       <div class="project-card-actions">
         <a href="/advisor/" class="btn-try">Try it live</a>
-        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+        <span class="btn-build" onclick="openProject('advisor')">View brief &rarr;</span>
       </div>
     </div>
 
@@ -407,7 +591,7 @@
       <p>Takes something complex and makes it genuinely understandable for one specific person.</p>
       <div class="project-card-actions">
         <a href="/explainer/" class="btn-try">Try it live</a>
-        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+        <span class="btn-build" onclick="openProject('explainer')">View brief &rarr;</span>
       </div>
     </div>
 
@@ -417,7 +601,7 @@
       <p>A personal editor for a subject you care about. Finds what matters, filters the noise.</p>
       <div class="project-card-actions">
         <a href="/curator/" class="btn-try">Try it live</a>
-        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+        <span class="btn-build" onclick="openProject('curator')">View brief &rarr;</span>
       </div>
     </div>
 
@@ -427,7 +611,7 @@
       <p>Create and talk to a custom persona — a mentor, historical figure, or fictional advisor.</p>
       <div class="project-card-actions">
         <a href="/character/" class="btn-try">Try it live</a>
-        <a href="/#projects" class="btn-build">View brief &rarr;</a>
+        <span class="btn-build" onclick="openProject('character')">View brief &rarr;</span>
       </div>
     </div>
   </div>
@@ -457,7 +641,130 @@
 
 </div>
 
+<!-- PROJECT PANEL -->
+<div class="project-overlay" id="projectOverlay" onclick="closeProject(event)">
+  <div class="project-panel" id="projectPanel">
+    <button class="panel-close" onclick="closeProject()">Close</button>
+    <div id="projectContent"></div>
+  </div>
+</div>
+
 <script>
+var projects = {
+  archivist: {
+    label: 'Project 01',
+    title: 'The Archivist',
+    desc: 'A personal knowledge agent. Paste in your writing — notes, emails, documents — and ask it questions about your own thinking. Finds connections you forgot you had.',
+    brief: "I want to build a web app called The Archivist.\n\nIt's a personal knowledge agent. The user can paste in pieces of their own writing \u2014 notes, emails, documents, fragments of thinking \u2014 and the agent learns from them. The user can then ask the agent questions and get answers grounded in their own writing.\n\nThe interface should be clean and functional. Two panels: on the left, a place to add writing (paste text, give it a title and a date). On the right, a conversation with the agent.\n\nThe agent's personality: thoughtful, precise, never makes things up. If the answer isn't in the writing, it says so. It occasionally notices connections and surfaces them unprompted.\n\nTech: Next.js, Claude API (claude-sonnet-4-20250514). Store submitted writing in memory for the session. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.\n\nBefore writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.",
+    phases: [
+      { tag: 'V1', title: 'Paste and ask', desc: 'Single text input plus conversation panel. The core loop.' },
+      { tag: 'V2', title: 'Multiple sources', desc: 'Label and store multiple pieces of writing. Agent cites which source it draws from.' },
+      { tag: 'V3', title: 'Surfaced insights', desc: 'Agent offers connections between different pieces without being asked.' },
+      { tag: 'V4', title: 'Export', desc: 'Save conversations as documents.' }
+    ],
+    enhancements: ['Upload documents (PDF, Word) directly instead of pasting','Generate a one-page summary of all submitted thinking','Add a \u201cwhat do I believe about X?\u201d mode for deeper synthesis','Timeline view showing how your thinking has changed','Voice input for questions']
+  },
+  interviewer: {
+    label: 'Project 02',
+    title: 'The Interviewer',
+    desc: 'A conversational agent that interviews you to capture expertise that lives in your head. Asks open questions, follows threads, and builds a document of your knowledge.',
+    brief: "I want to build a web app called The Interviewer.\n\nIt's a conversational agent that interviews the user to capture and preserve their expertise. The user tells the agent what domain or subject they want to be interviewed about. The agent then conducts a thoughtful, curious interview: asking open questions, listening, following threads, occasionally challenging.\n\nAt any point, the user can ask the agent to summarise what it has learned so far.\n\nThe agent's personality: genuinely curious, warm but rigorous, asks one question at a time, never rushes.\n\nInterface: A clean chat interface. A \u201cSummarise what you've learned\u201d button. An \u201cExport conversation\u201d button.\n\nTech: Next.js, Claude API (claude-sonnet-4-20250514). Mobile-friendly. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.\n\nBefore writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.",
+    phases: [
+      { tag: 'V1', title: 'Topic and interview', desc: 'User names a topic. Agent interviews them.' },
+      { tag: 'V2', title: 'Live summary', desc: 'Sidebar updating in real time with key points.' },
+      { tag: 'V3', title: 'Interview modes', desc: 'Career history, specific project, philosophy, lessons learned.' },
+      { tag: 'V4', title: 'Export', desc: 'Generate a formatted document from the interview.' }
+    ],
+    enhancements: ['Voice mode \u2014 speak answers, hear questions','A \u201cprepare me\u201d mode that briefs you before the interview','A \u201cchallenge me\u201d mode where the agent pushes back','A second agent that reviews and identifies the most interesting moments','Export the questions as a reusable interview guide']
+  },
+  advisor: {
+    label: 'Project 03',
+    title: 'The Advisor',
+    desc: 'A thinking partner that knows your situation, constraints, and goals. Engages with your specific problems rather than giving generic advice.',
+    brief: "I want to build a web app. I want to call it \u201c[my name]\u2019s Advisor\u201d \u2014 so ask me my name first and use it in the app title.\n\nIt's a personal thinking partner. When you first open it, there's a short onboarding screen that explains what the advisor does for you \u2014 something like \u201ca thinking partner that actually knows your situation.\u201d It should be clear what you're going to get before you fill anything in. The onboarding asks for: your name, what you do, what's going on right now, and what you're stuck on. Give each field a concrete example as placeholder text so people know what kind of thing to write.\n\nHere's the important bit: after the user fills in the onboarding, the advisor should speak first. The user shouldn't have to figure out what to say. The advisor reads their context and opens with something that shows it actually understood \u2014 it picks up on the most interesting tension or the real problem behind what they said, and asks one sharp question. No greeting, no \u201chow can I help you today.\u201d Just straight into it. It should feel like talking to a smart friend who immediately gets it.\n\nThe agent's personality: direct, honest, not sycophantic. It will push back. It will say \u201cI'm not sure that's the right framing.\u201d It will ask \u201cwhat have you already tried?\u201d before offering solutions. It ends every response with a question to keep the conversation moving.\n\nInterface: Onboarding screen first. Then a conversation interface with the advisor's context panel on the side that you can edit. Keep it dark and clean.\n\nTech: Next.js, Claude API (claude-sonnet-4-20250514). Store context in local state. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.\n\nBefore writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.",
+    phases: [
+      { tag: 'V1', title: 'Context and conversation', desc: 'Onboarding captures context, conversation uses it throughout.' },
+      { tag: 'V2', title: 'Persistent context', desc: 'Context survives between sessions.' },
+      { tag: 'V3', title: 'Modes', desc: 'Big picture thinking, specific decision, preparing for a conversation.' },
+      { tag: 'V4', title: 'Session notes', desc: 'Summary at end of each conversation: discussed, decided, think about next.' }
+    ],
+    enhancements: ['A \u201csteelman my idea\u201d mode','A \u201cworst case\u201d mode \u2014 what could go wrong','Weekly review feature','Suggest relevant frameworks or mental models','Devil\u2019s advocate mode']
+  },
+  explainer: {
+    label: 'Project 04',
+    title: 'The Explainer',
+    desc: 'Takes something complex and makes it genuinely understandable for one specific person, using analogies from their world and avoiding jargon they wouldn\u2019t know.',
+    brief: "I want to build a web app called The Explainer.\n\nIt's a tool for making complex things understandable. The user provides two things: the topic they want explained, and a description of the person they're explaining it to (age, background, what they know, what they don't, why they're interested).\n\nThe agent produces a clear explanation written specifically for that person \u2014 using analogies from their world, avoiding jargon they wouldn't know. Not dumbed down. Translated.\n\nThe agent's personality: a brilliant teacher who never talks down to anyone.\n\nInterface: Two input boxes (topic / audience). Generated explanation below. Conversation thread for follow-ups.\n\nTech: Next.js, Claude API (claude-sonnet-4-20250514). Clean, readable typography. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.\n\nBefore writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.",
+    phases: [
+      { tag: 'V1', title: 'Topic + audience \u2192 explanation', desc: 'Input two things, get a tailored explanation.' },
+      { tag: 'V2', title: 'Refinement', desc: 'Ask follow-ups, request different approaches, go deeper.' },
+      { tag: 'V3', title: 'Multiple formats', desc: 'Same explanation as essay, bullet points, or analogy.' },
+      { tag: 'V4', title: 'Save and share', desc: 'Save explanations and share as a link.' }
+    ],
+    enhancements: ['A \u201ctest understanding\u201d mode with generated questions','A jargon finder that highlights terms needing explanation','A \u201csimplify further\u201d button','Let users rate explanations','Chain of explanations \u2014 child, teenager, professional']
+  },
+  curator: {
+    label: 'Project 05',
+    title: 'The Curator',
+    desc: 'A personal editor for a subject you care about. Finds what matters, filters noise, and explains why each thing is worth your attention.',
+    brief: "I want to build a web app called The Curator.\n\nIt's a personal content editor for a specific topic. When the user sets it up, they define: what topic they care about, what kind of things they want (news, ideas, research, debate), what they already know (so it doesn't surface basics), and how much they want at once.\n\nThe user can then ask the agent to surface interesting things, explain why something matters, or go deep on a specific aspect.\n\nThe agent's personality: an extremely well-read friend who curates with a point of view \u2014 not just a list.\n\nInterface: Topic setup screen. Then a feed-style interface. Each item has a headline, a \u201cwhy this matters\u201d paragraph. A search box for specific questions.\n\nTech: Next.js, Claude API (claude-sonnet-4-20250514) with web search enabled. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.\n\nBefore writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.",
+    phases: [
+      { tag: 'V1', title: 'Topic setup and curation', desc: 'Define your topic, get curated items with context.' },
+      { tag: 'V2', title: 'Conversation layer', desc: 'Ask the agent to go deeper or explore threads.' },
+      { tag: 'V3', title: 'Recurring digest', desc: 'A \u201cwhat\u2019s new this week\u201d mode.' },
+      { tag: 'V4', title: 'Multiple topics', desc: 'Manage several topics at once.' }
+    ],
+    enhancements: ['A \u201cconvince me this matters\u201d mode','A \u201cwho to follow\u201d feature','Contrarian view mode','Compare how different outlets cover the same story','History and backstory for any current development']
+  },
+  character: {
+    label: 'Project 06',
+    title: 'The Character',
+    desc: 'Create and talk to a custom persona \u2014 a mentor, historical figure, or composite of people you admire. Define their personality, expertise, and voice.',
+    brief: "I want to build a web app called The Character.\n\nIt lets the user create and talk to a custom persona. When setting up, the user defines: who the character is (name, background, era, expertise), what they know and believe, how they speak, and what they're for (mentor, critic, historical figure, fictional advisor).\n\nOnce defined, the character comes to life in a conversation interface. It stays in character consistently.\n\nThe user can create multiple characters and switch between them.\n\nInterface: Character creation screen (name, backstory, voice, purpose). Then conversation interface. Character card visible throughout.\n\nTech: Next.js, Claude API (claude-sonnet-4-20250514). Store characters in local state. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.\n\nBefore writing any code, give me a detailed plan. What will you build? What are the main components? What decisions are you making? Do not start coding until I approve the plan.",
+    phases: [
+      { tag: 'V1', title: 'Create and converse', desc: 'Define a character, have a conversation.' },
+      { tag: 'V2', title: 'Character library', desc: 'Save and switch between multiple characters.' },
+      { tag: 'V3', title: 'Character evolution', desc: 'Characters learn and remember across conversations.' },
+      { tag: 'V4', title: 'Two characters talking', desc: 'Mediate a conversation between two characters.' }
+    ],
+    enhancements: ['A \u201csurprise me\u201d character generator','Historical figure mode with factual grounding','A \u201cchallenge me\u201d mode where the character disagrees','Let the character ask you questions','Composite mode \u2014 blend two characters']
+  }
+};
+
+function openProject(id) {
+  var p = projects[id];
+  var el = document.getElementById('projectContent');
+  var phasesHTML = p.phases.map(function(ph) { return '<div class="panel-phase"><span class="phase-tag">' + ph.tag + '</span><div><strong>' + ph.title + '</strong><p>' + ph.desc + '</p></div></div>'; }).join('');
+  var enhancementsHTML = p.enhancements.map(function(e) { return '<div class="enhancement">' + e + '</div>'; }).join('');
+  el.innerHTML =
+    '<span class="panel-label">' + p.label + '</span>' +
+    '<h2 class="panel-title">' + p.title + '</h2>' +
+    '<p class="panel-desc">' + p.desc + '</p>' +
+    '<span class="panel-section-title">Claude Code brief \u2014 paste this to start</span>' +
+    '<div class="panel-brief"><code id="brief-' + id + '">' + p.brief + '</code></div>' +
+    '<button class="copy-btn" onclick="copyBrief(\'brief-' + id + '\', this)">Copy brief</button>' +
+    '<span class="panel-section-title">Build phases</span>' +
+    '<div class="panel-phases">' + phasesHTML + '</div>' +
+    '<span class="panel-section-title">Enhancement ideas</span>' +
+    '<div class="panel-enhancements">' + enhancementsHTML + '</div>';
+  document.getElementById('projectOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  document.getElementById('projectPanel').scrollTop = 0;
+}
+
+function closeProject(e) {
+  if (e && e.target !== document.getElementById('projectOverlay')) return;
+  document.getElementById('projectOverlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function copyBrief(id, btn) {
+  navigator.clipboard.writeText(document.getElementById(id).innerText).then(function() {
+    btn.textContent = 'Copied';
+    setTimeout(function() { btn.textContent = 'Copy brief'; }, 2000);
+  });
+}
+
 function handleSubmit(e) {
   e.preventDefault();
   var form = document.getElementById('submitForm');
