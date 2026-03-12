@@ -2755,6 +2755,9 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProject
 
 <script>
 (function() {
+  // ── Disable selection toolbar on touch devices (conflicts with iOS text selection UI) ──
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+
   // ── Selection toolbar ──
   const toolbar = document.getElementById('selToolbar');
   let currentSelection = '';
@@ -2788,6 +2791,8 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProject
   }
 
   document.addEventListener('mouseup', function(e) {
+    // Don't show toolbar on touch devices (conflicts with iOS text selection)
+    if (isTouchDevice) return;
     // Don't show toolbar when clicking inside toolbar, modal, or project panel
     if (e.target.closest('.sel-toolbar, .help-modal-overlay, .project-overlay')) return;
 
@@ -2904,7 +2909,7 @@ document.addEventListener('keydown', e => { if (e.key === 'Escape') closeProject
   const onboarding = document.getElementById('helpOnboarding');
   const dismissed = localStorage.getItem('help-onboarding-dismissed');
 
-  if (!dismissed) {
+  if (!dismissed && !isTouchDevice) {
     setTimeout(() => onboarding.classList.add('visible'), 5000);
     // Auto-dismiss after 15 seconds
     setTimeout(() => {
