@@ -2661,15 +2661,15 @@ Before writing any code, give me a detailed plan. What will you build? What are 
     label: 'Project 03',
     title: 'The Advisor',
     desc: 'A thinking partner that knows your situation, constraints, and goals. Engages with your specific problems rather than giving generic advice.',
-    brief: `I want to build a web app called The Advisor.
+    brief: `I want to build a web app. I want to call it "[my name]'s Advisor" — so ask me my name first and use it in the app title.
 
-It's a personal thinking partner. When the user first opens it, they go through a short onboarding: they describe themselves, their work, their current situation, their key challenges. This context is stored and used in every subsequent conversation.
+It's a personal thinking partner. When you first open it, there's a short onboarding screen that explains what the advisor does for you — something like "a thinking partner that actually knows your situation." It should be clear what you're going to get before you fill anything in. The onboarding asks for: your name, what you do, what's going on right now, and what you're stuck on. Give each field a concrete example as placeholder text so people know what kind of thing to write.
 
-The agent acts as a trusted advisor — someone who knows the user's context and engages seriously with whatever problem they bring. Not a life coach. A smart, honest thinking partner who asks good questions and offers genuine perspective.
+Here's the important bit: after the user fills in the onboarding, the advisor should speak first. The user shouldn't have to figure out what to say. The advisor reads their context and opens with something that shows it actually understood — it picks up on the most interesting tension or the real problem behind what they said, and asks one sharp question. No greeting, no "how can I help you today." Just straight into it. It should feel like talking to a smart friend who immediately gets it.
 
-The agent's personality: direct, honest, not sycophantic. It will push back. It will say "I'm not sure that's the right framing." It will ask "what have you already tried?" before offering solutions.
+The agent's personality: direct, honest, not sycophantic. It will push back. It will say "I'm not sure that's the right framing." It will ask "what have you already tried?" before offering solutions. It ends every response with a question to keep the conversation moving.
 
-Interface: Onboarding screen first (who are you, what's your context). Then a conversation interface. A small editable "your context" panel.
+Interface: Onboarding screen first. Then a conversation interface with the advisor's context panel on the side that you can edit. Keep it dark and clean.
 
 Tech: Next.js, Claude API (claude-sonnet-4-20250514). Store context in local state. Store the API key in a .env.local file, not in the code. When you create the .env.local file, ask me to paste in my Anthropic API key.
 
