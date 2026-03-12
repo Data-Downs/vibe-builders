@@ -2360,14 +2360,14 @@
       <div class="step-num">2</div>
       <div class="step-body">
         <h3>Run your agent</h3>
-        <p>Once Claude Code finishes building, exit it by typing <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">/exit</code> — then run the app on your own machine:</p>
+        <p>Once Claude Code finishes building, tell it to start the app. Type this directly into Claude Code:</p>
         <div class="cmd-steps">
           <div class="cmd-step">
             <div class="cmd-box">
-              <code>npm run dev</code>
+              <code>Can you start the app for me?</code>
               <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
             </div>
-            <span class="cmd-note">Look for a line that says "Local: http://localhost:" followed by a number (usually 3000). Open that full URL in your browser.</span>
+            <span class="cmd-note">Claude Code will run the right command for you. Look for a line that says something like "Local: http://localhost:3000". Click that link or paste it into your browser.</span>
           </div>
         </div>
         <p>When you see something running in your browser — that's your agent.</p>
@@ -2377,7 +2377,7 @@
         </div>
         <div class="callout callout-warn" style="margin-top:12px;">
           <strong>When things go wrong</strong>
-          <p>When you see an error — and you will — don't panic. Errors can appear in two places: in Terminal (where you ran <code style="font-family:var(--font-mono);font-size:12px;background:var(--muted);padding:2px 6px;border-radius:4px;">npm run dev</code>) or in the browser. Either way, copy the error message, paste it back into Claude Code, and say "I got this error, can you fix it?" This is completely normal. Even experienced developers spend most of their time fixing errors.</p>
+          <p>When you see an error — and you will — don't panic. Errors can appear in two places: in Terminal (where your app is running) or in the browser. Either way, copy the error message, paste it back into Claude Code, and say "I got this error, can you fix it?" This is completely normal. Even experienced developers spend most of their time fixing errors.</p>
         </div>
       </div>
     </div>
