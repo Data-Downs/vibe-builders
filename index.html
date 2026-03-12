@@ -405,10 +405,13 @@
     display: grid;
     grid-template-columns: 48px 1fr;
     border: 1px solid var(--border);
-    border-radius: var(--radius);
+    border-radius: 0;
     margin-bottom: -1px;
     overflow: hidden;
   }
+
+  .step:first-child { border-radius: var(--radius) var(--radius) 0 0; }
+  .step:last-child { border-radius: 0 0 var(--radius) var(--radius); }
 
   .step-num {
     padding: 24px 0;
