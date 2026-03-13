@@ -2855,6 +2855,7 @@ function handleSignup(e) {
       msg.style.color = 'var(--emerald)';
       msg.textContent = "You're in. I'll be in touch.";
       form.style.display = 'none';
+      if (typeof cabin !== 'undefined') cabin.event('signup-submitted');
     } else {
       msg.style.color = 'var(--red)';
       msg.textContent = 'Something went wrong. Try again.';
@@ -3046,6 +3047,7 @@ function handleSignup(e) {
     }).then(res => {
       if (res.ok) {
         btn.textContent = 'Sent!';
+        if (typeof cabin !== 'undefined') cabin.event('help-question-sent');
         setTimeout(() => {
           btn.textContent = 'Send question';
           btn.disabled = false;

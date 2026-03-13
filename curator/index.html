@@ -531,6 +531,8 @@
     document.getElementById('onboarding').style.display = 'none';
     document.getElementById('chatScreen').style.display = 'flex';
 
+    if (typeof cabin !== 'undefined') cabin.event('demo-started');
+
     updateHint();
     sendOpener();
   }
@@ -663,6 +665,7 @@
   }
 
   function showLimit() {
+    if (typeof cabin !== 'undefined') cabin.event('demo-limit-reached');
     document.getElementById('chatInput').disabled = true;
     document.getElementById('sendBtn').disabled = true;
     document.getElementById('chatInput').placeholder = 'Demo limit reached';
