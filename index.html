@@ -877,7 +877,7 @@
 
   .resp-number {
     font-family: var(--font-sans);
-    font-size: 64px;
+    font-size: 36px;
     font-weight: 700;
     line-height: 1;
     color: var(--fg);
@@ -886,11 +886,95 @@
   }
 
   .resp-card-header h3 {
-    font-size: 22px;
-    font-weight: 500;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.1;
     letter-spacing: -0.025em;
     margin-bottom: 0;
-    padding-top: 4px;
+  }
+
+  .prompt-tip-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--red);
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 10px;
+    transition: opacity 0.15s;
+  }
+
+  .prompt-tip-toggle:hover { opacity: 0.7; }
+
+  .prompt-tip-toggle svg {
+    width: 14px;
+    height: 14px;
+    transition: transform 0.2s;
+  }
+
+  .prompt-tip-toggle[aria-expanded="true"] svg {
+    transform: rotate(180deg);
+  }
+
+  .prompt-tip-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.25s ease;
+    margin-top: 0;
+  }
+
+  .prompt-tip-content[data-open="true"] {
+    grid-template-rows: 1fr;
+    margin-top: 10px;
+  }
+
+  .prompt-tip-inner {
+    overflow: hidden;
+  }
+
+  .prompt-tip-box {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 12px 14px;
+    background: var(--muted);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+  }
+
+  .prompt-tip-box code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    color: var(--fg);
+    flex: 1;
+  }
+
+  .prompt-tip-copy {
+    font-family: var(--font-sans);
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--muted-fg);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 4px 10px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: all 0.15s;
+  }
+
+  .prompt-tip-copy:hover {
+    color: var(--fg);
+    border-color: var(--fg);
   }
 
   .claude-tip-card .cmd-box code {
@@ -2130,7 +2214,7 @@
     <li><a href="#claude-tips"><span class="menu-number">07</span> Beyond the brief</a></li>
     <li><a href="#responsible"><span class="menu-number">08</span> Build responsibly</a></li>
     <li><a href="/showcase.html" style="color:var(--red);"><span class="menu-arrow" style="color:var(--red);">&rarr;</span> Showcase</a></li>
-    <li><a href="workshop-2.html"><span class="menu-arrow" style="color:var(--red);">&rarr;</span><span><span style="color:var(--red);">Workshop 2:</span> Put it on the internet</span></a></li>
+    <li><a href="/workshop-2.html"><span class="menu-arrow" style="color:var(--red);">&rarr;</span><span><span style="color:var(--red);">Workshop 2:</span> Put it on the internet</span></a></li>
   </ul>
 </div>
 
@@ -2146,7 +2230,7 @@
       <strong>Workshop 1</strong>
       <span>Build it on your computer</span>
     </div>
-    <a href="workshop-2.html" class="workshop-nav-item">
+    <a href="/workshop-2.html" class="workshop-nav-item">
       <strong>Workshop 2</strong>
       <span>Put it on the internet</span>
     </a>
@@ -2391,7 +2475,7 @@
 
   <div class="callout" style="margin-top:20px;">
     <strong>What comes later</strong>
-    <p>In <a href="workshop-2.html" style="color:var(--red);text-decoration:underline;">Workshop 2</a>, you'll learn how to save your code online with GitHub and put your agent on the internet so other people can use it.</p>
+    <p>In <a href="/workshop-2.html" style="color:var(--red);text-decoration:underline;">Workshop 2</a>, you'll learn how to save your code online with GitHub and put your agent on the internet so other people can use it.</p>
   </div>
 </div>
 
@@ -2667,7 +2751,7 @@
     <div class="claude-tip-card">
       <div class="resp-card-header">
         <span class="resp-number">01</span>
-        <h3>Be honest about what it is</h3>
+        <h3>Be transparent</h3>
       </div>
       <p>If your agent uses AI, say so. People deserve to know when they're talking to a machine. Don't hide it, don't disguise it. Transparency builds trust — and trust is what makes people actually want to use what you've built.</p>
     </div>
@@ -2675,14 +2759,15 @@
     <div class="claude-tip-card">
       <div class="resp-card-header">
         <span class="resp-number">02</span>
-        <h3>Don't let it make things up</h3>
+        <h3>Stay honest</h3>
       </div>
       <p>AI models sometimes generate confident-sounding answers that are completely wrong. This is called hallucination. If your agent gives advice, recommendations, or facts — test them. Tell Claude Code to say "I don't know" when it doesn't know. That honesty is a feature, not a flaw.</p>
-      <div class="cmd-steps">
-        <div class="cmd-step">
-          <div class="cmd-box" style="align-items:flex-start;">
-            <code style="white-space:pre-wrap;line-height:1.6;">If the user asks something you don't have a clear answer for, say so honestly. Never make up facts, statistics, or sources.</code>
-            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+      <button class="prompt-tip-toggle" aria-expanded="false" onclick="togglePromptTip(this)">Prompt tip <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg></button>
+      <div class="prompt-tip-content">
+        <div class="prompt-tip-inner">
+          <div class="prompt-tip-box">
+            <code>If the user asks something you don't have a clear answer for, say so honestly. Never make up facts, statistics, or sources.</code>
+            <button class="prompt-tip-copy" onclick="copyPromptTip(this)">Copy</button>
           </div>
         </div>
       </div>
@@ -2691,7 +2776,7 @@
     <div class="claude-tip-card">
       <div class="resp-card-header">
         <span class="resp-number">03</span>
-        <h3>Think about who it affects</h3>
+        <h3>Consequences</h3>
       </div>
       <p>Your agent might be used by people very different from you — different ages, different backgrounds, different vulnerabilities. Ask yourself: could this mislead someone? Could it give harmful advice? Could a young person use this unsupervised and be worse off? If the answer is maybe, fix it before you ship it.</p>
     </div>
@@ -2699,7 +2784,7 @@
     <div class="claude-tip-card">
       <div class="resp-card-header">
         <span class="resp-number">04</span>
-        <h3>Don't collect what you don't need</h3>
+        <h3>Collect less</h3>
       </div>
       <p>If your agent doesn't need someone's name, don't ask for it. If it doesn't need their location, don't store it. Every piece of personal data you collect is something you're responsible for protecting. The simplest way to protect it is to never collect it in the first place.</p>
     </div>
@@ -2707,14 +2792,15 @@
     <div class="claude-tip-card">
       <div class="resp-card-header">
         <span class="resp-number">05</span>
-        <h3>Set boundaries for your agent</h3>
+        <h3>Set limits</h3>
       </div>
       <p>A good agent knows what it should and shouldn't do. If you're building a fitness advisor, it shouldn't give medical diagnoses. If you're building a study helper, it shouldn't write essays for people. Define the edges clearly — both for the AI and for the people using it.</p>
-      <div class="cmd-steps">
-        <div class="cmd-step">
-          <div class="cmd-box" style="align-items:flex-start;">
-            <code style="white-space:pre-wrap;line-height:1.6;">You are a fitness advisor. You can suggest exercises and general wellness tips, but you must never diagnose injuries or medical conditions. If someone asks about a medical issue, tell them to see a doctor.</code>
-            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+      <button class="prompt-tip-toggle" aria-expanded="false" onclick="togglePromptTip(this)">Prompt tip <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5"/></svg></button>
+      <div class="prompt-tip-content">
+        <div class="prompt-tip-inner">
+          <div class="prompt-tip-box">
+            <code>You are a fitness advisor. You can suggest exercises and general wellness tips, but you must never diagnose injuries or medical conditions. If someone asks about a medical issue, tell them to see a doctor.</code>
+            <button class="prompt-tip-copy" onclick="copyPromptTip(this)">Copy</button>
           </div>
         </div>
       </div>
@@ -2723,9 +2809,9 @@
     <div class="claude-tip-card">
       <div class="resp-card-header">
         <span class="resp-number">06</span>
-        <h3>Test it on someone who isn't you</h3>
+        <h3>Test</h3>
       </div>
-      <p>You know how your agent is supposed to work. Other people don't. Watch someone else use it without helping them. You'll immediately see where it confuses people, gives bad answers, or does something you didn't expect. That's where the real work is.</p>
+      <p>The best products are never finished — they're built, tested, learned from, and improved. Put your agent in front of someone who isn't you. Watch where they hesitate, what confuses them, what they try that you didn't expect. Then fix it, and do it again. This cycle of iteration is what separates something that works from something people actually trust. It's better for them and better for what you're building.</p>
     </div>
   </div>
 
@@ -2739,7 +2825,7 @@
 <div class="section" id="next">
   <span class="section-label">Ready for more?</span>
   <h2>Your agent works on your laptop. <span>Now let's put it on the internet so other people can use it.</span></h2>
-  <a href="workshop-2.html" class="next-workshop-link">
+  <a href="/workshop-2.html" class="next-workshop-link">
     <div class="next-workshop-card">
       <div class="next-workshop-badge">Workshop 2</div>
       <h3>Put it on the internet</h3>
@@ -2855,6 +2941,22 @@
 </div>
 
 <script>
+// ── PROMPT TIP ACCORDION ──
+function togglePromptTip(btn) {
+  var expanded = btn.getAttribute('aria-expanded') === 'true';
+  btn.setAttribute('aria-expanded', String(!expanded));
+  var content = btn.nextElementSibling;
+  content.setAttribute('data-open', String(!expanded));
+}
+
+function copyPromptTip(btn) {
+  var code = btn.previousElementSibling;
+  navigator.clipboard.writeText(code.textContent.trim()).then(function() {
+    btn.textContent = 'Copied';
+    setTimeout(function() { btn.textContent = 'Copy'; }, 1500);
+  });
+}
+
 // ── NAV MENU ──
 (function() {
   const toggle = document.querySelector('.nav-toggle');
