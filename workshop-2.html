@@ -896,6 +896,229 @@
     .header h1 { font-size: 28px; }
     .workshop-nav { flex-direction: column; }
   }
+/* Text selection floating toolbar */
+.sel-toolbar {
+  position: fixed;
+  z-index: 300;
+  display: flex;
+  gap: 1px;
+  background: var(--fg);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity 0.15s, transform 0.15s;
+}
+.sel-toolbar.visible {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateY(0);
+}
+.sel-toolbar button {
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.85);
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: 8px 14px;
+  cursor: pointer;
+  transition: background 0.1s;
+  white-space: nowrap;
+}
+.sel-toolbar button:hover {
+  background: rgba(255,255,255,0.1);
+}
+.sel-toolbar button.sel-help {
+  color: var(--red);
+  border-left: 1px solid rgba(255,255,255,0.1);
+}
+
+/* Help modal */
+.help-modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 400;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+.help-modal-overlay.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.help-modal {
+  background: var(--bg);
+  border-radius: var(--radius);
+  width: min(480px, 90vw);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 32px;
+  transform: translateY(20px) scale(0.97);
+  transition: transform 0.2s;
+}
+.help-modal-overlay.open .help-modal {
+  transform: translateY(0) scale(1);
+}
+.help-modal-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 8px;
+  display: block;
+}
+.help-modal h3 {
+  font-size: 18px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  margin-bottom: 16px;
+}
+.help-context-box {
+  background: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+  max-height: 120px;
+  overflow-y: auto;
+}
+.help-context-section {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted-fg);
+  margin-bottom: 4px;
+}
+.help-context-text {
+  font-size: 13px;
+  color: var(--fg);
+  line-height: 1.5;
+}
+.help-form-group {
+  margin-bottom: 16px;
+}
+.help-form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--fg);
+  margin-bottom: 6px;
+}
+.help-form-group textarea,
+.help-form-group input {
+  width: 100%;
+  font-family: var(--font-sans);
+  font-size: 13px;
+  color: var(--fg);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 10px 12px;
+  resize: vertical;
+  transition: border-color 0.15s;
+}
+.help-form-group textarea:focus,
+.help-form-group input:focus {
+  outline: none;
+  border-color: var(--ring);
+}
+.help-form-group textarea {
+  min-height: 80px;
+}
+.help-form-group .help-hint {
+  font-size: 11px;
+  color: var(--muted-fg);
+  margin-top: 4px;
+}
+.help-form-actions {
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+.help-btn-cancel {
+  background: none;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 16px;
+  cursor: pointer;
+  color: var(--fg);
+  transition: all 0.15s;
+}
+.help-btn-cancel:hover {
+  background: var(--muted);
+}
+.help-btn-send {
+  background: var(--fg);
+  color: var(--bg);
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 8px 20px;
+  cursor: pointer;
+  transition: opacity 0.15s;
+}
+.help-btn-send:hover {
+  opacity: 0.85;
+}
+
+/* Onboarding hint */
+.help-onboarding {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 50;
+  background: var(--fg);
+  color: rgba(255,255,255,0.85);
+  font-size: 12px;
+  padding: 12px 16px;
+  border-radius: var(--radius);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+  max-width: 260px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s;
+  pointer-events: none;
+}
+.help-onboarding.visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: all;
+}
+.help-onboarding strong {
+  display: block;
+  color: var(--red);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+.help-onboarding-close {
+  position: absolute;
+  top: 8px;
+  right: 10px;
+  background: none;
+  border: none;
+  color: rgba(255,255,255,0.3);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+}
 </style>
 
 <!-- Structured Data: HowTo -->
@@ -1366,6 +1589,191 @@ git push</code>
   <span>Mac only &middot; 2026</span>
 </footer>
 </div>
+
+<!-- Text selection toolbar -->
+<div class="sel-toolbar" id="selToolbar">
+  <button onclick="copySelection()">Copy</button>
+  <button class="sel-help" onclick="openHelpFromSelection()">Ask about this</button>
+</div>
+
+<!-- Help form modal -->
+<div class="help-modal-overlay" id="helpModalOverlay">
+  <div class="help-modal">
+    <span class="help-modal-label">Get help</span>
+    <h3>What do you need help with?</h3>
+    <div class="help-context-box" id="helpContextBox">
+      <div class="help-context-section">You highlighted</div>
+      <div class="help-context-text" id="helpContextText"></div>
+    </div>
+    <div class="help-form-group">
+      <label for="helpQuestion">Your question</label>
+      <textarea id="helpQuestion" placeholder="What's confusing? What happened when you tried? What were you expecting?"></textarea>
+      <div class="help-hint">Be as specific as you can — it helps me help you faster.</div>
+    </div>
+    <div class="help-form-group">
+      <label for="helpEmail">Your email (so I can reply)</label>
+      <input type="email" id="helpEmail" placeholder="you@example.com">
+    </div>
+    <div class="help-form-actions">
+      <button class="help-btn-cancel" onclick="closeHelpModal()">Cancel</button>
+      <button class="help-btn-send" onclick="sendHelp()">Send question</button>
+    </div>
+  </div>
+</div>
+
+<!-- Onboarding hint -->
+<div class="help-onboarding" id="helpOnboarding">
+  <button class="help-onboarding-close" onclick="dismissOnboarding()">&times;</button>
+  <strong>Stuck on something?</strong>
+  Highlight any text on this page and click "Ask about this" to send a question.
+</div>
+
+<script>
+(function() {
+  var isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  var toolbar = document.getElementById('selToolbar');
+  var currentSelection = '';
+  var currentSectionTitle = '';
+
+  function getNearestSectionTitle(node) {
+    var el = node.nodeType === 3 ? node.parentElement : node;
+    while (el && el !== document.body) {
+      var step = el.closest('.step');
+      if (step) {
+        var h3 = step.querySelector('h3');
+        return h3 ? h3.textContent : '';
+      }
+      var card = el.closest('.card');
+      if (card) {
+        var h3 = card.querySelector('h3');
+        return h3 ? h3.textContent : '';
+      }
+      var section = el.closest('.section');
+      if (section) {
+        var label = section.querySelector('.section-label');
+        var h2 = section.querySelector('h2');
+        return label ? label.textContent : (h2 ? h2.textContent.substring(0, 60) : '');
+      }
+      el = el.parentElement;
+    }
+    return '';
+  }
+
+  document.addEventListener('mouseup', function(e) {
+    if (isTouchDevice) return;
+    if (e.target.closest('.sel-toolbar, .help-modal-overlay')) return;
+    setTimeout(function() {
+      var sel = window.getSelection();
+      var text = sel.toString().trim();
+      if (text.length > 3) {
+        currentSelection = text;
+        currentSectionTitle = getNearestSectionTitle(sel.anchorNode);
+        var range = sel.getRangeAt(0);
+        var rect = range.getBoundingClientRect();
+        toolbar.style.left = Math.max(8, rect.left + rect.width / 2 - 100) + 'px';
+        toolbar.style.top = (rect.bottom + 6) + 'px';
+        toolbar.classList.add('visible');
+      } else {
+        toolbar.classList.remove('visible');
+      }
+    }, 10);
+  });
+
+  document.addEventListener('mousedown', function(e) {
+    if (!e.target.closest('.sel-toolbar')) {
+      toolbar.classList.remove('visible');
+    }
+  });
+
+  window.copySelection = function() {
+    navigator.clipboard.writeText(currentSelection).then(function() {
+      var btn = toolbar.querySelector('button:first-child');
+      btn.textContent = 'Copied';
+      setTimeout(function() {
+        btn.textContent = 'Copy';
+        toolbar.classList.remove('visible');
+      }, 1200);
+    });
+  };
+
+  window.openHelpFromSelection = function() {
+    toolbar.classList.remove('visible');
+    document.getElementById('helpContextText').textContent = currentSelection;
+    document.getElementById('helpQuestion').value = '';
+    document.getElementById('helpModalOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(function() { document.getElementById('helpQuestion').focus(); }, 200);
+  };
+
+  window.closeHelpModal = function() {
+    document.getElementById('helpModalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  };
+
+  document.getElementById('helpModalOverlay').addEventListener('click', function(e) {
+    if (e.target === this) closeHelpModal();
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeHelpModal();
+  });
+
+  window.sendHelp = function() {
+    var context = document.getElementById('helpContextText').textContent;
+    var question = document.getElementById('helpQuestion').value.trim();
+    var email = document.getElementById('helpEmail').value.trim();
+    var btn = document.querySelector('.help-btn-send');
+    if (!question) { document.getElementById('helpQuestion').focus(); return; }
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
+    var formData = new FormData();
+    formData.append('_subject', 'Vibe Builders help (Workshop 2): ' + (currentSectionTitle || 'Question'));
+    formData.append('highlighted-text', context);
+    formData.append('question', question);
+    formData.append('email', email || '(not provided)');
+    fetch('https://formspree.io/f/mwvrorwo', {
+      method: 'POST',
+      body: formData,
+      headers: { 'Accept': 'application/json' }
+    }).then(function(res) {
+      if (res.ok) {
+        btn.textContent = 'Sent!';
+        setTimeout(function() { btn.textContent = 'Send question'; btn.disabled = false; closeHelpModal(); }, 1500);
+      } else {
+        btn.textContent = 'Something went wrong';
+        btn.disabled = false;
+        setTimeout(function() { btn.textContent = 'Send question'; }, 2000);
+      }
+    }).catch(function() {
+      btn.textContent = 'Something went wrong';
+      btn.disabled = false;
+      setTimeout(function() { btn.textContent = 'Send question'; }, 2000);
+    });
+  };
+
+  var onboarding = document.getElementById('helpOnboarding');
+  var dismissed = localStorage.getItem('help-onboarding-dismissed');
+  if (!dismissed && !isTouchDevice) {
+    setTimeout(function() { onboarding.classList.add('visible'); }, 5000);
+    setTimeout(function() {
+      if (onboarding.classList.contains('visible')) onboarding.classList.remove('visible');
+    }, 20000);
+  }
+
+  window.dismissOnboarding = function() {
+    onboarding.classList.remove('visible');
+    localStorage.setItem('help-onboarding-dismissed', '1');
+  };
+
+  document.addEventListener('mouseup', function() {
+    var sel = window.getSelection().toString().trim();
+    if (sel.length > 3 && onboarding.classList.contains('visible')) {
+      onboarding.classList.remove('visible');
+      localStorage.setItem('help-onboarding-dismissed', '1');
+    }
+  });
+})();
+</script>
 
 <script>
 function copyCmd(btn) {
