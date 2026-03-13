@@ -95,20 +95,147 @@
     letter-spacing: 0;
   }
 
-  nav ul {
-    list-style: none;
+  /* Hamburger button */
+  .nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-right: -6px;
     display: flex;
-    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    color: var(--fg);
+    border-radius: 4px;
+    transition: background 0.15s;
   }
 
-  nav ul a {
-    font-size: 13px;
+  .nav-toggle:hover {
+    background: rgba(0,0,0,0.06);
+  }
+
+  .nav-toggle svg {
+    width: 20px;
+    height: 20px;
+  }
+
+  .nav-toggle .icon-close { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-menu { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+  /* Slide-out menu */
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 199;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+  }
+
+  .nav-overlay.open {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 85vw;
+    background: var(--bg);
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-menu.open {
+    transform: translateX(0);
+  }
+
+  .nav-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    min-height: 48px;
+  }
+
+  .nav-menu-header span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--muted-fg);
-    text-decoration: none;
-    transition: color 0.15s;
   }
 
-  nav ul a:hover { color: var(--fg); }
+  .nav-menu-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-right: -6px;
+    display: flex;
+    align-items: center;
+    color: var(--fg);
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+
+  .nav-menu-close:hover {
+    background: rgba(0,0,0,0.06);
+  }
+
+  .nav-menu-close svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .nav-menu-links {
+    list-style: none;
+    padding: 8px 0;
+    flex: 1;
+  }
+
+  .nav-menu-links li {
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-menu-links li:last-child {
+    border-bottom: none;
+  }
+
+  .nav-menu-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--fg);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .nav-menu-links a:hover {
+    background: rgba(0,0,0,0.04);
+  }
+
+  .nav-menu-links .menu-number,
+  .nav-menu-links .menu-arrow {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted-fg);
+    min-width: 20px;
+  }
 
   /* ── CONTAINER ── */
   .container {
@@ -738,6 +865,32 @@
 
   .claude-tip-card .cmd-steps {
     max-width: none;
+  }
+
+  /* Responsibility cards */
+  .resp-card-header {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+    margin-bottom: 12px;
+  }
+
+  .resp-number {
+    font-family: var(--font-sans);
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--fg);
+    letter-spacing: -0.03em;
+    flex-shrink: 0;
+  }
+
+  .resp-card-header h3 {
+    font-size: 22px;
+    font-weight: 500;
+    letter-spacing: -0.025em;
+    margin-bottom: 0;
+    padding-top: 4px;
   }
 
   .claude-tip-card .cmd-box code {
@@ -1859,7 +2012,7 @@
     .grid-3 { grid-template-columns: 1fr; }
     .step, .process-step { grid-template-columns: 36px 1fr; }
     .cheat-item { grid-template-columns: 1fr; gap: 2px; }
-    nav ul { display: none; }
+    .nav-menu { width: 100%; max-width: 100%; }
     footer { flex-direction: column; gap: 8px; text-align: center; }
     .header h1 { font-size: 28px; }
     .workshop-nav { flex-direction: column; }
@@ -1950,19 +2103,35 @@
 <body>
 
 <div class="nav-wrap">
-<nav class="container">
+<nav class="container" role="navigation" aria-label="Main navigation">
   <a href="#" class="nav-logo">Vibe Builders<span>Workshop 1</span></a>
-  <ul>
-    <li><a href="#agent">What's an agent</a></li>
-    <li><a href="#prerequisites">What you need</a></li>
-    <li><a href="#steps">Setup</a></li>
-    <li><a href="#terminal">Terminal</a></li>
-    <li><a href="#projects">Choose an agent</a></li>
-    <li><a href="#build">Build it</a></li>
-    <li><a href="#claude-tips">Beyond the brief</a></li>
-    <li><a href="/showcase.html" style="color:var(--red);">Showcase</a></li>
-  </ul>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+    <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
 </nav>
+</div>
+
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+<div class="nav-menu" id="nav-menu" role="dialog" aria-label="Site navigation" aria-modal="true">
+  <div class="nav-menu-header">
+    <span>Navigation</span>
+    <button class="nav-menu-close" aria-label="Close menu">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <ul class="nav-menu-links">
+    <li><a href="#agent"><span class="menu-number">01</span> What is an AI agent?</a></li>
+    <li><a href="#prerequisites"><span class="menu-number">02</span> What you need</a></li>
+    <li><a href="#steps"><span class="menu-number">03</span> Setup</a></li>
+    <li><a href="#terminal"><span class="menu-number">04</span> Terminal reference</a></li>
+    <li><a href="#projects"><span class="menu-number">05</span> Choose your agent</a></li>
+    <li><a href="#build"><span class="menu-number">06</span> Build and run it</a></li>
+    <li><a href="#claude-tips"><span class="menu-number">07</span> Beyond the brief</a></li>
+    <li><a href="#responsible"><span class="menu-number">08</span> Build responsibly</a></li>
+    <li><a href="/showcase.html" style="color:var(--red);"><span class="menu-arrow" style="color:var(--red);">&rarr;</span> Showcase</a></li>
+    <li><a href="workshop-2.html"><span class="menu-arrow" style="color:var(--red);">&rarr;</span><span><span style="color:var(--red);">Workshop 2:</span> Put it on the internet</span></a></li>
+  </ul>
 </div>
 
 <div class="container">
@@ -1981,15 +2150,6 @@
       <strong>Workshop 2</strong>
       <span>Put it on the internet</span>
     </a>
-  </div>
-  <div class="header-links">
-    <a href="#agent">1. What is an AI agent?</a>
-    <a href="#prerequisites">2. What you need</a>
-    <a href="#steps">3. Setup</a>
-    <a href="#terminal">4. Terminal reference</a>
-    <a href="#projects">5. Choose your agent</a>
-    <a href="#build">6. Build and run it</a>
-    <a href="#claude-tips">7. Beyond the brief</a>
   </div>
 </div>
 
@@ -2498,6 +2658,83 @@
   </div>
 </div>
 
+<!-- BUILD RESPONSIBLY -->
+<div class="section" id="responsible">
+  <span class="section-label">08 — Build responsibly</span>
+  <h2>You're building something powerful. Treat it that way. <span>AI tools can do extraordinary things. That means the things you build with them carry real weight. Here's how to make sure what you create is something you're proud of.</span></h2>
+
+  <div class="claude-tips-grid">
+    <div class="claude-tip-card">
+      <div class="resp-card-header">
+        <span class="resp-number">01</span>
+        <h3>Be honest about what it is</h3>
+      </div>
+      <p>If your agent uses AI, say so. People deserve to know when they're talking to a machine. Don't hide it, don't disguise it. Transparency builds trust — and trust is what makes people actually want to use what you've built.</p>
+    </div>
+
+    <div class="claude-tip-card">
+      <div class="resp-card-header">
+        <span class="resp-number">02</span>
+        <h3>Don't let it make things up</h3>
+      </div>
+      <p>AI models sometimes generate confident-sounding answers that are completely wrong. This is called hallucination. If your agent gives advice, recommendations, or facts — test them. Tell Claude Code to say "I don't know" when it doesn't know. That honesty is a feature, not a flaw.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">If the user asks something you don't have a clear answer for, say so honestly. Never make up facts, statistics, or sources.</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-tip-card">
+      <div class="resp-card-header">
+        <span class="resp-number">03</span>
+        <h3>Think about who it affects</h3>
+      </div>
+      <p>Your agent might be used by people very different from you — different ages, different backgrounds, different vulnerabilities. Ask yourself: could this mislead someone? Could it give harmful advice? Could a young person use this unsupervised and be worse off? If the answer is maybe, fix it before you ship it.</p>
+    </div>
+
+    <div class="claude-tip-card">
+      <div class="resp-card-header">
+        <span class="resp-number">04</span>
+        <h3>Don't collect what you don't need</h3>
+      </div>
+      <p>If your agent doesn't need someone's name, don't ask for it. If it doesn't need their location, don't store it. Every piece of personal data you collect is something you're responsible for protecting. The simplest way to protect it is to never collect it in the first place.</p>
+    </div>
+
+    <div class="claude-tip-card">
+      <div class="resp-card-header">
+        <span class="resp-number">05</span>
+        <h3>Set boundaries for your agent</h3>
+      </div>
+      <p>A good agent knows what it should and shouldn't do. If you're building a fitness advisor, it shouldn't give medical diagnoses. If you're building a study helper, it shouldn't write essays for people. Define the edges clearly — both for the AI and for the people using it.</p>
+      <div class="cmd-steps">
+        <div class="cmd-step">
+          <div class="cmd-box" style="align-items:flex-start;">
+            <code style="white-space:pre-wrap;line-height:1.6;">You are a fitness advisor. You can suggest exercises and general wellness tips, but you must never diagnose injuries or medical conditions. If someone asks about a medical issue, tell them to see a doctor.</code>
+            <button class="cmd-copy" onclick="copyCmd(this)">Copy</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="claude-tip-card">
+      <div class="resp-card-header">
+        <span class="resp-number">06</span>
+        <h3>Test it on someone who isn't you</h3>
+      </div>
+      <p>You know how your agent is supposed to work. Other people don't. Watch someone else use it without helping them. You'll immediately see where it confuses people, gives bad answers, or does something you didn't expect. That's where the real work is.</p>
+    </div>
+  </div>
+
+  <div class="callout" style="margin-top:20px;">
+    <strong>The bottom line</strong>
+    <p>Building with AI is a genuine superpower. But the things you build will be used by real people in real situations. Take that seriously. The best thing about being new to this is that you don't have bad habits yet — so start with good ones.</p>
+  </div>
+</div>
+
 <!-- WHAT'S NEXT -->
 <div class="section" id="next">
   <span class="section-label">Ready for more?</span>
@@ -2523,7 +2760,7 @@
 
 <!-- RESOURCES -->
 <div class="section" id="resources">
-  <span class="section-label">08 — Go further</span>
+  <span class="section-label">09 — Go further</span>
   <h2>Resources for when you want to <span>learn more or go deeper.</span></h2>
   <div class="resource-list">
     <a href="https://www.youtube.com/watch?v=GepHGs_CZdk" target="_blank" rel="noopener" class="resource-item">
@@ -2618,6 +2855,66 @@
 </div>
 
 <script>
+// ── NAV MENU ──
+(function() {
+  const toggle = document.querySelector('.nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  const overlay = document.getElementById('nav-overlay');
+  const closeBtn = document.querySelector('.nav-menu-close');
+  const menuLinks = menu.querySelectorAll('a');
+
+  function openMenu() {
+    menu.classList.add('open');
+    overlay.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeMenu() {
+    menu.classList.remove('open');
+    overlay.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    toggle.focus();
+  }
+
+  toggle.addEventListener('click', function() {
+    var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  // Close on Escape
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && menu.classList.contains('open')) {
+      closeMenu();
+    }
+  });
+
+  // Close when a link is clicked
+  menuLinks.forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  // Trap focus within menu when open
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab' || !menu.classList.contains('open')) return;
+    var focusable = menu.querySelectorAll('a, button');
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+})();
+
 const projects = {
   archivist: {
     label: 'Project 01',

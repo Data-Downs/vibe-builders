@@ -88,20 +88,123 @@
     margin-left: 8px;
   }
 
-  nav ul {
-    list-style: none;
+  .nav-toggle {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-right: -6px;
     display: flex;
-    gap: 24px;
+    align-items: center;
+    justify-content: center;
+    color: var(--fg);
+    border-radius: 4px;
+    transition: background 0.15s;
   }
 
-  nav ul a {
-    font-size: 13px;
+  .nav-toggle:hover { background: rgba(0,0,0,0.06); }
+  .nav-toggle svg { width: 20px; height: 20px; }
+  .nav-toggle .icon-close { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-menu { display: none; }
+  .nav-toggle[aria-expanded="true"] .icon-close { display: block; }
+
+  .nav-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.3);
+    z-index: 199;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.2s, visibility 0.2s;
+  }
+
+  .nav-overlay.open { opacity: 1; visibility: visible; }
+
+  .nav-menu {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 280px;
+    max-width: 85vw;
+    background: var(--bg);
+    z-index: 200;
+    transform: translateX(100%);
+    transition: transform 0.25s ease;
+    display: flex;
+    flex-direction: column;
+    border-left: 1px solid var(--border);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .nav-menu.open { transform: translateX(0); }
+
+  .nav-menu-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 20px;
+    border-bottom: 1px solid var(--border);
+    min-height: 48px;
+  }
+
+  .nav-menu-header span {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
     color: var(--muted-fg);
-    text-decoration: none;
-    transition: color 0.15s;
   }
 
-  nav ul a:hover { color: var(--fg); }
+  .nav-menu-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 6px;
+    margin-right: -6px;
+    display: flex;
+    align-items: center;
+    color: var(--fg);
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+
+  .nav-menu-close:hover { background: rgba(0,0,0,0.06); }
+  .nav-menu-close svg { width: 18px; height: 18px; }
+
+  .nav-menu-links {
+    list-style: none;
+    padding: 8px 0;
+    flex: 1;
+  }
+
+  .nav-menu-links li { border-bottom: 1px solid var(--border); }
+  .nav-menu-links li:last-child { border-bottom: none; }
+
+  .nav-menu-links a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 20px;
+    font-size: 14px;
+    color: var(--fg);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+
+  .nav-menu-links a:hover { background: rgba(0,0,0,0.04); }
+
+  .nav-menu-links .menu-arrow {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--muted-fg);
+    min-width: 20px;
+  }
+
+  @media (max-width: 600px) {
+    .nav-menu { width: 100%; max-width: 100%; }
+  }
 
   .container {
     max-width: 1080px;
@@ -525,7 +628,7 @@
 
   @media (max-width: 600px) {
     .grid { grid-template-columns: 1fr; }
-    nav ul { display: none; }
+    .nav-menu { width: 100%; max-width: 100%; }
     footer { flex-direction: column; gap: 8px; text-align: center; }
     .header h1 { font-size: 28px; }
   }
@@ -775,13 +878,27 @@
 <body>
 
 <div class="nav-wrap">
-<nav>
+<nav role="navigation" aria-label="Main navigation">
   <a href="/" class="nav-logo">Vibe Builders<span>Showcase</span></a>
-  <ul>
-    <li><a href="/">Workshop 1</a></li>
-    <li><a href="/workshop-2.html">Workshop 2</a></li>
-  </ul>
+  <button class="nav-toggle" aria-expanded="false" aria-controls="nav-menu" aria-label="Open menu">
+    <svg class="icon-menu" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"/></svg>
+    <svg class="icon-close" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+  </button>
 </nav>
+</div>
+
+<div class="nav-overlay" id="nav-overlay" aria-hidden="true"></div>
+<div class="nav-menu" id="nav-menu" role="dialog" aria-label="Site navigation" aria-modal="true">
+  <div class="nav-menu-header">
+    <span>Navigation</span>
+    <button class="nav-menu-close" aria-label="Close menu">
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+    </button>
+  </div>
+  <ul class="nav-menu-links">
+    <li><a href="/" style="color:var(--red);"><span class="menu-arrow" style="color:var(--red);">&rarr;</span> Workshop 1</a></li>
+    <li><a href="/workshop-2.html" style="color:var(--red);"><span class="menu-arrow" style="color:var(--red);">&rarr;</span> Workshop 2</a></li>
+  </ul>
 </div>
 
 <div class="container">
@@ -919,6 +1036,63 @@
   <strong>Stuck on something?</strong>
   Highlight any text on this page and click "Ask about this" to send a question.
 </div>
+
+<script>
+// ── NAV MENU ──
+(function() {
+  const toggle = document.querySelector('.nav-toggle');
+  const menu = document.getElementById('nav-menu');
+  const overlay = document.getElementById('nav-overlay');
+  const closeBtn = document.querySelector('.nav-menu-close');
+  const menuLinks = menu.querySelectorAll('a');
+
+  function openMenu() {
+    menu.classList.add('open');
+    overlay.classList.add('open');
+    toggle.setAttribute('aria-expanded', 'true');
+    overlay.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    closeBtn.focus();
+  }
+
+  function closeMenu() {
+    menu.classList.remove('open');
+    overlay.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+    overlay.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    toggle.focus();
+  }
+
+  toggle.addEventListener('click', function() {
+    var isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    isOpen ? closeMenu() : openMenu();
+  });
+
+  closeBtn.addEventListener('click', closeMenu);
+  overlay.addEventListener('click', closeMenu);
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && menu.classList.contains('open')) closeMenu();
+  });
+
+  menuLinks.forEach(function(link) {
+    link.addEventListener('click', closeMenu);
+  });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key !== 'Tab' || !menu.classList.contains('open')) return;
+    var focusable = menu.querySelectorAll('a, button');
+    var first = focusable[0];
+    var last = focusable[focusable.length - 1];
+    if (e.shiftKey) {
+      if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+    } else {
+      if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
+  });
+})();
+</script>
 
 <script>
 (function() {
