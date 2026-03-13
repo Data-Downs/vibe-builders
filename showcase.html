@@ -1183,6 +1183,7 @@ function copyBrief(id, btn) {
   navigator.clipboard.writeText(document.getElementById(id).innerText).then(function() {
     btn.textContent = 'Copied';
     setTimeout(function() { btn.textContent = 'Copy brief'; }, 2000);
+    if (typeof cabin !== 'undefined') cabin.event('brief-copied');
   });
 }
 

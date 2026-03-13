@@ -2815,6 +2815,7 @@ function copyBrief(id, btn) {
   navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => {
     btn.textContent = 'Copied';
     setTimeout(() => btn.textContent = 'Copy brief', 2000);
+    if (typeof cabin !== 'undefined') cabin.event('brief-copied');
   });
 }
 
@@ -2823,6 +2824,9 @@ function copyCmd(btn) {
   navigator.clipboard.writeText(code).then(() => {
     btn.textContent = 'Copied';
     setTimeout(() => btn.textContent = 'Copy', 1500);
+    if (typeof cabin !== 'undefined') {
+      if (code.includes('npm install -g @anthropic-ai/claude-code')) cabin.event('cli-install-copied');
+    }
   });
 }
 
