@@ -161,6 +161,8 @@
   }
 
   .header h1 span {
+    display: block;
+    margin-top: 12px;
     color: var(--muted-fg);
   }
 
@@ -286,25 +288,20 @@
 
   /* ── PREREQ ── */
   .prereq-letter {
-    font-family: var(--font-mono);
-    font-size: 28px;
-    font-weight: 600;
-    color: var(--red);
-    background: rgba(196,101,26,0.08);
-    width: 48px;
-    height: 48px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 8px;
+    font-family: var(--font-sans);
+    font-size: 64px;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--fg);
+    letter-spacing: -0.03em;
     flex-shrink: 0;
   }
 
   .prereq-header {
     display: flex;
-    gap: 12px;
+    gap: 16px;
     align-items: center;
-    margin-bottom: 12px;
+    margin-bottom: 16px;
   }
 
   .prereq-header h3 { font-size: 22px; font-weight: 500; margin-bottom: 0; letter-spacing: -0.025em; }
@@ -1192,7 +1189,7 @@
   .workshop-nav {
     display: flex;
     gap: 12px;
-    margin-top: 28px;
+    margin-top: 40px;
     max-width: 640px;
   }
 
@@ -2012,7 +2009,7 @@
   <div class="grid grid-2">
     <div class="card">
       <div class="prereq-header">
-        <span class="prereq-letter">A</span>
+        <span class="prereq-letter">1</span>
         <div class="prereq-header-text">
           <h3>Anthropic Account</h3>
           <a class="prereq-url" href="https://console.anthropic.com" target="_blank">console.anthropic.com ↗</a>
@@ -2060,7 +2057,7 @@
 
     <div class="card">
       <div class="prereq-header">
-        <span class="prereq-letter">B</span>
+        <span class="prereq-letter">2</span>
         <div class="prereq-header-text">
           <h3>Node.js</h3>
           <a class="prereq-url" href="https://nodejs.org" target="_blank">nodejs.org ↗</a>
