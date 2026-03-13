@@ -32,6 +32,8 @@
     --radius: 0.5rem;
     --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --muted-fg: #525252;
+    --focus: #737373;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -160,7 +162,7 @@
 
   .sidebar textarea:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
   /* Chat area */
@@ -249,10 +251,10 @@
 
   .input-row input:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
-  .input-row input::placeholder { color: #525252; }
+  .input-row input::placeholder { color: var(--muted-fg); }
 
   .input-row input:disabled { opacity: 0.5; }
 
@@ -275,7 +277,7 @@
 
   .input-hint {
     font-size: 11px;
-    color: #525252;
+    color: var(--muted-fg);
     margin-top: 8px;
     text-align: center;
   }
@@ -338,11 +340,11 @@
   .form-group textarea:focus,
   .form-group select:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
   .form-group input::placeholder,
-  .form-group textarea::placeholder { color: #525252; }
+  .form-group textarea::placeholder { color: var(--muted-fg); }
 
   .form-group select option {
     background: var(--card);
@@ -372,7 +374,7 @@
   }
 
   .checkbox-group label:hover {
-    border-color: #525252;
+    border-color: var(--muted-fg);
     color: var(--fg);
   }
 
@@ -402,8 +404,22 @@
 
   .btn-start:hover { opacity: 0.85; }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* Responsive */
   @media (max-width: 700px) {
+    .topbar { flex-wrap: wrap; gap: 8px; }
+    .topbar-right { font-size: 11px; }
     .app { flex-direction: column; }
     .sidebar {
       width: 100%;
@@ -447,12 +463,12 @@
     <p>Tell it what you care about, what you already know, and how deep you want to go. It won't just hand you a list — it'll surface what's interesting and tell you why it matters.</p>
     <form onsubmit="startChat(event)">
       <div class="form-group">
-        <label>What topic do you want curated?</label>
+        <label for="fieldTopic">What topic do you want curated?</label>
         <input type="text" id="fieldTopic" placeholder="e.g. AI regulation in the EU, regenerative agriculture, indie game design" required>
       </div>
       <div class="form-group">
-        <label>What kind of content are you after?</label>
-        <div class="checkbox-group">
+        <label id="contentTypeLabel">What kind of content are you after?</label>
+        <div class="checkbox-group" role="group" aria-labelledby="contentTypeLabel">
           <label><input type="checkbox" name="contentType" value="news"><span>News & developments</span></label>
           <label><input type="checkbox" name="contentType" value="ideas"><span>Ideas & frameworks</span></label>
           <label><input type="checkbox" name="contentType" value="research"><span>Research & data</span></label>
@@ -460,11 +476,11 @@
         </div>
       </div>
       <div class="form-group">
-        <label>What do you already know about this?</label>
+        <label for="fieldKnowledge">What do you already know about this?</label>
         <textarea id="fieldKnowledge" placeholder="e.g. I've been following the EU AI Act since 2023, understand the risk tiers, and know the basics of GDPR. I don't need introductions — I want the stuff that's actually moving." rows="3" required></textarea>
       </div>
       <div class="form-group">
-        <label>How much do you want at once?</label>
+        <label for="fieldDepth">How much do you want at once?</label>
         <select id="fieldDepth" required>
           <option value="brief">Brief — just the highlights, keep it tight</option>
           <option value="moderate" selected>Moderate — a solid briefing with some context</option>
@@ -493,6 +509,7 @@
     <div class="messages" id="messages"></div>
     <div class="input-area">
       <form class="input-row" onsubmit="sendMessage(event)">
+        <label for="chatInput" class="visually-hidden">Message</label>
         <input type="text" id="chatInput" placeholder="Go deeper on something, ask why it matters, or request a new angle..." autocomplete="off">
         <button type="submit" id="sendBtn">Send</button>
       </form>

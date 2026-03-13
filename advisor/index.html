@@ -32,6 +32,8 @@
     --radius: 0.5rem;
     --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --muted-fg: #525252;
+    --focus: #737373;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -160,7 +162,7 @@
 
   .sidebar textarea:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
   /* Chat area */
@@ -249,10 +251,10 @@
 
   .input-row input:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
-  .input-row input::placeholder { color: #525252; }
+  .input-row input::placeholder { color: var(--muted-fg); }
 
   .input-row input:disabled { opacity: 0.5; }
 
@@ -275,7 +277,7 @@
 
   .input-hint {
     font-size: 11px;
-    color: #525252;
+    color: var(--muted-fg);
     margin-top: 8px;
     text-align: center;
   }
@@ -336,11 +338,11 @@
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
   .form-group input::placeholder,
-  .form-group textarea::placeholder { color: #525252; }
+  .form-group textarea::placeholder { color: var(--muted-fg); }
 
   .btn-start {
     width: 100%;
@@ -359,8 +361,22 @@
 
   .btn-start:hover { opacity: 0.85; }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* Responsive */
   @media (max-width: 700px) {
+    .topbar { flex-wrap: wrap; gap: 8px; }
+    .topbar-right { font-size: 11px; }
     .app { flex-direction: column; }
     .sidebar {
       width: 100%;
@@ -403,19 +419,19 @@
     <p>Fill in a bit about yourself and what you're dealing with. Your advisor will read it, pick up on what matters, and open the conversation — no generic advice, no "how can I help you today." Just a smart second opinion that gets straight into it.</p>
     <form onsubmit="startChat(event)">
       <div class="form-group">
-        <label>What's your name?</label>
+        <label for="fieldName">What's your name?</label>
         <input type="text" id="fieldName" placeholder="e.g. Sarah" required>
       </div>
       <div class="form-group">
-        <label>What do you do?</label>
+        <label for="fieldWork">What do you do?</label>
         <textarea id="fieldWork" placeholder="e.g. I run a small marketing agency with 4 employees, mostly B2B clients" rows="2" required></textarea>
       </div>
       <div class="form-group">
-        <label>What's going on right now?</label>
+        <label for="fieldSituation">What's going on right now?</label>
         <textarea id="fieldSituation" placeholder="e.g. My biggest client just asked me to cut my rates by 30% or they'll go elsewhere. They're 40% of my revenue." rows="3" required></textarea>
       </div>
       <div class="form-group">
-        <label>What are you stuck on?</label>
+        <label for="fieldChallenges">What are you stuck on?</label>
         <textarea id="fieldChallenges" placeholder="e.g. I don't know if I should negotiate, walk away, or try to replace them first. Every option feels risky." rows="3" required></textarea>
       </div>
       <button type="submit" class="btn-start">Start conversation</button>
@@ -440,6 +456,7 @@
     <div class="messages" id="messages"></div>
     <div class="input-area">
       <form class="input-row" onsubmit="sendMessage(event)">
+        <label for="chatInput" class="visually-hidden">Message</label>
         <input type="text" id="chatInput" placeholder="What's on your mind?" autocomplete="off">
         <button type="submit" id="sendBtn">Send</button>
       </form>

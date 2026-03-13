@@ -71,7 +71,7 @@ Keep responses concise — 2-3 short paragraphs max. No bullet points. No header
 
     const data = await response.json();
     const text =
-      data.content[0].type === "text" ? data.content[0].text : "";
+      data?.content?.[0]?.type === "text" ? data.content[0].text : "";
 
     return new Response(JSON.stringify({ response: text }), {
       headers: { "Content-Type": "application/json" },

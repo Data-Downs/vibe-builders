@@ -32,6 +32,8 @@
     --radius: 0.5rem;
     --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --muted-fg: #525252;
+    --focus: #737373;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -167,7 +169,7 @@
 
   .sidebar textarea:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
   /* Chat area */
@@ -256,10 +258,10 @@
 
   .input-row input:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
-  .input-row input::placeholder { color: #525252; }
+  .input-row input::placeholder { color: var(--muted-fg); }
 
   .input-row input:disabled { opacity: 0.5; }
 
@@ -282,7 +284,7 @@
 
   .input-hint {
     font-size: 11px;
-    color: #525252;
+    color: var(--muted-fg);
     margin-top: 8px;
     text-align: center;
   }
@@ -344,11 +346,11 @@
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
   .form-group input::placeholder,
-  .form-group textarea::placeholder { color: #525252; }
+  .form-group textarea::placeholder { color: var(--muted-fg); }
 
   .btn-start {
     width: 100%;
@@ -367,8 +369,22 @@
 
   .btn-start:hover { opacity: 0.85; }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* Responsive */
   @media (max-width: 700px) {
+    .topbar { flex-wrap: wrap; gap: 8px; }
+    .topbar-right { font-size: 11px; }
     .app { flex-direction: column; }
     .sidebar {
       width: 100%;
@@ -412,23 +428,23 @@
     <p>Define who your character is — their background, beliefs, voice, and purpose. Once you hit create, they'll introduce themselves and you can start a conversation. They stay in character the whole time.</p>
     <form onsubmit="startChat(event)">
       <div class="form-group">
-        <label>Character name</label>
+        <label for="fieldName">Character name</label>
         <input type="text" id="fieldName" placeholder="e.g. Marcus Aurelius" required>
       </div>
       <div class="form-group">
-        <label>Who are they? (background, era, expertise)</label>
+        <label for="fieldBackground">Who are they? (background, era, expertise)</label>
         <textarea id="fieldBackground" placeholder="e.g. Roman Emperor and Stoic philosopher. Ruled from 161 to 180 AD during wars, plague, and political unrest. Author of Meditations." rows="3" required></textarea>
       </div>
       <div class="form-group">
-        <label>What do they know and believe?</label>
+        <label for="fieldBeliefs">What do they know and believe?</label>
         <textarea id="fieldBeliefs" placeholder="e.g. Believes virtue is the only true good. Practices negative visualisation. Thinks most suffering comes from our judgements, not from events themselves." rows="3" required></textarea>
       </div>
       <div class="form-group">
-        <label>How do they speak? (voice and style)</label>
+        <label for="fieldVoice">How do they speak? (voice and style)</label>
         <textarea id="fieldVoice" placeholder="e.g. Measured and calm. Uses short, direct sentences. Often asks rhetorical questions. Occasionally quotes from his own Meditations. Never rushed." rows="2" required></textarea>
       </div>
       <div class="form-group">
-        <label>What are they for? (mentor, critic, historical figure, fictional advisor)</label>
+        <label for="fieldPurpose">What are they for? (mentor, critic, historical figure, fictional advisor)</label>
         <textarea id="fieldPurpose" placeholder="e.g. A philosophical mentor for when you're anxious or overwhelmed. Helps you see problems from a calmer, longer-term perspective." rows="2" required></textarea>
       </div>
       <button type="submit" class="btn-start">Create character</button>
@@ -454,6 +470,7 @@
     <div class="messages" id="messages"></div>
     <div class="input-area">
       <form class="input-row" onsubmit="sendMessage(event)">
+        <label for="chatInput" class="visually-hidden">Message</label>
         <input type="text" id="chatInput" placeholder="Say something..." autocomplete="off">
         <button type="submit" id="sendBtn">Send</button>
       </form>

@@ -32,6 +32,8 @@
     --radius: 0.5rem;
     --font-sans: 'Geist', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-mono: 'JetBrains Mono', 'SF Mono', monospace;
+    --muted-fg: #525252;
+    --focus: #737373;
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -179,10 +181,10 @@
 
   .input-row input:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
-  .input-row input::placeholder { color: #525252; }
+  .input-row input::placeholder { color: var(--muted-fg); }
   .input-row input:disabled { opacity: 0.5; }
 
   .input-row button {
@@ -204,7 +206,7 @@
 
   .input-hint {
     font-size: 11px;
-    color: #525252;
+    color: var(--muted-fg);
     margin-top: 8px;
   }
 
@@ -280,11 +282,11 @@
   .form-group input:focus,
   .form-group textarea:focus {
     outline: none;
-    border-color: #525252;
+    border-color: var(--focus);
   }
 
   .form-group input::placeholder,
-  .form-group textarea::placeholder { color: #525252; }
+  .form-group textarea::placeholder { color: var(--muted-fg); }
 
   .btn-start {
     width: 100%;
@@ -303,8 +305,22 @@
 
   .btn-start:hover { opacity: 0.85; }
 
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0,0,0,0);
+    white-space: nowrap;
+    border: 0;
+  }
+
   /* Responsive */
   @media (max-width: 700px) {
+    .topbar { flex-wrap: wrap; gap: 8px; }
+    .topbar-right { font-size: 11px; }
     .onboarding { padding: 24px 16px; }
     .messages { padding: 16px; }
     .input-area { padding: 12px 16px; }
@@ -345,26 +361,26 @@
       <div class="form-section">
         <div class="form-section-title">The topic</div>
         <div class="form-group">
-          <label>What do you want explained?</label>
+          <label for="fieldTopic">What do you want explained?</label>
           <textarea id="fieldTopic" placeholder="e.g. How large language models like ChatGPT actually work — what's happening when you type a prompt and get a response" rows="3" required></textarea>
         </div>
       </div>
       <div class="form-section">
         <div class="form-section-title">The audience</div>
         <div class="form-group">
-          <label>Who are you explaining this to?</label>
+          <label for="fieldAudience">Who are you explaining this to?</label>
           <input type="text" id="fieldAudience" placeholder="e.g. My mum, 62, retired primary school teacher" required>
         </div>
         <div class="form-group">
-          <label>What do they already know?</label>
+          <label for="fieldKnows">What do they already know?</label>
           <textarea id="fieldKnows" placeholder="e.g. She uses her iPad daily, knows how to use Google, sends WhatsApp messages. She's heard of ChatGPT but thinks it's 'a robot that makes things up.'" rows="2"></textarea>
         </div>
         <div class="form-group">
-          <label>What don't they know?</label>
+          <label for="fieldDoesntKnow">What don't they know?</label>
           <textarea id="fieldDoesntKnow" placeholder="e.g. She doesn't know what a 'model' is, has no concept of training data, doesn't understand why AI sometimes gets things wrong" rows="2"></textarea>
         </div>
         <div class="form-group">
-          <label>Why are they interested?</label>
+          <label for="fieldWhyInterested">Why are they interested?</label>
           <textarea id="fieldWhyInterested" placeholder="e.g. She keeps seeing it in the news and wants to understand what the fuss is about without feeling stupid" rows="2"></textarea>
         </div>
       </div>
@@ -378,6 +394,7 @@
   <div class="messages" id="messages"></div>
   <div class="input-area">
     <form class="input-row" onsubmit="sendMessage(event)">
+      <label for="chatInput" class="visually-hidden">Message</label>
       <input type="text" id="chatInput" placeholder="Ask a follow-up question..." autocomplete="off">
       <button type="submit" id="sendBtn">Send</button>
     </form>
